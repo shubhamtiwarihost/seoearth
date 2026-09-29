@@ -1,0 +1,9 @@
+/vendor/
+/node_modules/
+/build/
+/dist/
+/.wp-env.override.json
+/.phpunit.result.cache
+/.claude/settings.local.json
+.DS_Store
+*.log

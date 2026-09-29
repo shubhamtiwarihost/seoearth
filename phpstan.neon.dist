@@ -1,0 +1,9 @@
+parameters:
+	level: 6
+	phpVersion: 70400
+	paths:
+		- seoearth.php
+		- uninstall.php
+		- src
+	bootstrapFiles:
+		- tests/phpstan-bootstrap.php

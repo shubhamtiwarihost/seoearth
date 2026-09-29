@@ -1,0 +1,39 @@
+{
+	"name": "seoearth",
+	"version": "0.1.0",
+	"private": true,
+	"description": "SEOEarth WordPress plugin — editor and admin JavaScript.",
+	"license": "GPL-2.0-or-later",
+	"engines": {
+		"node": ">=20"
+	},
+	"scripts": {
+		"build": "wp-scripts build assets-src/editor/index.js --output-path=build/editor",
+		"start": "wp-scripts start assets-src/editor/index.js --output-path=build/editor",
+		"lint:js": "wp-scripts lint-js assets-src",
+		"lint:css": "wp-scripts lint-style \"assets/css/**/*.css\" --allow-empty-input",
+		"test:js": "wp-scripts test-unit-js --passWithNoTests",
+		"format": "wp-scripts format assets-src",
+		"env": "wp-env",
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"test:php:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/seoearth vendor/bin/phpunit -c phpunit-integration.xml.dist",
+		"plugin-zip": "wp-scripts plugin-zip"
+	},
+	"files": [
+		"seoearth.php",
+		"uninstall.php",
+		"readme.txt",
+		"LICENSE",
+		"src",
+		"assets",
+		"build",
+		"languages",
+		"templates"
+	],
+	"devDependencies": {
+		"@wordpress/env": "^10",
+		"@wordpress/scripts": "^30",
+		"typescript": "^5.9.3"
+	}
+}

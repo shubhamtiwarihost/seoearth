@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php-quality:
+    name: Lint, PHPCS, PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: composer lint
+      - run: composer check-versions
+      - run: composer phpcs
+      - run: composer phpstan
+
+  php-unit:
+    name: Unit tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.4', '8.1', '8.3', '8.4' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: composer test
+
+  integration:
+    name: Integration (WP ${{ matrix.wp }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        wp: [ '6.4', 'latest' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+      - run: composer install --no-interaction --no-progress
+      - run: npm ci
+      - name: Pin WordPress version
+        if: matrix.wp != 'latest'
+        run: echo '{"core":"WordPress/WordPress#${{ matrix.wp }}"}' > .wp-env.override.json
+      - run: npm run env:start
+      - run: npm run test:php:integration
+
+  js:
+    name: JS lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint:js
+      - run: npm run test:js
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
+
+  package:
+    name: Package + Plugin Check
+    needs: [ php-quality, php-unit, js ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build/
+      - name: Build distributable directory
+        run: |
+          mkdir -p dist/seoearth
+          rsync -a --exclude-from=.distignore ./ dist/seoearth/
+          (cd dist && zip -qr seoearth.zip seoearth)
+          unzip -l dist/seoearth.zip
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: dist/seoearth
+      - uses: actions/upload-artifact@v4
+        with:
+          name: seoearth-zip
+          path: dist/seoearth.zip

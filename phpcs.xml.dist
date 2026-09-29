@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<ruleset name="SEOEarth">
+	<description>WordPress Coding Standards for SEOEarth.</description>
+
+	<file>seoearth.php</file>
+	<file>uninstall.php</file>
+	<file>src</file>
+	<file>tests</file>
+	<file>bin</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+	<arg name="parallel" value="8"/>
+
+	<config name="minimum_wp_version" value="6.4"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="seoearth"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="seoearth"/>
+				<element value="SEOEarth"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Reason: classes follow PSR-4 (src/Foo/BarBaz.php) so the autoloader can map them; WP's class-foo.php naming is incompatible with PSR-4. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>src/*</exclude-pattern>
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Reason: PHPUnit requires camelCase test method names (setUp, tearDown, assert*). -->
+	<rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Reason: test method names (test_*) are the description; requiring a docblock per test adds noise without information. -->
+	<rule ref="Squiz.Commenting.FunctionComment.Missing">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Reason: test bootstraps must define WordPress core constants (ABSPATH, WP_TESTS_PHPUNIT_POLYFILLS_PATH) that the WP test suite expects by exact name. The file comment sniff misreads the docblock before require_once as belonging to the include. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound">
+		<exclude-pattern>tests/*/bootstrap.php</exclude-pattern>
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment.Missing">
+		<exclude-pattern>tests/*/bootstrap.php</exclude-pattern>
+	</rule>
+
+	<!-- Reason: integration tests read raw DB rows on purpose to verify how data is actually stored (e.g. autoload flag). Never applies to src/. -->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
+	<!-- Reason: bin/ scripts are CLI-only build tools, never loaded by WordPress; they print to STDOUT/STDERR without HTML escaping. -->
+	<rule ref="WordPress.Security.EscapeOutput">
+		<exclude-pattern>bin/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<exclude-pattern>bin/*</exclude-pattern>
+	</rule>
+</ruleset>
