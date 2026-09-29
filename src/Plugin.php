@@ -22,6 +22,9 @@ use SEOEarth\Migrations\Registry;
 use SEOEarth\Settings\Sanitizer;
 use SEOEarth\Settings\Schema;
 use SEOEarth\Settings\Settings;
+use SEOEarth\Sitemap\Exclusions;
+use SEOEarth\Sitemap\Images;
+use SEOEarth\Sitemap\SitemapModule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -136,6 +139,12 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			SitemapModule::class,
+			static function ( Container $c ) {
+				return new SitemapModule( $c->get( Settings::class ), new Exclusions( $c->get( Settings::class ) ), new Images() );
+			}
+		);
+		$container->set(
 			MetaModule::class,
 			static function () {
 				return new MetaModule( new SearchAppearanceFields() );
@@ -245,6 +254,7 @@ final class Plugin {
 			'settings_page' => $this->container->get( SettingsPage::class ),
 			'term_fields'   => $this->container->get( TermFields::class ),
 			'head'          => $this->container->get( HeadModule::class ),
+			'sitemap'       => $this->container->get( SitemapModule::class ),
 		);
 	}
 

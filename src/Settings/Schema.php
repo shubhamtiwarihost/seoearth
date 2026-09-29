@@ -52,6 +52,7 @@ class Schema {
 	public function sections(): array {
 		$sections = array(
 			'general'  => __( 'Site identity', 'seoearth' ),
+			'sitemap'  => __( 'XML sitemap', 'seoearth' ),
 			'social'   => __( 'Social sharing', 'seoearth' ),
 			'advanced' => __( 'Advanced', 'seoearth' ),
 		);
@@ -119,6 +120,30 @@ class Schema {
 				'',
 				__( 'Logo URL', 'seoearth' ),
 				__( 'A square image of at least 112 × 112 pixels works best.', 'seoearth' )
+			),
+			new Field(
+				'sitemap_enabled',
+				'sitemap',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Enable the XML sitemap', 'seoearth' ),
+				__( 'Helps search engines find your content. Uses the sitemap built into WordPress at /wp-sitemap.xml.', 'seoearth' )
+			),
+			new Field(
+				'sitemap_images',
+				'sitemap',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Include images', 'seoearth' ),
+				__( 'Lists the featured image and up to 10 images from this site found in each post.', 'seoearth' )
+			),
+			new Field(
+				'sitemap_users',
+				'sitemap',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Include author archives', 'seoearth' ),
+				__( 'Always left out while author archives are hidden from search engines.', 'seoearth' )
 			),
 			new Field(
 				'default_social_image',

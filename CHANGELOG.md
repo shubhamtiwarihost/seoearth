@@ -17,6 +17,7 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Canonical URLs on all indexable pages (replaces core's singular-only tag; no duplicates, no tracking parameters, self-referencing pagination) with per-post/per-term override.
 - Robots meta through core's `wp_robots`: search and 404 noindex, per-page-type noindex switches (off by default), per-post/per-term index/noindex, nofollow, noarchive, nosnippet, noimageindex.
 - Settings screen warns when WordPress is set to discourage search engines.
+- XML sitemap improvements on top of WordPress core sitemaps: noindex, canonicalised-elsewhere and password-protected content left out; noindex post types/taxonomies removed (explicit "index" items kept); author sitemap follows author-archive indexing; lastmod on WordPress 6.4; image entries (featured + same-site content images). Settings: sitemap, images, authors.
 
 ### Changed
 - Uninstall deletes settings and the data version only when "Remove all SEOEarth data" is ticked.

@@ -71,6 +71,19 @@ Helpers\Text::sanitize_line    sanitize_text_field() that keeps %%variables%% in
 - User guides: [docs/TEMPLATES.md](docs/TEMPLATES.md), [docs/INDEXING.md](docs/INDEXING.md).
 - Robots only ever adds restrictions; core's own noindex (blog not public) is never removed. No canonical is printed on noindex pages.
 
+## XML sitemap
+
+```
+SitemapModule      filters on core wp_sitemaps: enabled, add_provider (users), post_types, posts_query_args,
+                   posts_entry (lastmod, images), taxonomies, taxonomies_query_args; wp_sitemaps_init swaps renderer
+Exclusions         IDs of noindex / explicitly-index / canonicalised-elsewhere posts and terms (IDs only, per-request cache)
+Images             featured + same-host content images; batch-primes thumbnails via the_posts on flagged sitemap queries
+ImageRenderer      WP_Sitemaps_Renderer subclass: same escaping as core + image:image namespace
+```
+
+- Exclusions go into core's query args, so core's page counts (`get_max_num_pages`) stay consistent.
+- User guide and measurements: [docs/SITEMAP.md](docs/SITEMAP.md).
+
 ## Multisite
 
 - Settings are per site (options table of each site). Nothing is stored network-wide yet.
@@ -134,6 +147,8 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_template_variables` (filter) | Add or change `%%variable%%` values |
 | `seoearth_head_output_enabled` (filter) | Turn off title/description/canonical/robots output |
 | `seoearth_canonical` (filter) | Change or remove the canonical URL |
+| `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
+| `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |
 | `seoearth_upgraded` (action) | Data upgraded; receives from, to, steps run |

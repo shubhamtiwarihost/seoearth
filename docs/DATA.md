@@ -20,6 +20,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `organization_logo` | http(s) URL | empty |
 | `default_social_image` | http(s) URL | empty |
 | `twitter_site` | X/Twitter handle without `@` | empty |
+| `sitemap_enabled` / `sitemap_images` / `sitemap_users` | boolean | `true` |
 | `remove_data_on_uninstall` | boolean | `false` |
 
 ## Personal data
