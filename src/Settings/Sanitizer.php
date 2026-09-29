@@ -7,6 +7,8 @@
 
 namespace SEOEarth\Settings;
 
+use SEOEarth\Helpers\Text;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -126,9 +128,10 @@ class Sanitizer {
 				}
 				return preg_match( '/^[A-Za-z0-9_]{1,15}$/', $value ) ? $value : null;
 
+			case Field::TYPE_TEMPLATE:
 			case Field::TYPE_TEXT:
 			default:
-				return sanitize_text_field( $value );
+				return Text::sanitize_line( $value );
 		}
 	}
 

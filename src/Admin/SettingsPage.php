@@ -102,7 +102,17 @@ final class SettingsPage implements Module {
 
 		$schema = $this->settings->schema();
 		foreach ( $schema->sections() as $id => $title ) {
-			add_settings_section( 'seoearth_' . $id, $title, '__return_false', self::PAGE );
+			add_settings_section(
+				'seoearth_' . $id,
+				$title,
+				static function () use ( $id ) {
+					/**
+					 * Fires above the fields of a settings section, e.g. to print help text.
+					 */
+					do_action( 'seoearth_settings_section_' . $id );
+				},
+				self::PAGE
+			);
 		}
 
 		foreach ( $schema->fields() as $field ) {
@@ -228,11 +238,12 @@ final class SettingsPage implements Module {
 
 			default:
 				printf(
-					'<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" class="regular-text"%5$s />',
+					'<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" class="%5$s"%6$s />',
 					Field::TYPE_URL === $field->type ? 'url' : 'text',
 					esc_attr( $id ),
 					esc_attr( $name ),
 					esc_attr( (string) $value ),
+					Field::TYPE_TEMPLATE === $field->type ? 'large-text code' : 'regular-text',
 					$describedby // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built above with esc_attr().
 				);
 		}

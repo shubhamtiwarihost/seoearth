@@ -149,6 +149,21 @@ final class SanitizerTest extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'organization_name', $this->sanitizer->errors() );
 	}
 
+	public function test_template_variables_are_not_mangled_as_url_octets(): void {
+		// sanitize_text_field() alone turns "%%description%%" into "%scription%%".
+		$template = '%%title%% %%separator%% %%date%% %%description%% %%excerpt%% %%category%% %%currentyear%% 50%';
+
+		$clean = $this->sanitizer->sanitize( array( 'title_pt_post' => $template ), $this->defaults );
+
+		$this->assertSame( $template, $clean['title_pt_post'] );
+	}
+
+	public function test_template_markup_is_still_stripped(): void {
+		$clean = $this->sanitizer->sanitize( array( 'title_pt_post' => '<script>x</script>%%title%% <b>bold</b>' ), $this->defaults );
+
+		$this->assertSame( '%%title%% bold', $clean['title_pt_post'] );
+	}
+
 	public function test_unknown_keys_and_non_array_input_are_dropped(): void {
 		$this->assertSame( $this->defaults, $this->sanitizer->sanitize( array( 'evil' => 'x' ), $this->defaults ) );
 		$this->assertSame( $this->defaults, $this->sanitizer->sanitize( 'a string', $this->defaults ) );

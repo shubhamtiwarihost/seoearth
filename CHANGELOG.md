@@ -10,10 +10,18 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Multisite-aware uninstall; multisite integration test run in CI.
 - Settings framework: typed field schema (`seoearth_settings_fields` filter), sanitizer, settings screen (SEOEarth menu, administrators only), "Settings" link on the Plugins screen.
 - Initial settings: title separator, site represents organization/person, name, logo, default sharing image, X username, opt-in data removal.
+- SEO titles and meta descriptions for posts, pages, custom post types, terms, archives, search and 404, with `%%variable%%` templates (see docs/TEMPLATES.md).
+- Per-post SEO title/description meta, available to the block editor through the REST API with per-post permission checks.
+- SEO title/description fields on category, tag and custom taxonomy edit screens.
+- Search appearance settings: one title and description template per page type.
 
 ### Changed
 - Uninstall deletes settings and the data version only when "Remove all SEOEarth data" is ticked.
 - `seoearth_db_version` is now autoloaded (it is read on every request).
+- Uninstall (with opt-in) also removes per-post and per-term SEO fields.
+
+### Fixed
+- Text settings no longer lose `%xx` sequences: `sanitize_text_field()` treated `%%description%%` and `%%date%%` as URL-encoded bytes.
 
 ## [0.1.0] — development scaffold (not released)
 ### Added

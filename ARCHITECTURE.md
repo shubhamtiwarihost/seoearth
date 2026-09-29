@@ -51,6 +51,23 @@ Admin\SettingsPage  — Settings API registration + screen (admin requests only)
 - **Idempotent sanitizing:** WordPress runs the sanitize callback twice when the option is first created; sanitizing clean output returns it unchanged (tested).
 - Full list of stored data: [docs/DATA.md](docs/DATA.md).
 
+## Titles and descriptions
+
+```
+HeadModule (frontend)          pre_get_document_title / wp_title / wp_head
+  └─ PageContext::from_query   plain description of the page (type, object, page n of m, search, date label)
+      └─ Resolver              custom meta → template setting (key e.g. title_pt_post, desc_tax_category)
+          ├─ VariableValues    values per context; costly ones are closures (lazy)
+          └─ TemplateEngine    one-pass %%var%% replacement, separator cleanup, plain-text result
+MetaModule (every request)     register_post_meta / register_term_meta (REST, auth callbacks); adds template settings
+TermFields (admin)             SEO title/description rows on term edit screens
+Helpers\Text::sanitize_line    sanitize_text_field() that keeps %%variables%% intact
+```
+
+- Resolution happens once per request, after the main query. Measured cost on a single post: 0 extra database queries (see Phase 4 report).
+- The settings schema cache is keyed on how many times post types/taxonomies have been (un)registered, so late registrations get their template fields.
+- User guide: [docs/TEMPLATES.md](docs/TEMPLATES.md).
+
 ## Multisite
 
 - Settings are per site (options table of each site). Nothing is stored network-wide yet.
@@ -109,6 +126,10 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_container` (action) | Declare or replace services before modules are built |
 | `seoearth_modules` (filter) | Add/replace modules |
 | `seoearth_settings_fields` (filter) | Add settings fields |
+| `seoearth_settings_sections` (filter) | Add settings sections |
+| `seoearth_settings_section_{id}` (action) | Print help text above a settings section |
+| `seoearth_template_variables` (filter) | Add or change `%%variable%%` values |
+| `seoearth_head_output_enabled` (filter) | Turn off title/description output |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |
 | `seoearth_upgraded` (action) | Data upgraded; receives from, to, steps run |

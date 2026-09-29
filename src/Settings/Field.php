@@ -19,6 +19,7 @@ final class Field {
 	public const TYPE_URL            = 'url';
 	public const TYPE_ENUM           = 'enum';
 	public const TYPE_TWITTER_HANDLE = 'twitter_handle';
+	public const TYPE_TEMPLATE       = 'template';
 
 	/**
 	 * Storage key inside the settings array.

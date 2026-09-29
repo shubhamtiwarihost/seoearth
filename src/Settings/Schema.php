@@ -38,16 +38,38 @@ class Schema {
 	private $fields = null;
 
 	/**
+	 * Cache validity code the fields were built under.
+	 *
+	 * @var string
+	 */
+	private $cache_code = '';
+
+	/**
 	 * Section IDs => translated titles, in display order.
 	 *
 	 * @return array<string, string>
 	 */
 	public function sections(): array {
-		return array(
+		$sections = array(
 			'general'  => __( 'Site identity', 'seoearth' ),
 			'social'   => __( 'Social sharing', 'seoearth' ),
 			'advanced' => __( 'Advanced', 'seoearth' ),
 		);
+
+		/**
+		 * Filters the settings sections (ID => title, in display order).
+		 *
+		 * @param array<string, mixed> $sections Sections.
+		 */
+		$filtered = apply_filters( 'seoearth_settings_sections', $sections );
+
+		$clean = array();
+		foreach ( (array) $filtered as $id => $title ) {
+			if ( is_string( $title ) ) {
+				$clean[ (string) $id ] = $title;
+			}
+		}
+		return $clean;
 	}
 
 	/**
@@ -56,7 +78,7 @@ class Schema {
 	 * @return array<string, Field>
 	 */
 	public function fields(): array {
-		if ( null !== $this->fields ) {
+		if ( null !== $this->fields && $this->cache_code === $this->cache_code() ) {
 			return $this->fields;
 		}
 
@@ -138,13 +160,34 @@ class Schema {
 		 */
 		$filtered = apply_filters( 'seoearth_settings_fields', $by_key );
 
-		$this->fields = array();
+		$result = array();
 		foreach ( (array) $filtered as $field ) {
 			if ( $field instanceof Field ) {
-				$this->fields[ $field->key ] = $field;
+				$result[ $field->key ] = $field;
 			}
 		}
-		return $this->fields;
+
+		$this->fields     = $result;
+		$this->cache_code = $this->cache_code();
+		return $result;
+	}
+
+	/**
+	 * Changes whenever a post type or taxonomy is registered or unregistered,
+	 * because fields added by extensions (search appearance templates) are
+	 * derived from them.
+	 */
+	private function cache_code(): string {
+		return implode(
+			':',
+			array(
+				did_action( 'init' ),
+				did_action( 'registered_post_type' ),
+				did_action( 'unregistered_post_type' ),
+				did_action( 'registered_taxonomy' ),
+				did_action( 'unregistered_taxonomy' ),
+			)
+		);
 	}
 
 	/**

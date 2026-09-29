@@ -28,6 +28,7 @@ final class PluginTest extends TestCase {
 		parent::set_up();
 		OptionsStub::install( array( Migrator::VERSION_OPTION => SEOEARTH_VERSION ) );
 		Functions\when( 'is_admin' )->justReturn( false );
+		Functions\when( 'wp_doing_cron' )->justReturn( false );
 	}
 
 	protected function tear_down() {

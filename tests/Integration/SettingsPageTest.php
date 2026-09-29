@@ -137,7 +137,7 @@ final class SettingsPageTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( '<script>alert(1)</script>', $html );
 		$this->assertStringContainsString( '&quot;&gt;&lt;script&gt;', $html );
 
-		// Every text/url/select control has a <label for> and its description is linked.
+		// Every text/url/select control has a <label for>, and a description (when present) is linked.
 		foreach ( $wp_settings_fields[ SettingsPage::PAGE ] as $fields ) {
 			foreach ( $fields as $field ) {
 				$id = $field['args']['label_for'] ?? null;
@@ -145,7 +145,9 @@ final class SettingsPageTest extends WP_UnitTestCase {
 					continue; // Checkboxes are wrapped in their own <label>.
 				}
 				$this->assertStringContainsString( 'for="' . $id . '"', $html, $id );
-				$this->assertStringContainsString( 'aria-describedby="' . $id . '-description"', $html, $id );
+				if ( '' !== $field['args']['field']->description ) {
+					$this->assertStringContainsString( 'aria-describedby="' . $id . '-description"', $html, $id );
+				}
 			}
 		}
 		$this->assertMatchesRegularExpression( '/<label for="seoearth-remove-data-on-uninstall"><input type="checkbox"/', $html );

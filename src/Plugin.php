@@ -8,6 +8,13 @@
 namespace SEOEarth;
 
 use SEOEarth\Admin\SettingsPage;
+use SEOEarth\Admin\TermFields;
+use SEOEarth\Frontend\HeadModule;
+use SEOEarth\Meta\MetaModule;
+use SEOEarth\Meta\Resolver;
+use SEOEarth\Meta\TemplateEngine;
+use SEOEarth\Meta\TemplateFields;
+use SEOEarth\Meta\VariableValues;
 use SEOEarth\Migrations\Migrator;
 use SEOEarth\Migrations\Registry;
 use SEOEarth\Settings\Sanitizer;
@@ -114,6 +121,30 @@ final class Plugin {
 				return new SettingsPage( $c->get( Context::class ), $c->get( Settings::class ), $c->get( Sanitizer::class ) );
 			}
 		);
+		$container->set(
+			Resolver::class,
+			static function ( Container $c ) {
+				return new Resolver( $c->get( Settings::class ), new TemplateEngine(), new VariableValues() );
+			}
+		);
+		$container->set(
+			MetaModule::class,
+			static function () {
+				return new MetaModule( new TemplateFields() );
+			}
+		);
+		$container->set(
+			HeadModule::class,
+			static function ( Container $c ) {
+				return new HeadModule( $c->get( Context::class ), $c->get( Resolver::class ) );
+			}
+		);
+		$container->set(
+			TermFields::class,
+			static function ( Container $c ) {
+				return new TermFields( $c->get( Context::class ) );
+			}
+		);
 
 		return $container;
 	}
@@ -202,7 +233,10 @@ final class Plugin {
 	 */
 	private function default_modules(): array {
 		return array(
+			'meta'          => $this->container->get( MetaModule::class ),
 			'settings_page' => $this->container->get( SettingsPage::class ),
+			'term_fields'   => $this->container->get( TermFields::class ),
+			'head'          => $this->container->get( HeadModule::class ),
 		);
 	}
 
