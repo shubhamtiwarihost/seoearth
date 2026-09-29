@@ -146,6 +146,22 @@ class Schema {
 				__( 'Always left out while author archives are hidden from search engines.', 'seoearth' )
 			),
 			new Field(
+				'social_og_enabled',
+				'social',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Add Open Graph tags', 'seoearth' ),
+				__( 'Controls the title, description and image shown when a page is shared on Facebook, LinkedIn, WhatsApp, Slack and similar apps.', 'seoearth' )
+			),
+			new Field(
+				'social_twitter_enabled',
+				'social',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Add X (Twitter) Card tags', 'seoearth' ),
+				__( 'Controls how links look when shared on X.', 'seoearth' )
+			),
+			new Field(
 				'default_social_image',
 				'social',
 				Field::TYPE_URL,

@@ -18,6 +18,7 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Robots meta through core's `wp_robots`: search and 404 noindex, per-page-type noindex switches (off by default), per-post/per-term index/noindex, nofollow, noarchive, nosnippet, noimageindex.
 - Settings screen warns when WordPress is set to discourage search engines.
 - XML sitemap improvements on top of WordPress core sitemaps: noindex, canonicalised-elsewhere and password-protected content left out; noindex post types/taxonomies removed (explicit "index" items kept); author sitemap follows author-archive indexing; lastmod on WordPress 6.4; image entries (featured + same-site content images). Settings: sitemap, images, authors.
+- Open Graph and X Card tags: title/description/image fallbacks, image dimensions/type/alt for media-library images, article times, size-aware X card type, per-post/per-term overrides (term screen fields), site default image and X username, separate on/off switches. Steps aside when another SEO plugin prints social tags; turns off Jetpack's duplicate Open Graph tags.
 
 ### Changed
 - Uninstall deletes settings and the data version only when "Remove all SEOEarth data" is ticked.

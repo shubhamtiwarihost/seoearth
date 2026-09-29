@@ -8,10 +8,6 @@
 namespace SEOEarth\Frontend;
 
 use SEOEarth\Context;
-use SEOEarth\Meta\Canonical;
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Meta\Resolver;
-use SEOEarth\Meta\Robots;
 use SEOEarth\Module;
 
 defined( 'ABSPATH' ) || exit;
@@ -38,46 +34,21 @@ final class HeadModule implements Module {
 	private $context;
 
 	/**
-	 * Title/description resolver.
+	 * Current page SEO data.
 	 *
-	 * @var Resolver
+	 * @var CurrentPage
 	 */
-	private $resolver;
-
-	/**
-	 * Canonical URL builder.
-	 *
-	 * @var Canonical
-	 */
-	private $canonical;
-
-	/**
-	 * Robots directives.
-	 *
-	 * @var Robots
-	 */
-	private $robots;
-
-	/**
-	 * Resolved values for this request.
-	 *
-	 * @var array{title: string, description: string, canonical: string, robots: array<string, true>}|null
-	 */
-	private $resolved = null;
+	private $page;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Context   $context   Request context.
-	 * @param Resolver  $resolver  Title/description resolver.
-	 * @param Canonical $canonical Canonical URL builder.
-	 * @param Robots    $robots    Robots directives.
+	 * @param Context     $context Request context.
+	 * @param CurrentPage $page    Current page SEO data.
 	 */
-	public function __construct( Context $context, Resolver $resolver, Canonical $canonical, Robots $robots ) {
-		$this->context   = $context;
-		$this->resolver  = $resolver;
-		$this->canonical = $canonical;
-		$this->robots    = $robots;
+	public function __construct( Context $context, CurrentPage $page ) {
+		$this->context = $context;
+		$this->page    = $page;
 	}
 
 	/**
@@ -168,17 +139,13 @@ final class HeadModule implements Module {
 	}
 
 	/**
-	 * Resolves everything once.
+	 * Resolved values for this request (empty strings before the main query exists).
 	 *
 	 * @return array{title: string, description: string, canonical: string, robots: array<string, true>}
 	 */
 	public function resolved(): array {
-		if ( null !== $this->resolved ) {
-			return $this->resolved;
-		}
-
-		global $wp_query;
-		if ( ! $wp_query instanceof \WP_Query ) {
+		$data = $this->page->data();
+		if ( null === $data ) {
 			return array(
 				'title'       => '',
 				'description' => '',
@@ -186,25 +153,12 @@ final class HeadModule implements Module {
 				'robots'      => array(),
 			);
 		}
-
-		$page   = PageContext::from_query( $wp_query );
-		$robots = $this->robots->directives( $page );
-
-		/**
-		 * Filters the canonical URL. Return '' to print none.
-		 *
-		 * @param mixed       $canonical Canonical URL string ('' on noindex pages). Non-strings are ignored.
-		 * @param PageContext $page      Page context.
-		 */
-		$canonical = apply_filters( 'seoearth_canonical', isset( $robots['noindex'] ) ? '' : $this->canonical->url( $page ), $page );
-
-		$this->resolved = array(
-			'title'       => $this->resolver->title( $page ),
-			'description' => $this->resolver->description( $page ),
-			'canonical'   => is_string( $canonical ) ? $canonical : '',
-			'robots'      => $robots,
+		return array(
+			'title'       => $data['title'],
+			'description' => $data['description'],
+			'canonical'   => $data['canonical'],
+			'robots'      => $data['robots'],
 		);
-		return $this->resolved;
 	}
 
 	/**
@@ -213,7 +167,7 @@ final class HeadModule implements Module {
 	 * @internal
 	 */
 	public function reset(): void {
-		$this->resolved = null;
+		$this->page->reset();
 	}
 
 	/**

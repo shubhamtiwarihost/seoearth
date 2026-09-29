@@ -24,12 +24,15 @@ defined( 'ABSPATH' ) || exit;
  */
 final class TermFields implements Module {
 
-	public const NONCE_FIELD = 'seoearth_term_nonce';
-	public const TITLE_FIELD = 'seoearth_title';
-	public const DESC_FIELD  = 'seoearth_description';
-	public const CANON_FIELD = 'seoearth_canonical';
-	public const INDEX_FIELD = 'seoearth_robots_index';
-	public const ROBOT_FIELD = 'seoearth_robots';
+	public const NONCE_FIELD        = 'seoearth_term_nonce';
+	public const TITLE_FIELD        = 'seoearth_title';
+	public const DESC_FIELD         = 'seoearth_description';
+	public const CANON_FIELD        = 'seoearth_canonical';
+	public const INDEX_FIELD        = 'seoearth_robots_index';
+	public const ROBOT_FIELD        = 'seoearth_robots';
+	public const SOCIAL_TITLE_FIELD = 'seoearth_social_title';
+	public const SOCIAL_DESC_FIELD  = 'seoearth_social_description';
+	public const SOCIAL_IMAGE_FIELD = 'seoearth_social_image';
 
 	/**
 	 * Extra robots directives offered as checkboxes.
@@ -105,6 +108,11 @@ final class TermFields implements Module {
 		$title       = (string) get_term_meta( $term->term_id, Keys::TITLE, true );
 		$description = (string) get_term_meta( $term->term_id, Keys::DESCRIPTION, true );
 		$canonical   = (string) get_term_meta( $term->term_id, Keys::CANONICAL, true );
+		$social      = array(
+			'title'       => (string) get_term_meta( $term->term_id, Keys::SOCIAL_TITLE, true ),
+			'description' => (string) get_term_meta( $term->term_id, Keys::SOCIAL_DESCRIPTION, true ),
+			'image'       => (string) get_term_meta( $term->term_id, Keys::SOCIAL_IMAGE, true ),
+		);
 		$robots      = Robots::parse( get_term_meta( $term->term_id, Keys::ROBOTS, true ) );
 		$index       = in_array( 'noindex', $robots, true ) ? 'noindex' : ( in_array( 'index', $robots, true ) ? 'index' : '' );
 		$directives  = array(
@@ -153,6 +161,27 @@ final class TermFields implements Module {
 				</fieldset>
 			</td>
 		</tr>
+		<tr class="form-field seoearth-term-social-title">
+			<th scope="row"><label for="seoearth-term-social-title"><?php esc_html_e( 'Social sharing title', 'seoearth' ); ?></label></th>
+			<td>
+				<input type="text" id="seoearth-term-social-title" name="<?php echo esc_attr( self::SOCIAL_TITLE_FIELD ); ?>" value="<?php echo esc_attr( $social['title'] ); ?>" aria-describedby="seoearth-term-social-title-help" />
+				<p class="description" id="seoearth-term-social-title-help"><?php esc_html_e( 'Shown when this archive is shared on social media. Leave empty to use the SEO title.', 'seoearth' ); ?></p>
+			</td>
+		</tr>
+		<tr class="form-field seoearth-term-social-description">
+			<th scope="row"><label for="seoearth-term-social-description"><?php esc_html_e( 'Social sharing description', 'seoearth' ); ?></label></th>
+			<td>
+				<textarea id="seoearth-term-social-description" name="<?php echo esc_attr( self::SOCIAL_DESC_FIELD ); ?>" rows="2" aria-describedby="seoearth-term-social-description-help"><?php echo esc_textarea( $social['description'] ); ?></textarea>
+				<p class="description" id="seoearth-term-social-description-help"><?php esc_html_e( 'Leave empty to use the meta description.', 'seoearth' ); ?></p>
+			</td>
+		</tr>
+		<tr class="form-field seoearth-term-social-image">
+			<th scope="row"><label for="seoearth-term-social-image"><?php esc_html_e( 'Social sharing image URL', 'seoearth' ); ?></label></th>
+			<td>
+				<input type="url" id="seoearth-term-social-image" name="<?php echo esc_attr( self::SOCIAL_IMAGE_FIELD ); ?>" value="<?php echo esc_attr( $social['image'] ); ?>" aria-describedby="seoearth-term-social-image-help" />
+				<p class="description" id="seoearth-term-social-image-help"><?php esc_html_e( 'Full image address starting with https://. Leave empty to use the default sharing image.', 'seoearth' ); ?></p>
+			</td>
+		</tr>
 		<?php
 	}
 
@@ -179,8 +208,10 @@ final class TermFields implements Module {
 		}
 
 		$fields = array(
-			self::TITLE_FIELD => Keys::TITLE,
-			self::DESC_FIELD  => Keys::DESCRIPTION,
+			self::TITLE_FIELD        => Keys::TITLE,
+			self::DESC_FIELD         => Keys::DESCRIPTION,
+			self::SOCIAL_TITLE_FIELD => Keys::SOCIAL_TITLE,
+			self::SOCIAL_DESC_FIELD  => Keys::SOCIAL_DESCRIPTION,
 		);
 		foreach ( $fields as $input => $meta_key ) {
 			$value = isset( $_POST[ $input ] ) && is_string( $_POST[ $input ] ) ? Text::sanitize_line( wp_unslash( $_POST[ $input ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by Text::sanitize_line() (sanitize_text_field() with %%variables%% preserved).
@@ -191,12 +222,18 @@ final class TermFields implements Module {
 			}
 		}
 
-		// Canonical: an invalid URL keeps the previous value instead of silently clearing it.
-		$canonical = isset( $_POST[ self::CANON_FIELD ] ) ? Text::http_url( wp_unslash( $_POST[ self::CANON_FIELD ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated and sanitized by Text::http_url() (esc_url_raw, http/https only).
-		if ( '' === $canonical ) {
-			delete_term_meta( $term_id, Keys::CANONICAL );
-		} elseif ( null !== $canonical ) {
-			update_term_meta( $term_id, Keys::CANONICAL, $canonical );
+		// URLs: an invalid value keeps the previous one instead of silently clearing it.
+		$urls = array(
+			self::CANON_FIELD        => Keys::CANONICAL,
+			self::SOCIAL_IMAGE_FIELD => Keys::SOCIAL_IMAGE,
+		);
+		foreach ( $urls as $input => $meta_key ) {
+			$url = isset( $_POST[ $input ] ) ? Text::http_url( wp_unslash( $_POST[ $input ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated and sanitized by Text::http_url() (esc_url_raw, http/https only).
+			if ( '' === $url ) {
+				delete_term_meta( $term_id, $meta_key );
+			} elseif ( null !== $url ) {
+				update_term_meta( $term_id, $meta_key, $url );
+			}
 		}
 
 		// Robots: index choice + extra directives, reduced to the allowlist.

@@ -9,6 +9,8 @@ namespace SEOEarth;
 
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
+use SEOEarth\Compatibility\Conflicts;
+use SEOEarth\Frontend\CurrentPage;
 use SEOEarth\Frontend\HeadModule;
 use SEOEarth\Meta\Canonical;
 use SEOEarth\Meta\MetaModule;
@@ -25,6 +27,8 @@ use SEOEarth\Settings\Settings;
 use SEOEarth\Sitemap\Exclusions;
 use SEOEarth\Sitemap\Images;
 use SEOEarth\Sitemap\SitemapModule;
+use SEOEarth\Social\SocialModule;
+use SEOEarth\Social\SocialTags;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -151,9 +155,26 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			CurrentPage::class,
+			static function ( Container $c ) {
+				return new CurrentPage( $c->get( Resolver::class ), new Canonical(), $c->get( Robots::class ) );
+			}
+		);
+		$container->set(
+			SocialModule::class,
+			static function ( Container $c ) {
+				return new SocialModule(
+					$c->get( Settings::class ),
+					$c->get( CurrentPage::class ),
+					new SocialTags( $c->get( Settings::class ), $c->get( Resolver::class ) ),
+					new Conflicts()
+				);
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
-				return new HeadModule( $c->get( Context::class ), $c->get( Resolver::class ), new Canonical(), $c->get( Robots::class ) );
+				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
 			}
 		);
 		$container->set(
@@ -255,6 +276,7 @@ final class Plugin {
 			'term_fields'   => $this->container->get( TermFields::class ),
 			'head'          => $this->container->get( HeadModule::class ),
 			'sitemap'       => $this->container->get( SitemapModule::class ),
+			'social'        => $this->container->get( SocialModule::class ),
 		);
 	}
 

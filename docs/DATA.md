@@ -21,6 +21,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `default_social_image` | http(s) URL | empty |
 | `twitter_site` | X/Twitter handle without `@` | empty |
 | `sitemap_enabled` / `sitemap_images` / `sitemap_users` | boolean | `true` |
+| `social_og_enabled` / `social_twitter_enabled` | boolean | `true` |
 | `remove_data_on_uninstall` | boolean | `false` |
 
 ## Personal data
@@ -36,5 +37,8 @@ Template settings (`title_*` / `desc_*` keys) and page-type indexing switches (`
 | `_seoearth_description` | posts (any type), terms | Custom meta description | same | same |
 | `_seoearth_canonical` | posts (any type), terms | Custom canonical URL, absolute http(s) only | same | same |
 | `_seoearth_robots` | posts (any type), terms | Comma-separated robots tokens from a fixed allowlist | same | same |
+| `_seoearth_social_title` | posts (any type), terms | Social sharing title; may contain `%%variables%%` | same | same |
+| `_seoearth_social_description` | posts (any type), terms | Social sharing description | same | same |
+| `_seoearth_social_image` | posts (any type), terms | Social sharing image URL, absolute http(s) only | same | same |
 
 Keys start with `_`, so they are hidden from the Custom Fields box. They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.

@@ -8,7 +8,8 @@
  * - Only if the site owner ticked "Remove all SEOEarth data when the plugin is
  *   deleted": the settings option, the data version marker, and the SEO
  *   fields saved on posts and terms (_seoearth_title, _seoearth_description,
- *   _seoearth_canonical, _seoearth_robots).
+ *   _seoearth_canonical, _seoearth_robots, _seoearth_social_title,
+ *   _seoearth_social_description, _seoearth_social_image).
  *
  * When the box is not ticked, settings and the version marker are kept so that
  * reinstalling restores the configuration and upgrades it correctly.
@@ -35,7 +36,7 @@ $seoearth_uninstall_site = static function () {
 	delete_option( 'seoearth_db_version' );
 
 	// Per-post and per-term SEO fields. delete_all removes the key from every object in one query.
-	foreach ( array( '_seoearth_title', '_seoearth_description', '_seoearth_canonical', '_seoearth_robots' ) as $meta_key ) {
+	foreach ( array( '_seoearth_title', '_seoearth_description', '_seoearth_canonical', '_seoearth_robots', '_seoearth_social_title', '_seoearth_social_description', '_seoearth_social_image' ) as $meta_key ) {
 		delete_metadata( 'post', 0, $meta_key, '', true );
 		delete_metadata( 'term', 0, $meta_key, '', true );
 	}

@@ -71,6 +71,17 @@ Helpers\Text::sanitize_line    sanitize_text_field() that keeps %%variables%% in
 - User guides: [docs/TEMPLATES.md](docs/TEMPLATES.md), [docs/INDEXING.md](docs/INDEXING.md).
 - Robots only ever adds restrictions; core's own noindex (blog not public) is never removed. No canonical is printed on noindex pages.
 
+## Social tags
+
+```
+CurrentPage        shared per-request resolution (context, title, description, canonical, robots) — used by HeadModule and SocialModule
+SocialTags         builds og:* / twitter:* / article:* values (plain text; image: custom → featured → default)
+SocialModule       prints at wp_head priority 5 with esc_attr/esc_url; turns off Jetpack OG; settings-screen notice
+Compatibility\Conflicts   detects other SEO plugins that print social tags (version constants); SEOEarth then prints none
+```
+
+User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
+
 ## XML sitemap
 
 ```
@@ -148,6 +159,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_head_output_enabled` (filter) | Turn off title/description/canonical/robots output |
 | `seoearth_canonical` (filter) | Change or remove the canonical URL |
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
+| `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |

@@ -58,10 +58,13 @@ final class MetaModule implements Module {
 	 */
 	public function register_meta(): void {
 		$sanitizers = array(
-			Keys::TITLE       => array( $this, 'sanitize' ),
-			Keys::DESCRIPTION => array( $this, 'sanitize' ),
-			Keys::CANONICAL   => array( $this, 'sanitize_canonical' ),
-			Keys::ROBOTS      => array( Robots::class, 'sanitize' ),
+			Keys::TITLE              => array( $this, 'sanitize' ),
+			Keys::DESCRIPTION        => array( $this, 'sanitize' ),
+			Keys::CANONICAL          => array( $this, 'sanitize_canonical' ),
+			Keys::ROBOTS             => array( Robots::class, 'sanitize' ),
+			Keys::SOCIAL_TITLE       => array( $this, 'sanitize' ),
+			Keys::SOCIAL_DESCRIPTION => array( $this, 'sanitize' ),
+			Keys::SOCIAL_IMAGE       => array( $this, 'sanitize_canonical' ),
 		);
 
 		foreach ( $sanitizers as $key => $sanitizer ) {
@@ -105,7 +108,7 @@ final class MetaModule implements Module {
 	}
 
 	/**
-	 * Canonical sanitize callback: absolute http(s) URL, or '' for anything invalid.
+	 * URL sanitize callback (canonical, social image): absolute http(s) URL, or '' for anything invalid.
 	 *
 	 * @param mixed $value Raw value.
 	 */

@@ -130,7 +130,17 @@ class Resolver {
 			$key      = self::template_key( $kind, $context );
 			$template = null === $key ? '' : (string) $this->settings->get( $key );
 		}
-		if ( '' === $template ) {
+		return $this->render( $template, $context );
+	}
+
+	/**
+	 * Renders any template (e.g. a custom social title) for a page, with the site's separator.
+	 *
+	 * @param string      $template Template text; may contain %%variables%%.
+	 * @param PageContext $context  Page context.
+	 */
+	public function render( string $template, PageContext $context ): string {
+		if ( '' === trim( $template ) ) {
 			return '';
 		}
 
