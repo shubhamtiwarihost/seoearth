@@ -9,13 +9,23 @@ namespace SEOEarth\Tests\Unit;
 
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
+use SEOEarth\Container;
+use SEOEarth\Context;
+use SEOEarth\Migrations\Migrator;
 use SEOEarth\Module;
 use SEOEarth\Plugin;
 
 /**
+ * Covers boot order, module filtering and extension hooks.
+ *
  * @covers \SEOEarth\Plugin
  */
 final class PluginTest extends TestCase {
+
+	protected function set_up() {
+		parent::set_up();
+		OptionsStub::install( array( Migrator::VERSION_OPTION => SEOEARTH_VERSION ) );
+	}
 
 	protected function tear_down() {
 		Plugin::reset();
@@ -38,11 +48,12 @@ final class PluginTest extends TestCase {
 		);
 		Actions\expectDone( 'seoearth_loaded' )->once();
 
-		Plugin::instance()->boot();
+		$plugin = Plugin::instance();
+		$plugin->boot();
 
-		$this->assertSame( $active, Plugin::instance()->module( 'active' ) );
-		$this->assertNull( Plugin::instance()->module( 'inactive' ) );
-		$this->assertNull( Plugin::instance()->module( 'bogus' ) );
+		$this->assertSame( $active, $plugin->module( 'active' ) );
+		$this->assertNull( $plugin->module( 'inactive' ) );
+		$this->assertNull( $plugin->module( 'bogus' ) );
 	}
 
 	public function test_boot_runs_only_once(): void {
@@ -52,6 +63,45 @@ final class PluginTest extends TestCase {
 		Plugin::instance()->boot();
 
 		$this->addToAssertionCount( 1 );
+	}
+
+	public function test_boot_runs_migrations_before_modules(): void {
+		$options = OptionsStub::install();
+		Actions\expectDone( 'seoearth_installed' )->once();
+		Filters\expectApplied( 'seoearth_modules' )->once()->andReturnUsing(
+			function () use ( $options ) {
+				$this->assertSame( SEOEARTH_VERSION, $options->options[ Migrator::VERSION_OPTION ] ?? null );
+				return array();
+			}
+		);
+
+		Plugin::instance()->boot();
+	}
+
+	public function test_extensions_can_replace_services_before_modules_build(): void {
+		$custom = new Context();
+		Actions\expectDone( 'seoearth_container' )->once()->whenHappen(
+			static function ( Container $container ) use ( $custom ) {
+				$container->set(
+					Context::class,
+					static function () use ( $custom ) {
+						return $custom;
+					}
+				);
+			}
+		);
+
+		$plugin = Plugin::instance();
+		$plugin->boot();
+
+		$this->assertSame( $custom, $plugin->container()->get( Context::class ) );
+	}
+
+	public function test_core_services_are_declared(): void {
+		$container = Plugin::build_container();
+
+		$this->assertInstanceOf( Context::class, $container->get( Context::class ) );
+		$this->assertInstanceOf( Migrator::class, $container->get( Migrator::class ) );
 	}
 
 	/**

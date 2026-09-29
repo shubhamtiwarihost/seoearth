@@ -7,6 +7,8 @@
 
 namespace SEOEarth;
 
+use SEOEarth\Migrations\Migrator;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -14,14 +16,22 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Lifecycle {
 
-	public const VERSION_OPTION = 'seoearth_db_version';
-
 	/**
-	 * Runs on activation. Must be idempotent.
+	 * Runs on activation. Idempotent.
+	 *
+	 * On network activation only the current site is initialised here. Every
+	 * other site initialises itself on its first request (Plugin::boot() runs
+	 * the migrator), which avoids looping over thousands of sites in one
+	 * request.
+	 *
+	 * @param bool $network_wide Whether the plugin is being network-activated.
 	 */
-	public static function activate(): void {
-		if ( false === get_option( self::VERSION_OPTION ) ) {
-			add_option( self::VERSION_OPTION, SEOEARTH_VERSION, '', false );
+	public static function activate( $network_wide = false ): void {
+		unset( $network_wide );
+
+		$migrator = Plugin::instance()->container()->get( Migrator::class );
+		if ( $migrator instanceof Migrator ) {
+			$migrator->maybe_run();
 		}
 	}
 

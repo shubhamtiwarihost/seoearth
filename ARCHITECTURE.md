@@ -10,10 +10,36 @@ seoearth.php
  └─ plugins_loaded
      ├─ SEOEarth\Requirements — PHP/WP version check; admin notice and stop if unmet
      └─ SEOEarth\Plugin::instance()->boot()
-          ├─ apply_filters( 'seoearth_modules', default modules )
+          ├─ Migrator::maybe_run()             — install/upgrade data if the stored version is older
+          ├─ do_action( 'seoearth_container' ) — extensions declare/replace services
+          ├─ apply_filters( 'seoearth_modules', default modules, $container )
           ├─ for each Module: if should_load() → register()
           └─ do_action( 'seoearth_loaded', $plugin )
 ```
+
+## Services (`SEOEarth\Container`)
+
+A deliberately tiny container: services are declared with a factory, built on first `get()`, then shared. No autowiring or reflection. A service may be replaced until it has been built (this is how an extension swaps an implementation, via the `seoearth_container` action); replacing a built service throws.
+
+| Service | Purpose |
+|---|---|
+| `Context` | What kind of request this is (admin, AJAX, cron, CLI, frontend). REST cannot be detected at `plugins_loaded`; REST modules register on `rest_api_init`. |
+| `Migrations\Migrator` | Versioned data upgrades (below). |
+
+## Data versioning and migrations
+
+- `seoearth_db_version` (autoloaded) holds the data version. It is compared with `SEOEARTH_VERSION` on every request — one string comparison.
+- **Fresh install:** version recorded, `seoearth_installed` fires, no steps run.
+- **Upgrade:** every step in `Migrations\Registry` with `stored < version <= code` runs in `version_compare` order; the version is recorded after each step, so a crash resumes at the next request. Then `seoearth_upgraded` fires.
+- **Downgrade** (older code, newer data): nothing runs and the stored version is never lowered. Migrations must stay backward-readable for one minor version so rollback is safe.
+- **Concurrency:** `seoearth_migration_lock` (not autoloaded) is taken with `add_option()`, which is atomic on the unique `option_name` key. Locks older than 10 minutes are treated as stale.
+- Migrations run on normal requests, not only on activation, because network activation and FTP/deploy upgrades never fire the activation hook for every site.
+
+## Multisite
+
+- Settings are per site (options table of each site). Nothing is stored network-wide yet.
+- Network activation initialises only the current site; every other site initialises itself on its first request. This avoids looping over thousands of sites in one request.
+- `uninstall.php` iterates all sites with `switch_to_blog()`.
 
 ## Modules
 
@@ -64,8 +90,11 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 
 | Hook | Purpose |
 |---|---|
+| `seoearth_container` (action) | Declare or replace services before modules are built |
 | `seoearth_modules` (filter) | Add/replace modules |
 | `seoearth_loaded` (action) | Run after core modules registered |
+| `seoearth_installed` (action) | First install on a site |
+| `seoearth_upgraded` (action) | Data upgraded; receives from, to, steps run |
 | more added per phase | Documented in each module's docblock |
 
 Free never contains locked or teaser features; Pro is a separate plugin that uses these hooks.

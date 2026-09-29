@@ -7,13 +7,17 @@
 
 namespace SEOEarth;
 
+use SEOEarth\Migrations\Migrator;
+use SEOEarth\Migrations\Registry;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Holds the module registry and boots modules once.
+ * Owns the service container and boots modules once.
  *
  * Extensions (including a future Pro add-on) add modules through the
- * `seoearth_modules` filter rather than by editing this class.
+ * `seoearth_modules` filter and services through the `seoearth_container`
+ * action rather than by editing this class.
  */
 final class Plugin {
 
@@ -23,6 +27,13 @@ final class Plugin {
 	 * @var Plugin|null
 	 */
 	private static $instance = null;
+
+	/**
+	 * Service container.
+	 *
+	 * @var Container
+	 */
+	private $container;
 
 	/**
 	 * Registered modules keyed by ID.
@@ -39,17 +50,55 @@ final class Plugin {
 	private $booted = false;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param Container $container Service container.
+	 */
+	public function __construct( Container $container ) {
+		$this->container = $container;
+	}
+
+	/**
 	 * Returns the shared instance.
 	 */
 	public static function instance(): Plugin {
 		if ( null === self::$instance ) {
-			self::$instance = new self();
+			self::$instance = new self( self::build_container() );
 		}
 		return self::$instance;
 	}
 
 	/**
-	 * Loads translations and registers all applicable modules.
+	 * Declares core services.
+	 */
+	public static function build_container(): Container {
+		$container = new Container();
+
+		$container->set(
+			Context::class,
+			static function () {
+				return new Context();
+			}
+		);
+		$container->set(
+			Migrator::class,
+			static function () {
+				return new Migrator( SEOEARTH_VERSION, Registry::all() );
+			}
+		);
+
+		return $container;
+	}
+
+	/**
+	 * The service container.
+	 */
+	public function container(): Container {
+		return $this->container;
+	}
+
+	/**
+	 * Migrates data if needed, then registers all applicable modules.
 	 */
 	public function boot(): void {
 		if ( $this->booted ) {
@@ -57,15 +106,25 @@ final class Plugin {
 		}
 		$this->booted = true;
 
+		$this->migrator()->maybe_run();
+
+		/**
+		 * Fires before modules are built, so extensions can declare or replace services.
+		 *
+		 * @param Container $container Service container.
+		 */
+		do_action( 'seoearth_container', $this->container );
+
 		/**
 		 * Filters the modules SEOEarth loads.
 		 *
 		 * Third-party callbacks may return anything, so entries that are not
 		 * Module instances are skipped.
 		 *
-		 * @param array<string, mixed> $modules Modules keyed by ID.
+		 * @param array<string, mixed> $modules   Modules keyed by ID.
+		 * @param Container            $container Service container.
 		 */
-		$modules = apply_filters( 'seoearth_modules', $this->default_modules() );
+		$modules = apply_filters( 'seoearth_modules', $this->default_modules(), $this->container );
 
 		foreach ( (array) $modules as $id => $module ) {
 			if ( ! $module instanceof Module || ! $module->should_load() ) {
@@ -93,7 +152,20 @@ final class Plugin {
 	}
 
 	/**
-	 * Built-in modules. Populated from Phase 3 onwards.
+	 * The migrator service.
+	 *
+	 * @throws \UnexpectedValueException When an extension replaced it with the wrong type.
+	 */
+	private function migrator(): Migrator {
+		$migrator = $this->container->get( Migrator::class );
+		if ( ! $migrator instanceof Migrator ) {
+			throw new \UnexpectedValueException( 'The Migrator service was replaced with an incompatible object.' );
+		}
+		return $migrator;
+	}
+
+	/**
+	 * Built-in modules. Populated as feature phases land.
 	 *
 	 * @return array<string, Module>
 	 */

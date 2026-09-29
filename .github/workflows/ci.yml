@@ -70,6 +70,7 @@ jobs:
         run: echo '{"core":"WordPress/WordPress#${{ matrix.wp }}"}' > .wp-env.override.json
       - run: npm run env:start
       - run: npm run test:php:integration
+      - run: npm run test:php:multisite
 
   js:
     name: JS lint, test, build
