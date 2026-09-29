@@ -8,6 +8,7 @@
 namespace SEOEarth\Tests\Integration;
 
 use SEOEarth\Migrations\Migrator;
+use SEOEarth\Settings\Settings;
 use WP_UnitTestCase;
 
 /**
@@ -15,34 +16,69 @@ use WP_UnitTestCase;
  */
 final class UninstallTest extends WP_UnitTestCase {
 
-	public function test_uninstall_removes_bookkeeping_and_keeps_content(): void {
-		$post_id = self::factory()->post->create( array( 'post_title' => 'Keep me' ) );
+	public function set_up(): void {
+		parent::set_up();
+		// Store raw values; the sanitize callback is irrelevant to uninstall.
+		remove_all_filters( 'sanitize_option_' . Settings::OPTION );
+	}
+
+	public function test_without_opt_in_settings_and_version_are_kept(): void {
+		update_option( Settings::OPTION, array( 'separator' => 'pipe' ) );
 		update_option( Migrator::VERSION_OPTION, '0.1.0' );
 		update_option( Migrator::LOCK_OPTION, time() );
 
 		$this->run_uninstall();
 
+		$this->assertSame( array( 'separator' => 'pipe' ), get_option( Settings::OPTION ) );
+		$this->assertSame( '0.1.0', get_option( Migrator::VERSION_OPTION ), 'Kept so a reinstall upgrades instead of treating data as fresh.' );
+		$this->assertFalse( get_option( Migrator::LOCK_OPTION ), 'Temporary lock is always removed.' );
+	}
+
+	public function test_opt_in_removes_data_and_keeps_content(): void {
+		$post_id = self::factory()->post->create( array( 'post_title' => 'Keep me' ) );
+		update_option( Settings::OPTION, array( 'remove_data_on_uninstall' => true ) );
+		update_option( Migrator::VERSION_OPTION, '0.1.0' );
+
+		$this->run_uninstall();
+
+		$this->assertFalse( get_option( Settings::OPTION ) );
 		$this->assertFalse( get_option( Migrator::VERSION_OPTION ) );
-		$this->assertFalse( get_option( Migrator::LOCK_OPTION ) );
 		$this->assertSame( 'Keep me', get_the_title( $post_id ), 'Uninstall must never delete content.' );
 	}
 
-	public function test_uninstall_cleans_every_site_on_multisite(): void {
+	public function test_truthy_non_boolean_does_not_count_as_opt_in(): void {
+		update_option( Settings::OPTION, array( 'remove_data_on_uninstall' => '1' ) );
+
+		$this->run_uninstall();
+
+		$this->assertNotFalse( get_option( Settings::OPTION ), 'Only a real boolean true (saved via the settings page) deletes data.' );
+	}
+
+	public function test_multisite_respects_each_sites_own_choice(): void {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped( 'Multisite only. Run: npm run test:php:multisite' );
 		}
 
-		$site_id = self::factory()->blog->create();
-		update_option( Migrator::VERSION_OPTION, '0.1.0' );
-		switch_to_blog( $site_id );
-		update_option( Migrator::VERSION_OPTION, '0.1.0' );
+		$keep_site   = self::factory()->blog->create();
+		$remove_site = self::factory()->blog->create();
+
+		switch_to_blog( $keep_site );
+		remove_all_filters( 'sanitize_option_' . Settings::OPTION );
+		update_option( Settings::OPTION, array( 'separator' => 'pipe' ) );
+		restore_current_blog();
+
+		switch_to_blog( $remove_site );
+		update_option( Settings::OPTION, array( 'remove_data_on_uninstall' => true ) );
 		restore_current_blog();
 
 		$this->run_uninstall();
 
-		$this->assertFalse( get_option( Migrator::VERSION_OPTION ) );
-		switch_to_blog( $site_id );
-		$this->assertFalse( get_option( Migrator::VERSION_OPTION ) );
+		switch_to_blog( $keep_site );
+		$this->assertSame( array( 'separator' => 'pipe' ), get_option( Settings::OPTION ) );
+		restore_current_blog();
+
+		switch_to_blog( $remove_site );
+		$this->assertFalse( get_option( Settings::OPTION ) );
 		restore_current_blog();
 	}
 

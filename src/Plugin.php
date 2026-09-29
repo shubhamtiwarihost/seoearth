@@ -7,8 +7,12 @@
 
 namespace SEOEarth;
 
+use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Migrations\Migrator;
 use SEOEarth\Migrations\Registry;
+use SEOEarth\Settings\Sanitizer;
+use SEOEarth\Settings\Schema;
+use SEOEarth\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -84,6 +88,30 @@ final class Plugin {
 			Migrator::class,
 			static function () {
 				return new Migrator( SEOEARTH_VERSION, Registry::all() );
+			}
+		);
+		$container->set(
+			Schema::class,
+			static function () {
+				return new Schema();
+			}
+		);
+		$container->set(
+			Settings::class,
+			static function ( Container $c ) {
+				return new Settings( $c->get( Schema::class ) );
+			}
+		);
+		$container->set(
+			Sanitizer::class,
+			static function ( Container $c ) {
+				return new Sanitizer( $c->get( Schema::class ) );
+			}
+		);
+		$container->set(
+			SettingsPage::class,
+			static function ( Container $c ) {
+				return new SettingsPage( $c->get( Context::class ), $c->get( Settings::class ), $c->get( Sanitizer::class ) );
 			}
 		);
 
@@ -167,10 +195,15 @@ final class Plugin {
 	/**
 	 * Built-in modules. Populated as feature phases land.
 	 *
-	 * @return array<string, Module>
+	 * Modules are built from the container only here, after extensions had
+	 * their chance to replace services.
+	 *
+	 * @return array<string, mixed>
 	 */
 	private function default_modules(): array {
-		return array();
+		return array(
+			'settings_page' => $this->container->get( SettingsPage::class ),
+		);
 	}
 
 	/**

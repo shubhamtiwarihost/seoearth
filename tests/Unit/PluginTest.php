@@ -9,6 +9,8 @@ namespace SEOEarth\Tests\Unit;
 
 use Brain\Monkey\Actions;
 use Brain\Monkey\Filters;
+use Brain\Monkey\Functions;
+use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Container;
 use SEOEarth\Context;
 use SEOEarth\Migrations\Migrator;
@@ -25,6 +27,7 @@ final class PluginTest extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 		OptionsStub::install( array( Migrator::VERSION_OPTION => SEOEARTH_VERSION ) );
+		Functions\when( 'is_admin' )->justReturn( false );
 	}
 
 	protected function tear_down() {
@@ -102,6 +105,24 @@ final class PluginTest extends TestCase {
 
 		$this->assertInstanceOf( Context::class, $container->get( Context::class ) );
 		$this->assertInstanceOf( Migrator::class, $container->get( Migrator::class ) );
+		$this->assertInstanceOf( SettingsPage::class, $container->get( SettingsPage::class ) );
+	}
+
+	public function test_settings_page_does_not_load_on_frontend(): void {
+		$plugin = Plugin::instance();
+		$plugin->boot();
+
+		$this->assertNull( $plugin->module( 'settings_page' ) );
+	}
+
+	public function test_settings_page_loads_in_admin(): void {
+		Functions\when( 'is_admin' )->justReturn( true );
+		Functions\when( 'plugin_basename' )->justReturn( 'seoearth/seoearth.php' );
+
+		$plugin = Plugin::instance();
+		$plugin->boot();
+
+		$this->assertInstanceOf( SettingsPage::class, $plugin->module( 'settings_page' ) );
 	}
 
 	/**

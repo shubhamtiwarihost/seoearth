@@ -35,6 +35,22 @@ A deliberately tiny container: services are declared with a factory, built on fi
 - **Concurrency:** `seoearth_migration_lock` (not autoloaded) is taken with `add_option()`, which is atomic on the unique `option_name` key. Locks older than 10 minutes are treated as stale.
 - Migrations run on normal requests, not only on activation, because network activation and FTP/deploy upgrades never fire the activation hook for every site.
 
+## Settings
+
+```
+Settings\Schema     — list of Field definitions (key, section, type, default, label); filter: seoearth_settings_fields
+Settings\Settings   — read API: all() / get(); stored values over defaults; wrong-typed values fall back to default
+Settings\Sanitizer  — untrusted input → clean array; invalid value keeps the old value + error message
+Admin\SettingsPage  — Settings API registration + screen (admin requests only)
+```
+
+- **One option**, `seoearth_settings`, autoloaded. Nothing is written until the owner saves, so reading never creates rows.
+- **Field types:** `bool`, `text` (`sanitize_text_field`), `url` (absolute http/https only, then `esc_url_raw`), `enum` (must be a declared choice), `twitter_handle` (`^[A-Za-z0-9_]{1,15}$`, leading `@` removed).
+- **Checkboxes:** browsers omit unchecked boxes. The form posts a hidden `_sections` list; a missing boolean means "off" only for sections on that form. Programmatic `update_option()` calls change only the keys they pass.
+- **Security:** saving goes through core `options.php` → nonce from `settings_fields()` + `option_page_capability_seoearth_settings_group` = `manage_options`. The render callback re-checks the capability. Every value is escaped at output.
+- **Idempotent sanitizing:** WordPress runs the sanitize callback twice when the option is first created; sanitizing clean output returns it unchanged (tested).
+- Full list of stored data: [docs/DATA.md](docs/DATA.md).
+
 ## Multisite
 
 - Settings are per site (options table of each site). Nothing is stored network-wide yet.
@@ -92,6 +108,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 |---|---|
 | `seoearth_container` (action) | Declare or replace services before modules are built |
 | `seoearth_modules` (filter) | Add/replace modules |
+| `seoearth_settings_fields` (filter) | Add settings fields |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |
 | `seoearth_upgraded` (action) | Data upgraded; receives from, to, steps run |
