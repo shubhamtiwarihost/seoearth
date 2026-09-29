@@ -1,6 +1,6 @@
 <?php
 /**
- * Prints the SEO title and meta description.
+ * Prints the SEO title, meta description, canonical and robots directives.
  *
  * @package SEOEarth
  */
@@ -8,19 +8,23 @@
 namespace SEOEarth\Frontend;
 
 use SEOEarth\Context;
+use SEOEarth\Meta\Canonical;
 use SEOEarth\Meta\PageContext;
 use SEOEarth\Meta\Resolver;
+use SEOEarth\Meta\Robots;
 use SEOEarth\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Frontend <head> output for titles and descriptions.
+ * Frontend <head> output.
  *
- * - Themes with `title-tag` support: `pre_get_document_title`.
- * - Legacy themes calling wp_title(): `wp_title` (skipped in feeds, where core
- *   uses the same filter for the feed title).
- * - `<meta name="description">` on `wp_head`, priority 1.
+ * - Title: `pre_get_document_title` (title-tag themes) and `wp_title` (legacy
+ *   themes; skipped in feeds, where core reuses that filter).
+ * - Description and canonical: `wp_head`, priority 1.
+ * - Robots: core's `wp_robots` filter, so there is only ever one robots tag.
+ * - Core's own `rel_canonical` (singular pages only) is removed to avoid a
+ *   second canonical tag.
  *
  * Everything is resolved once per request, after the main query has run.
  */
@@ -34,28 +38,46 @@ final class HeadModule implements Module {
 	private $context;
 
 	/**
-	 * Resolver.
+	 * Title/description resolver.
 	 *
 	 * @var Resolver
 	 */
 	private $resolver;
 
 	/**
+	 * Canonical URL builder.
+	 *
+	 * @var Canonical
+	 */
+	private $canonical;
+
+	/**
+	 * Robots directives.
+	 *
+	 * @var Robots
+	 */
+	private $robots;
+
+	/**
 	 * Resolved values for this request.
 	 *
-	 * @var array{title: string, description: string}|null
+	 * @var array{title: string, description: string, canonical: string, robots: array<string, true>}|null
 	 */
 	private $resolved = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Context  $context  Request context.
-	 * @param Resolver $resolver Resolver.
+	 * @param Context   $context   Request context.
+	 * @param Resolver  $resolver  Title/description resolver.
+	 * @param Canonical $canonical Canonical URL builder.
+	 * @param Robots    $robots    Robots directives.
 	 */
-	public function __construct( Context $context, Resolver $resolver ) {
-		$this->context  = $context;
-		$this->resolver = $resolver;
+	public function __construct( Context $context, Resolver $resolver, Canonical $canonical, Robots $robots ) {
+		$this->context   = $context;
+		$this->resolver  = $resolver;
+		$this->canonical = $canonical;
+		$this->robots    = $robots;
 	}
 
 	/**
@@ -71,7 +93,9 @@ final class HeadModule implements Module {
 	public function register(): void {
 		add_filter( 'pre_get_document_title', array( $this, 'document_title' ), 15 );
 		add_filter( 'wp_title', array( $this, 'wp_title' ), 15 );
-		add_action( 'wp_head', array( $this, 'print_description' ), 1 );
+		add_filter( 'wp_robots', array( $this, 'filter_robots' ), 20 );
+		add_action( 'wp_head', array( $this, 'take_over_canonical' ), 0 );
+		add_action( 'wp_head', array( $this, 'print_tags' ), 1 );
 	}
 
 	/**
@@ -102,38 +126,84 @@ final class HeadModule implements Module {
 	}
 
 	/**
-	 * Prints the meta description tag.
+	 * Adds SEOEarth directives to core's robots meta tag. Never removes core directives.
+	 *
+	 * @param mixed $robots Directives from core and other plugins.
+	 * @return mixed
 	 */
-	public function print_description(): void {
-		if ( ! $this->enabled() ) {
-			return;
+	public function filter_robots( $robots ) {
+		if ( ! is_array( $robots ) || ! $this->enabled() ) {
+			return $robots;
 		}
-		$description = $this->resolved()['description'];
-		if ( '' !== $description ) {
-			printf( '<meta name="description" content="%s" />' . "\n", esc_attr( $description ) );
+		foreach ( $this->resolved()['robots'] as $directive => $on ) {
+			$robots[ $directive ] = $on;
+		}
+		return $robots;
+	}
+
+	/**
+	 * Removes core's rel_canonical so only one canonical tag is printed.
+	 */
+	public function take_over_canonical(): void {
+		if ( $this->enabled() ) {
+			remove_action( 'wp_head', 'rel_canonical' );
 		}
 	}
 
 	/**
-	 * Resolves title and description once.
+	 * Prints the meta description and canonical tags.
+	 */
+	public function print_tags(): void {
+		if ( ! $this->enabled() ) {
+			return;
+		}
+		$resolved = $this->resolved();
+
+		if ( '' !== $resolved['description'] ) {
+			printf( '<meta name="description" content="%s" />' . "\n", esc_attr( $resolved['description'] ) );
+		}
+		if ( '' !== $resolved['canonical'] ) {
+			printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( $resolved['canonical'] ) );
+		}
+	}
+
+	/**
+	 * Resolves everything once.
 	 *
-	 * @return array{title: string, description: string}
+	 * @return array{title: string, description: string, canonical: string, robots: array<string, true>}
 	 */
 	public function resolved(): array {
-		if ( null === $this->resolved ) {
-			global $wp_query;
-			if ( ! $wp_query instanceof \WP_Query ) {
-				return array(
-					'title'       => '',
-					'description' => '',
-				);
-			}
-			$page_context   = PageContext::from_query( $wp_query );
-			$this->resolved = array(
-				'title'       => $this->resolver->title( $page_context ),
-				'description' => $this->resolver->description( $page_context ),
+		if ( null !== $this->resolved ) {
+			return $this->resolved;
+		}
+
+		global $wp_query;
+		if ( ! $wp_query instanceof \WP_Query ) {
+			return array(
+				'title'       => '',
+				'description' => '',
+				'canonical'   => '',
+				'robots'      => array(),
 			);
 		}
+
+		$page   = PageContext::from_query( $wp_query );
+		$robots = $this->robots->directives( $page );
+
+		/**
+		 * Filters the canonical URL. Return '' to print none.
+		 *
+		 * @param mixed       $canonical Canonical URL string ('' on noindex pages). Non-strings are ignored.
+		 * @param PageContext $page      Page context.
+		 */
+		$canonical = apply_filters( 'seoearth_canonical', isset( $robots['noindex'] ) ? '' : $this->canonical->url( $page ), $page );
+
+		$this->resolved = array(
+			'title'       => $this->resolver->title( $page ),
+			'description' => $this->resolver->description( $page ),
+			'canonical'   => is_string( $canonical ) ? $canonical : '',
+			'robots'      => $robots,
+		);
 		return $this->resolved;
 	}
 
@@ -147,11 +217,11 @@ final class HeadModule implements Module {
 	}
 
 	/**
-	 * Whether SEOEarth should print title/description tags.
+	 * Whether SEOEarth should print its head tags.
 	 */
 	private function enabled(): bool {
 		/**
-		 * Filters whether SEOEarth outputs the title and meta description.
+		 * Filters whether SEOEarth outputs title, description, canonical and robots.
 		 *
 		 * @param bool $enabled Default true.
 		 */

@@ -36,4 +36,29 @@ final class Text {
 		$protected = str_replace( '%', self::PERCENT, (string) $value );
 		return str_replace( self::PERCENT, '%', sanitize_text_field( $protected ) );
 	}
+
+	/**
+	 * Empty string, or an absolute http(s) URL with a host. Returns null for
+	 * anything else (javascript:, data:, relative, protocol-relative, ftp:).
+	 *
+	 * @param mixed $value Raw URL.
+	 */
+	public static function http_url( $value ): ?string {
+		if ( ! is_scalar( $value ) ) {
+			return null;
+		}
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return '';
+		}
+
+		$scheme = wp_parse_url( $value, PHP_URL_SCHEME );
+		$host   = wp_parse_url( $value, PHP_URL_HOST );
+		if ( ! is_string( $scheme ) || ! in_array( strtolower( $scheme ), array( 'http', 'https' ), true ) || ! is_string( $host ) || '' === $host ) {
+			return null;
+		}
+
+		$clean = esc_url_raw( $value, array( 'http', 'https' ) );
+		return '' === $clean ? null : $clean;
+	}
 }

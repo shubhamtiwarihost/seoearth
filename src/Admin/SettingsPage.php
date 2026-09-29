@@ -193,6 +193,15 @@ final class SettingsPage implements Module {
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<?php settings_errors( Settings::OPTION ); ?>
+			<?php if ( '0' === (string) get_option( 'blog_public' ) ) : ?>
+				<div class="notice notice-warning inline">
+					<p>
+						<strong><?php esc_html_e( 'Warning:', 'seoearth' ); ?></strong>
+						<?php esc_html_e( 'Search engines are currently asked not to index this entire site (Settings → Reading → “Discourage search engines from indexing this site”). SEOEarth does not override this.', 'seoearth' ); ?>
+						<a href="<?php echo esc_url( admin_url( 'options-reading.php' ) ); ?>"><?php esc_html_e( 'Change reading settings', 'seoearth' ); ?></a>
+					</p>
+				</div>
+			<?php endif; ?>
 			<form action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>" method="post" novalidate="novalidate">
 				<?php settings_fields( self::GROUP ); ?>
 				<input type="hidden" name="<?php echo esc_attr( Settings::OPTION . '[' . Sanitizer::SECTIONS_KEY . ']' ); ?>" value="<?php echo esc_attr( $sections ); ?>" />

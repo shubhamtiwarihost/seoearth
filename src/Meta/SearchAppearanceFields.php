@@ -1,6 +1,6 @@
 <?php
 /**
- * Title/description template settings.
+ * Search appearance settings: templates and indexing per page type.
  *
  * @package SEOEarth
  */
@@ -12,13 +12,16 @@ use SEOEarth\Settings\Field;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Builds one title and one description template setting per page type:
+ * Builds the search appearance settings per page type: a title template, a
+ * description template and (where it makes sense) a noindex toggle for the
  * homepage, each public post type, each post type archive, each public
  * taxonomy, author archives, date archives, search results and 404.
  *
+ * The homepage has no noindex toggle on purpose; search and 404 are always noindex.
+ *
  * Built after `init`, when post types and taxonomies are registered.
  */
-final class TemplateFields {
+final class SearchAppearanceFields {
 
 	public const SECTION = 'search_appearance';
 
@@ -39,6 +42,7 @@ final class TemplateFields {
 			$label    = (string) $type->labels->name;
 			$fields[] = $this->title( 'pt_' . $slug, $label, '%%title%%' . $page );
 			$fields[] = $this->desc( 'pt_' . $slug, $label, '%%excerpt%%' );
+			$fields[] = $this->noindex( 'pt_' . $slug, $label );
 
 			if ( $type->has_archive ) {
 				/* translators: %s: post type plural name, e.g. "Products". */
@@ -53,15 +57,18 @@ final class TemplateFields {
 			$label    = (string) $taxonomy->labels->name;
 			$fields[] = $this->title( 'tax_' . $slug, $label, '%%title%%' . $page );
 			$fields[] = $this->desc( 'tax_' . $slug, $label, '%%description%%' );
+			$fields[] = $this->noindex( 'tax_' . $slug, $label );
 		}
 
 		$author   = __( 'Author archives', 'seoearth' );
 		$fields[] = $this->title( 'author', $author, '%%author%%' . $page );
 		$fields[] = $this->desc( 'author', $author, '%%description%%' );
+		$fields[] = $this->noindex( 'author', $author );
 
 		$date     = __( 'Date archives', 'seoearth' );
 		$fields[] = $this->title( 'date', $date, '%%date%%' . $page );
 		$fields[] = $this->desc( 'date', $date, '' );
+		$fields[] = $this->noindex( 'date', $date );
 
 		$fields[] = $this->title(
 			'search',
@@ -101,6 +108,24 @@ final class TemplateFields {
 	private function desc( string $suffix, string $label, string $default_value ): Field {
 		/* translators: %s: page type, e.g. "Posts" or "Homepage". */
 		return new Field( 'desc_' . $suffix, self::SECTION, Field::TYPE_TEMPLATE, $default_value, sprintf( __( '%s: meta description', 'seoearth' ), $label ) );
+	}
+
+	/**
+	 * "Hide from search engines" toggle. Off by default: nothing is hidden unless the owner asks.
+	 *
+	 * @param string $suffix Key suffix.
+	 * @param string $label  Page type label.
+	 */
+	private function noindex( string $suffix, string $label ): Field {
+		return new Field(
+			'noindex_' . $suffix,
+			self::SECTION,
+			Field::TYPE_BOOL,
+			false,
+			/* translators: %s: page type, e.g. "Posts" or "Author archives". */
+			sprintf( __( '%s: hide from search engines (noindex)', 'seoearth' ), $label ),
+			__( 'Individual items can still be set to “Index” in their own SEO settings.', 'seoearth' )
+		);
 	}
 
 	/**

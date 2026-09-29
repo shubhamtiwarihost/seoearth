@@ -25,9 +25,19 @@ final class Keys {
 	public const DESCRIPTION = '_seoearth_description';
 
 	/**
+	 * Custom canonical URL (absolute http/https).
+	 */
+	public const CANONICAL = '_seoearth_canonical';
+
+	/**
+	 * Robots tokens, comma-separated, from Robots::TOKENS.
+	 */
+	public const ROBOTS = '_seoearth_robots';
+
+	/**
 	 * All per-object meta keys, for registration and uninstall.
 	 */
-	public const ALL = array( self::TITLE, self::DESCRIPTION );
+	public const ALL = array( self::TITLE, self::DESCRIPTION, self::CANONICAL, self::ROBOTS );
 
 	/**
 	 * Turns a post type or taxonomy name into a settings-key-safe fragment.

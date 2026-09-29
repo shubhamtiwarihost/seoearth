@@ -54,9 +54,10 @@ final class HeadOutputTest extends WP_UnitTestCase {
 		$this->head->reset();
 
 		ob_start();
-		$this->head->print_description();
-		$description = trim( (string) ob_get_clean() );
+		$this->head->print_tags();
+		$html = (string) ob_get_clean();
 
+		$description = preg_match( '/<meta name="description"[^>]*>/', $html, $m ) ? $m[0] : '';
 		return array( wp_get_document_title(), $description );
 	}
 

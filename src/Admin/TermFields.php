@@ -10,13 +10,14 @@ namespace SEOEarth\Admin;
 use SEOEarth\Context;
 use SEOEarth\Helpers\Text;
 use SEOEarth\Meta\Keys;
+use SEOEarth\Meta\Robots;
 use SEOEarth\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Adds "SEO title" and "Meta description" to the edit screen of every public
- * taxonomy that has an admin UI, and saves them.
+ * Adds SEO title, meta description, canonical URL and robots settings to the
+ * edit screen of every public taxonomy that has an admin UI, and saves them.
  *
  * Security: nonce per term, `edit_term` capability, and the taxonomy must be
  * one we render fields for.
@@ -26,6 +27,14 @@ final class TermFields implements Module {
 	public const NONCE_FIELD = 'seoearth_term_nonce';
 	public const TITLE_FIELD = 'seoearth_title';
 	public const DESC_FIELD  = 'seoearth_description';
+	public const CANON_FIELD = 'seoearth_canonical';
+	public const INDEX_FIELD = 'seoearth_robots_index';
+	public const ROBOT_FIELD = 'seoearth_robots';
+
+	/**
+	 * Extra robots directives offered as checkboxes.
+	 */
+	private const EXTRA_DIRECTIVES = array( 'nofollow', 'noarchive', 'nosnippet', 'noimageindex' );
 
 	/**
 	 * Request context.
@@ -95,6 +104,15 @@ final class TermFields implements Module {
 
 		$title       = (string) get_term_meta( $term->term_id, Keys::TITLE, true );
 		$description = (string) get_term_meta( $term->term_id, Keys::DESCRIPTION, true );
+		$canonical   = (string) get_term_meta( $term->term_id, Keys::CANONICAL, true );
+		$robots      = Robots::parse( get_term_meta( $term->term_id, Keys::ROBOTS, true ) );
+		$index       = in_array( 'noindex', $robots, true ) ? 'noindex' : ( in_array( 'index', $robots, true ) ? 'index' : '' );
+		$directives  = array(
+			'nofollow'     => __( 'Do not follow links (nofollow)', 'seoearth' ),
+			'noarchive'    => __( 'Do not show a cached copy (noarchive)', 'seoearth' ),
+			'nosnippet'    => __( 'Do not show a text snippet (nosnippet)', 'seoearth' ),
+			'noimageindex' => __( 'Do not index images (noimageindex)', 'seoearth' ),
+		);
 
 		wp_nonce_field( $this->nonce_action( $term->term_id ), self::NONCE_FIELD );
 		?>
@@ -110,6 +128,29 @@ final class TermFields implements Module {
 			<td>
 				<textarea id="seoearth-term-description" name="<?php echo esc_attr( self::DESC_FIELD ); ?>" rows="3" aria-describedby="seoearth-term-description-help"><?php echo esc_textarea( $description ); ?></textarea>
 				<p class="description" id="seoearth-term-description-help"><?php esc_html_e( 'Leave empty to use the description template.', 'seoearth' ); ?></p>
+			</td>
+		</tr>
+		<tr class="form-field seoearth-term-canonical">
+			<th scope="row"><label for="seoearth-term-canonical"><?php esc_html_e( 'Canonical URL', 'seoearth' ); ?></label></th>
+			<td>
+				<input type="url" id="seoearth-term-canonical" name="<?php echo esc_attr( self::CANON_FIELD ); ?>" value="<?php echo esc_attr( $canonical ); ?>" aria-describedby="seoearth-term-canonical-help" />
+				<p class="description" id="seoearth-term-canonical-help"><?php esc_html_e( 'Only if this archive duplicates another page. Must be a full address starting with https:// or http://. Leave empty for the archive’s own address.', 'seoearth' ); ?></p>
+			</td>
+		</tr>
+		<tr class="form-field seoearth-term-robots">
+			<th scope="row"><label for="seoearth-term-robots-index"><?php esc_html_e( 'Search engines', 'seoearth' ); ?></label></th>
+			<td>
+				<select id="seoearth-term-robots-index" name="<?php echo esc_attr( self::INDEX_FIELD ); ?>">
+					<option value="" <?php selected( $index, '' ); ?>><?php esc_html_e( 'Default (from SEOEarth settings)', 'seoearth' ); ?></option>
+					<option value="index" <?php selected( $index, 'index' ); ?>><?php esc_html_e( 'Show in search results (index)', 'seoearth' ); ?></option>
+					<option value="noindex" <?php selected( $index, 'noindex' ); ?>><?php esc_html_e( 'Hide from search results (noindex)', 'seoearth' ); ?></option>
+				</select>
+				<fieldset>
+					<legend class="screen-reader-text"><?php esc_html_e( 'Additional search engine directives', 'seoearth' ); ?></legend>
+					<?php foreach ( $directives as $directive => $label ) : ?>
+						<label><input type="checkbox" name="<?php echo esc_attr( self::ROBOT_FIELD ); ?>[]" value="<?php echo esc_attr( $directive ); ?>" <?php checked( in_array( $directive, $robots, true ) ); ?> /> <?php echo esc_html( $label ); ?></label><br />
+					<?php endforeach; ?>
+				</fieldset>
 			</td>
 		</tr>
 		<?php
@@ -148,6 +189,30 @@ final class TermFields implements Module {
 			} else {
 				update_term_meta( $term_id, $meta_key, $value );
 			}
+		}
+
+		// Canonical: an invalid URL keeps the previous value instead of silently clearing it.
+		$canonical = isset( $_POST[ self::CANON_FIELD ] ) ? Text::http_url( wp_unslash( $_POST[ self::CANON_FIELD ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated and sanitized by Text::http_url() (esc_url_raw, http/https only).
+		if ( '' === $canonical ) {
+			delete_term_meta( $term_id, Keys::CANONICAL );
+		} elseif ( null !== $canonical ) {
+			update_term_meta( $term_id, Keys::CANONICAL, $canonical );
+		}
+
+		// Robots: index choice + extra directives, reduced to the allowlist.
+		$tokens = array();
+		if ( isset( $_POST[ self::INDEX_FIELD ] ) && is_string( $_POST[ self::INDEX_FIELD ] ) ) {
+			$tokens[] = sanitize_key( wp_unslash( $_POST[ self::INDEX_FIELD ] ) );
+		}
+		if ( isset( $_POST[ self::ROBOT_FIELD ] ) && is_array( $_POST[ self::ROBOT_FIELD ] ) ) {
+			$extra  = array_map( 'sanitize_key', wp_unslash( $_POST[ self::ROBOT_FIELD ] ) );
+			$tokens = array_merge( $tokens, array_intersect( $extra, self::EXTRA_DIRECTIVES ) );
+		}
+		$robots = Robots::sanitize( $tokens );
+		if ( '' === $robots ) {
+			delete_term_meta( $term_id, Keys::ROBOTS );
+		} else {
+			update_term_meta( $term_id, Keys::ROBOTS, $robots );
 		}
 	}
 

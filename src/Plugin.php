@@ -10,10 +10,12 @@ namespace SEOEarth;
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
 use SEOEarth\Frontend\HeadModule;
+use SEOEarth\Meta\Canonical;
 use SEOEarth\Meta\MetaModule;
 use SEOEarth\Meta\Resolver;
+use SEOEarth\Meta\Robots;
 use SEOEarth\Meta\TemplateEngine;
-use SEOEarth\Meta\TemplateFields;
+use SEOEarth\Meta\SearchAppearanceFields;
 use SEOEarth\Meta\VariableValues;
 use SEOEarth\Migrations\Migrator;
 use SEOEarth\Migrations\Registry;
@@ -128,15 +130,21 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			Robots::class,
+			static function ( Container $c ) {
+				return new Robots( $c->get( Settings::class ) );
+			}
+		);
+		$container->set(
 			MetaModule::class,
 			static function () {
-				return new MetaModule( new TemplateFields() );
+				return new MetaModule( new SearchAppearanceFields() );
 			}
 		);
 		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
-				return new HeadModule( $c->get( Context::class ), $c->get( Resolver::class ) );
+				return new HeadModule( $c->get( Context::class ), $c->get( Resolver::class ), new Canonical(), $c->get( Robots::class ) );
 			}
 		);
 		$container->set(

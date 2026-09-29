@@ -22,16 +22,16 @@ final class MetaModule implements Module {
 	/**
 	 * Template field builder.
 	 *
-	 * @var TemplateFields
+	 * @var SearchAppearanceFields
 	 */
 	private $template_fields;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param TemplateFields $template_fields Template field builder.
+	 * @param SearchAppearanceFields $template_fields Template field builder.
 	 */
-	public function __construct( TemplateFields $template_fields ) {
+	public function __construct( SearchAppearanceFields $template_fields ) {
 		$this->template_fields = $template_fields;
 	}
 
@@ -50,22 +50,28 @@ final class MetaModule implements Module {
 		add_action( 'init', array( $this, 'register_meta' ) );
 		add_filter( 'seoearth_settings_fields', array( $this, 'add_template_fields' ) );
 		add_filter( 'seoearth_settings_sections', array( $this, 'add_section' ) );
-		add_action( 'seoearth_settings_section_' . TemplateFields::SECTION, array( $this->template_fields, 'render_help' ) );
+		add_action( 'seoearth_settings_section_' . SearchAppearanceFields::SECTION, array( $this->template_fields, 'render_help' ) );
 	}
 
 	/**
 	 * Registers post and term meta for all object subtypes.
 	 */
 	public function register_meta(): void {
-		$common = array(
-			'type'              => 'string',
-			'single'            => true,
-			'default'           => '',
-			'show_in_rest'      => true,
-			'sanitize_callback' => array( $this, 'sanitize' ),
+		$sanitizers = array(
+			Keys::TITLE       => array( $this, 'sanitize' ),
+			Keys::DESCRIPTION => array( $this, 'sanitize' ),
+			Keys::CANONICAL   => array( $this, 'sanitize_canonical' ),
+			Keys::ROBOTS      => array( Robots::class, 'sanitize' ),
 		);
 
-		foreach ( Keys::ALL as $key ) {
+		foreach ( $sanitizers as $key => $sanitizer ) {
+			$common = array(
+				'type'              => 'string',
+				'single'            => true,
+				'default'           => '',
+				'show_in_rest'      => true,
+				'sanitize_callback' => $sanitizer,
+			);
 			register_post_meta(
 				'',
 				$key,
@@ -99,6 +105,15 @@ final class MetaModule implements Module {
 	}
 
 	/**
+	 * Canonical sanitize callback: absolute http(s) URL, or '' for anything invalid.
+	 *
+	 * @param mixed $value Raw value.
+	 */
+	public function sanitize_canonical( $value ): string {
+		return (string) Text::http_url( $value );
+	}
+
+	/**
 	 * Adds template fields to the settings schema.
 	 *
 	 * @param mixed $fields Fields keyed by storage key.
@@ -123,11 +138,11 @@ final class MetaModule implements Module {
 		foreach ( (array) $sections as $id => $title ) {
 			$result[ (string) $id ] = (string) $title;
 			if ( 'general' === $id ) {
-				$result[ TemplateFields::SECTION ] = __( 'Search appearance', 'seoearth' );
+				$result[ SearchAppearanceFields::SECTION ] = __( 'Search appearance', 'seoearth' );
 			}
 		}
-		if ( ! isset( $result[ TemplateFields::SECTION ] ) ) {
-			$result[ TemplateFields::SECTION ] = __( 'Search appearance', 'seoearth' );
+		if ( ! isset( $result[ SearchAppearanceFields::SECTION ] ) ) {
+			$result[ SearchAppearanceFields::SECTION ] = __( 'Search appearance', 'seoearth' );
 		}
 		return $result;
 	}

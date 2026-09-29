@@ -119,7 +119,7 @@ class Sanitizer {
 				return array_key_exists( $value, $field->choices ) ? $value : null;
 
 			case Field::TYPE_URL:
-				return $this->sanitize_url( $value );
+				return Text::http_url( $value );
 
 			case Field::TYPE_TWITTER_HANDLE:
 				$value = ltrim( $value, '@' );
@@ -133,25 +133,5 @@ class Sanitizer {
 			default:
 				return Text::sanitize_line( $value );
 		}
-	}
-
-	/**
-	 * Accepts empty, or an absolute http(s) URL. Anything else (javascript:, data:, relative) is invalid.
-	 *
-	 * @param string $value Raw URL.
-	 */
-	private function sanitize_url( string $value ): ?string {
-		if ( '' === $value ) {
-			return '';
-		}
-
-		$scheme = wp_parse_url( $value, PHP_URL_SCHEME );
-		$host   = wp_parse_url( $value, PHP_URL_HOST );
-		if ( ! is_string( $scheme ) || ! in_array( strtolower( $scheme ), array( 'http', 'https' ), true ) || ! is_string( $host ) || '' === $host ) {
-			return null;
-		}
-
-		$clean = esc_url_raw( $value, array( 'http', 'https' ) );
-		return '' === $clean ? null : $clean;
 	}
 }

@@ -25,7 +25,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 ## Personal data
 None. SEOEarth does not store information about visitors or users, sets no cookies, and makes no outbound HTTP requests.
 
-Template settings (`title_*` / `desc_*` keys, one pair per page type) are also stored in `seoearth_settings`; see [TEMPLATES.md](TEMPLATES.md).
+Template settings (`title_*` / `desc_*` keys) and page-type indexing switches (`noindex_*` keys, default off) are also stored in `seoearth_settings`; see [TEMPLATES.md](TEMPLATES.md) and [INDEXING.md](INDEXING.md).
 
 ## Post meta / term meta
 
@@ -33,5 +33,7 @@ Template settings (`title_*` / `desc_*` keys, one pair per page type) are also s
 |---|---|---|---|---|
 | `_seoearth_title` | posts (any type), terms | Custom SEO title, single-line text, may contain `%%variables%%` | Posts: users who can `edit_post` that post. Terms: users who can `edit_term` | Only if "Remove all SEOEarth data" is ticked |
 | `_seoearth_description` | posts (any type), terms | Custom meta description | same | same |
+| `_seoearth_canonical` | posts (any type), terms | Custom canonical URL, absolute http(s) only | same | same |
+| `_seoearth_robots` | posts (any type), terms | Comma-separated robots tokens from a fixed allowlist | same | same |
 
 Keys start with `_`, so they are hidden from the Custom Fields box. They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.
