@@ -74,7 +74,24 @@ class Robots {
 			}
 		}
 
-		return $directives;
+		/**
+		 * Filters the robots directives SEOEarth applies to a page (e.g. an
+		 * integration hiding shop utility pages). Only allowlisted directives
+		 * are kept. The canonical URL, structured data and social tags all
+		 * follow the result, so they stay consistent.
+		 *
+		 * @param mixed       $directives Directive => true. Unknown directives and non-true values are dropped.
+		 * @param PageContext $context    Page context.
+		 */
+		$filtered = apply_filters( 'seoearth_robots_directives', $directives, $context );
+
+		$clean = array();
+		foreach ( (array) $filtered as $token => $on ) {
+			if ( true === $on && in_array( $token, self::TOKENS, true ) && 'index' !== $token ) {
+				$clean[ (string) $token ] = true;
+			}
+		}
+		return $clean;
 	}
 
 	/**

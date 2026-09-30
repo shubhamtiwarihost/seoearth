@@ -43,6 +43,7 @@ use SEOEarth\Sitemap\Images;
 use SEOEarth\Sitemap\SitemapModule;
 use SEOEarth\Social\SocialModule;
 use SEOEarth\Social\SocialTags;
+use SEOEarth\WooCommerce\WooModule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -233,6 +234,13 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			WooModule::class,
+			static function ( Container $c ) {
+				$schema = $c->get( SchemaModule::class );
+				return new WooModule( $schema instanceof SchemaModule ? $schema : null );
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -358,6 +366,7 @@ final class Plugin {
 			'images'        => $this->container->get( ImagesModule::class ),
 			'redirects'     => $this->container->get( RedirectsModule::class ),
 			'redirects_ui'  => $this->container->get( RedirectsAdmin::class ),
+			'woocommerce'   => $this->container->get( WooModule::class ),
 		);
 	}
 

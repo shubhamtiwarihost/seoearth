@@ -36,7 +36,13 @@ final class WebPage implements Piece {
 	 */
 	public function generate( SchemaContext $context ): array {
 		$node = array(
-			'@type'       => $this->type( $context->page ),
+			/**
+			 * Filters the schema.org type of the WebPage node (e.g. "ItemPage" for products).
+			 *
+			 * @param string        $type    WebPage, CollectionPage, ProfilePage or SearchResultsPage.
+			 * @param SchemaContext $context Schema context.
+			 */
+			'@type'       => (string) apply_filters( 'seoearth_schema_webpage_type', $this->type( $context->page ), $context ),
 			'@id'         => $context->webpage_id(),
 			'url'         => $context->url,
 			'name'        => $context->title,

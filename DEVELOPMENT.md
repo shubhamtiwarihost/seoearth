@@ -24,6 +24,7 @@ npm run env:start      # WordPress at http://localhost:8888 (admin / password)
 | `composer ci` | All of the above |
 | `npm run test:php:integration` | Integration tests inside wp-env against real WordPress + MySQL |
 | `npm run test:php:multisite` | Same integration suite, as a multisite network |
+| `npm run test:php:woo` | Same integration suite with WooCommerce active (wp-env installs it); includes the `woocommerce` test group, which is skipped otherwise. Needs a WordPress version current WooCommerce supports |
 | `npm run lint:js` / `npm run test:js` | ESLint (WordPress config) / Jest |
 | `npm run build` | Build the editor sidebar (`build/editor/`) and block scripts (`build/blocks/*/`) |
 | `npm run env:stop` | Stop the wp-env containers |

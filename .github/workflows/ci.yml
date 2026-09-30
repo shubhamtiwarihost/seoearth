@@ -67,10 +67,14 @@ jobs:
       - run: npm ci
       - name: Pin WordPress version
         if: matrix.wp != 'latest'
-        run: echo '{"core":"WordPress/WordPress#${{ matrix.wp }}"}' > .wp-env.override.json
+        # Current WooCommerce requires a newer WordPress, so the pinned old version runs without it.
+        run: echo '{"core":"WordPress/WordPress#${{ matrix.wp }}","plugins":[]}' > .wp-env.override.json
       - run: npm run env:start
       - run: npm run test:php:integration
       - run: npm run test:php:multisite
+      - name: Integration with WooCommerce active
+        if: matrix.wp == 'latest'
+        run: npm run test:php:woo
 
   js:
     name: JS lint, test, build

@@ -19,6 +19,7 @@
 		"env:stop": "wp-env stop",
 		"test:php:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/seoearth vendor/bin/phpunit -c phpunit-integration.xml.dist",
 		"test:php:multisite": "wp-env run tests-cli --env-cwd=wp-content/plugins/seoearth env WP_MULTISITE=1 vendor/bin/phpunit -c phpunit-integration.xml.dist",
+		"test:php:woo": "wp-env run tests-cli --env-cwd=wp-content/plugins/seoearth env SEOEARTH_TEST_WOO=1 vendor/bin/phpunit -c phpunit-integration.xml.dist",
 		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"files": [

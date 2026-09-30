@@ -7,3 +7,6 @@ parameters:
 		- src
 	bootstrapFiles:
 		- tests/phpstan-bootstrap.php
+	# WooCommerce is optional; declarations only (see the file for why not the full stubs package).
+	scanFiles:
+		- tests/phpstan-woocommerce-stubs.php

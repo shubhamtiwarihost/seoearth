@@ -99,6 +99,20 @@ Compatibility\Conflicts   detects other SEO plugins that print social tags (vers
 
 User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
 
+## WooCommerce
+
+```
+WooCommerce\WooModule   should_load(): class_exists( 'WooCommerce' ) at plugins_loaded; only filters, never touches WooCommerce data
+                         seoearth_robots_directives / seoearth_sitemap_excluded_posts → cart, checkout, account hidden
+                         seoearth_og_is_article + seoearth_social_tags → og:type product, product:price:*, product:availability
+                         seoearth_schema_article_type + seoearth_schema_webpage_type → no Article, ItemPage
+                         seoearth_breadcrumb_trail → Home › Shop › product_cat chain › product
+                         woocommerce_structured_data_breadcrumblist / _website → [] while SchemaModule::active()
+```
+
+- Tested against real WooCommerce: `npm run test:php:woo` runs the whole integration suite with WooCommerce loaded (wp-env installs the latest stable release); CI runs it on the latest-WordPress leg. PHPStan uses a small declaration file (`tests/phpstan-woocommerce-stubs.php`).
+- User guide: [docs/WOOCOMMERCE.md](docs/WOOCOMMERCE.md).
+
 ## Redirects
 
 ```
@@ -257,6 +271,9 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
+| `seoearth_robots_directives` (filter) | Add or remove robots directives for a page (canonical, schema and sitemap follow) |
+| `seoearth_sitemap_excluded_posts` (filter) | Extra post IDs to leave out of a post type's sitemap |
+| `seoearth_schema_webpage_type` (filter) | schema.org type of the WebPage node |
 | `seoearth_redirect` (filter) | Change or skip the redirect for a request path |
 | `seoearth_editor_post_types` (filter) | Post types with the sidebar/metabox |
 | `seoearth_analysis_rules`, `seoearth_readability_rules` (filters) | Add, replace or remove analysis rules |

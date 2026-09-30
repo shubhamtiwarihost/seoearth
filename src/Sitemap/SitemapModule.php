@@ -153,8 +153,16 @@ final class SitemapModule implements Module {
 		if ( ! is_array( $args ) ) {
 			return $args;
 		}
-		$post_type                = (string) $post_type;
-		$elsewhere                = $this->exclusions->posts_canonicalised_elsewhere( $post_type );
+		$post_type = (string) $post_type;
+
+		/**
+		 * Filters extra post IDs to leave out of a post type's sitemap (e.g. shop cart and checkout pages).
+		 *
+		 * @param mixed  $ids       Post IDs. Non-numeric entries are ignored.
+		 * @param string $post_type Post type.
+		 */
+		$extra                    = array_filter( array_map( 'intval', (array) apply_filters( 'seoearth_sitemap_excluded_posts', array(), $post_type ) ) );
+		$elsewhere                = array_merge( $this->exclusions->posts_canonicalised_elsewhere( $post_type ), $extra );
 		$args[ self::QUERY_FLAG ] = true;
 
 		// Core lists password-protected posts; their content is hidden, so leave them out.
