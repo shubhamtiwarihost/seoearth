@@ -56,6 +56,8 @@ If another SEO plugin is active, SEOEarth stops printing social tags and structu
 
 = Source code and build tools =
 
+The development repository, with the full source code and history, is https://github.com/shubhamtiwarihost/seoearth
+
 All PHP, CSS and the Classic Editor/settings JavaScript are shipped as written. The block editor sidebar and the Breadcrumbs block are compiled; their original, human-readable source is included in the plugin in `assets-src/`, and the compiled files are in `build/`.
 
 To rebuild `build/` from `assets-src/`: install Node.js 20 or newer, then run `npm install` and `npm run build` in the plugin folder. The build uses the official WordPress tooling, `@wordpress/scripts` (see `package.json` for the exact commands and versions, and `babel.config.js`, which compiles JSX so the scripts also run on WordPress 6.4).

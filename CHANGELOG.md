@@ -8,6 +8,7 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Plugin Check: removed a redundant `suppress_filters` and a `post__not_in` query.
 
 ### Added
+- Source repository published at https://github.com/shubhamtiwarihost/seoearth and linked from readme.txt.
 - Official PHP support 7.4, 8.0, 8.1, 8.2 and 8.3 (minimum unchanged); CI unit matrix covers all five, and `bin/test-integration-php.sh` runs the integration suite on any of them (CI runs it on PHP 7.4). readme.txt FAQ lists the supported versions.
 - WordPress.org preparation: original JavaScript source (`assets-src/`) and build definition (`package.json`, `babel.config.js`) shipped in the ZIP with build instructions in readme.txt (guideline 4); five screenshots of SEOEarth's own UI in `.wordpress-org/` (not in the ZIP); name/trademark research notes (docs/NAME-AND-TRADEMARK.md, not legal advice). Plugin URI header removed until the directory page exists; Contributors set to the owner's WordPress.org username (shubhamtiwarihost).
 - Release readiness: complete readme.txt (description, FAQ, privacy), translation template `languages/seoearth.pot`, version check covers composer.json, build config files excluded from the ZIP.
