@@ -1,5 +1,5 @@
 === SEOEarth ===
-Contributors: REPLACE-WITH-WPORG-USERNAME
+Contributors: shubhamtiwarihost
 Tags: seo, xml sitemap, schema, open graph, breadcrumbs
 Requires at least: 6.4
 Tested up to: 7.1
