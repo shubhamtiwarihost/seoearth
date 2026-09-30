@@ -35,7 +35,14 @@ final class UninstallTest extends WP_UnitTestCase {
 	}
 
 	public function test_opt_in_removes_data_and_keeps_content(): void {
-		$post_id = self::factory()->post->create( array( 'post_title' => 'Keep me' ) );
+		$post_id  = self::factory()->post->create( array( 'post_title' => 'Keep me' ) );
+		$redirect = self::factory()->post->create(
+			array(
+				'post_type'  => 'seoearth_redirect',
+				'post_title' => '/old',
+			)
+		);
+		update_option( 'seoearth_redirect_index', array( '/old' => array() ) );
 		update_option( Settings::OPTION, array( 'remove_data_on_uninstall' => true ) );
 		update_option( Migrator::VERSION_OPTION, '0.1.0' );
 
@@ -43,6 +50,8 @@ final class UninstallTest extends WP_UnitTestCase {
 
 		$this->assertFalse( get_option( Settings::OPTION ) );
 		$this->assertFalse( get_option( Migrator::VERSION_OPTION ) );
+		$this->assertNull( get_post( $redirect ), 'Redirects are SEOEarth data.' );
+		$this->assertFalse( get_option( 'seoearth_redirect_index' ) );
 		$this->assertSame( 'Keep me', get_the_title( $post_id ), 'Uninstall must never delete content.' );
 	}
 

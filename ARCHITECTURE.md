@@ -99,6 +99,21 @@ Compatibility\Conflicts   detects other SEO plugins that print social tags (vers
 
 User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
 
+## Redirects
+
+```
+Redirects\Paths            pure: source/target normalisation, protected paths, loop detection (unit-tested)
+Redirects\Store            CPT seoearth_redirect (every cap = manage_options, not public, not in REST); index option
+Redirects\RedirectsModule  parse_request (priority 1, GET/HEAD, not REST/AJAX/cron) → wp_redirect or 410 (404 template)
+Redirects\AdminScreen      edit box, list columns, validation in wp_insert_post_data (invalid → draft + notice)
+```
+
+- **Fast path:** `seoearth_redirect_index` (source => id/target/type) is rebuilt on every change and autoloaded up to 500 redirects, so matching adds no query; above 500 it loads on demand (1 query, object-cached). It always exists (created on install, self-healing if lost) because a missing option costs a query per request.
+- The index is maintained from `RedirectsModule` (loaded in every context), not the admin screen: `save_post`/`trashed_post`/`untrashed_post`/`deleted_post` mark it stale; it is rebuilt once at shutdown, or on the next read. So WP-CLI, imports and code keep it current. The rebuild re-validates sources and targets, because only the admin screen validates on save.
+- Matching happens before WordPress runs the main query, so redirected requests skip content queries entirely.
+- Title = normalised source path, read raw (`get_post_field`), never through display filters.
+- User guide: [docs/REDIRECTS.md](docs/REDIRECTS.md).
+
 ## Image SEO
 
 ```
@@ -242,6 +257,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
+| `seoearth_redirect` (filter) | Change or skip the redirect for a request path |
 | `seoearth_editor_post_types` (filter) | Post types with the sidebar/metabox |
 | `seoearth_analysis_rules`, `seoearth_readability_rules` (filters) | Add, replace or remove analysis rules |
 | `seoearth_transition_words`, `seoearth_content_locale` (filters) | Readability word list; content language per post |

@@ -9,7 +9,8 @@
  *   deleted": the settings option, the data version marker, and the SEO
  *   fields saved on posts and terms (_seoearth_title, _seoearth_description,
  *   _seoearth_canonical, _seoearth_robots, _seoearth_social_title,
- *   _seoearth_social_description, _seoearth_social_image).
+ *   _seoearth_social_description, _seoearth_social_image, _seoearth_focus_keyphrase),
+ *   and all redirects (seoearth_redirect posts and the seoearth_redirect_index option).
  *
  * When the box is not ticked, settings and the version marker are kept so that
  * reinstalling restores the configuration and upgrades it correctly.
@@ -36,6 +37,19 @@ $seoearth_uninstall_site = static function () {
 	delete_option( 'seoearth_db_version' );
 
 	// Per-post and per-term SEO fields. delete_all removes the key from every object in one query.
+	delete_option( 'seoearth_redirect_index' );
+	$seoearth_redirects = get_posts(
+		array(
+			'post_type'      => 'seoearth_redirect',
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		)
+	);
+	foreach ( $seoearth_redirects as $seoearth_redirect ) {
+		wp_delete_post( (int) $seoearth_redirect, true );
+	}
+
 	foreach ( array( '_seoearth_title', '_seoearth_description', '_seoearth_canonical', '_seoearth_robots', '_seoearth_social_title', '_seoearth_social_description', '_seoearth_social_image', '_seoearth_focus_keyphrase' ) as $meta_key ) {
 		delete_metadata( 'post', 0, $meta_key, '', true );
 		delete_metadata( 'term', 0, $meta_key, '', true );

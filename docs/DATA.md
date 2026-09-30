@@ -8,6 +8,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 |---|---|---|---|---|
 | `seoearth_settings` | yes | Site-wide settings (see table below) | First time settings are saved | Only if "Remove all SEOEarth data" is ticked |
 | `seoearth_db_version` | yes | Data version string, e.g. `0.1.0` | First request after activation | Only if "Remove all SEOEarth data" is ticked (kept otherwise so a reinstall upgrades correctly) |
+| `seoearth_redirect_index` | yes (up to 500 redirects) | Active redirects: source path => post ID, target, type. Rebuilt from the redirect posts on every change | Install, and whenever a redirect changes | Only if "Remove all SEOEarth data" is ticked |
 | `seoearth_migration_lock` | no | Unix timestamp; exists only while an upgrade runs | During upgrades | Always |
 
 ### `seoearth_settings` keys
@@ -26,6 +27,10 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `breadcrumbs_home` | plain text | empty ("Home") |
 | `breadcrumbs_separator` | plain text | `›` |
 | `remove_data_on_uninstall` | boolean | `false` |
+
+## Redirect posts
+
+Redirects are posts of type `seoearth_redirect` (title = old path, `_seoearth_redirect_target` and `_seoearth_redirect_type` meta; published = active, draft = inactive). Only administrators can see or change them; they are not public and not available over the REST API. Deleted on uninstall only if "Remove all SEOEarth data" is ticked.
 
 ## Personal data
 None. SEOEarth does not store information about visitors or users, sets no cookies, and makes no outbound HTTP requests.

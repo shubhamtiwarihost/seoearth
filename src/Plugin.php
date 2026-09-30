@@ -20,6 +20,9 @@ use SEOEarth\Breadcrumbs\Trail;
 use SEOEarth\Compatibility\Conflicts;
 use SEOEarth\Frontend\CurrentPage;
 use SEOEarth\Frontend\HeadModule;
+use SEOEarth\Redirects\AdminScreen as RedirectsAdmin;
+use SEOEarth\Redirects\RedirectsModule;
+use SEOEarth\Redirects\Store as RedirectStore;
 use SEOEarth\Images\ImagesModule;
 use SEOEarth\Meta\Canonical;
 use SEOEarth\Meta\MetaModule;
@@ -212,6 +215,24 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			RedirectStore::class,
+			static function () {
+				return new RedirectStore();
+			}
+		);
+		$container->set(
+			RedirectsModule::class,
+			static function ( Container $c ) {
+				return new RedirectsModule( $c->get( RedirectStore::class ) );
+			}
+		);
+		$container->set(
+			RedirectsAdmin::class,
+			static function ( Container $c ) {
+				return new RedirectsAdmin( $c->get( Context::class ), $c->get( RedirectStore::class ) );
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -335,6 +356,8 @@ final class Plugin {
 			'analysis'      => $this->container->get( AnalysisModule::class ),
 			'breadcrumbs'   => $this->container->get( BreadcrumbsModule::class ),
 			'images'        => $this->container->get( ImagesModule::class ),
+			'redirects'     => $this->container->get( RedirectsModule::class ),
+			'redirects_ui'  => $this->container->get( RedirectsAdmin::class ),
 		);
 	}
 
