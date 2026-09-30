@@ -48,7 +48,7 @@ The text is analysed as stored in the editor. Content produced at display time (
 | `post_id` | yes | Post to analyse |
 | `keyphrase`, `title`, `excerpt`, `content`, `slug`, `seo_title`, `seo_description` | no | Unsaved editor values; saved values are used for anything left out |
 
-Response: `{ "seo": report, "readability": report }`, where each report is `{ "status": "error|warning|pass", "counts": { "error": n, "warning": n, "info": n, "pass": n }, "results": [ … ] }`. Results are ordered worst first, then by severity. `status` is the worst non-info status. Readability checks: [READABILITY.md](READABILITY.md).
+Response: `{ "seo": report, "readability": report, "preview": { "title": "…", "description": "…" } }` (preview = title and description exactly as they will be printed), where each report is `{ "status": "error|warning|pass", "counts": { "error": n, "warning": n, "info": n, "pass": n }, "results": [ … ] }`. Results are ordered worst first, then by severity. `status` is the worst non-info status. Readability checks: [READABILITY.md](READABILITY.md).
 
 The focus keyphrase is saved as post meta `_seoearth_focus_keyphrase` (REST `meta` field, same permissions as other SEO fields).
 

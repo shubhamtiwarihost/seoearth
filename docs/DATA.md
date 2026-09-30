@@ -43,4 +43,4 @@ Template settings (`title_*` / `desc_*` keys) and page-type indexing switches (`
 | `_seoearth_social_image` | posts (any type), terms | Social sharing image URL, absolute http(s) only | same | same |
 | `_seoearth_focus_keyphrase` | posts (any type), terms | Focus keyphrase for the SEO analysis, plain text | same | same |
 
-Keys start with `_`, so they are hidden from the Custom Fields box. They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.
+Keys start with `_`, so they are hidden from the Custom Fields box. Because core only exposes registered post meta over REST for post types that support "custom-fields", SEOEarth adds that support to the post types it edits (this adds no data). They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.

@@ -10,6 +10,8 @@ namespace SEOEarth;
 use SEOEarth\Analysis\AnalysisModule;
 use SEOEarth\Analysis\Engine;
 use SEOEarth\Analysis\InputFactory;
+use SEOEarth\Admin\EditorModule;
+use SEOEarth\Admin\Metabox;
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
 use SEOEarth\Breadcrumbs\Trail;
@@ -201,6 +203,18 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			EditorModule::class,
+			static function () {
+				return new EditorModule();
+			}
+		);
+		$container->set(
+			Metabox::class,
+			static function ( Container $c ) {
+				return new Metabox( $c->get( Context::class ) );
+			}
+		);
+		$container->set(
 			TermFields::class,
 			static function ( Container $c ) {
 				return new TermFields( $c->get( Context::class ) );
@@ -297,6 +311,8 @@ final class Plugin {
 			'meta'          => $this->container->get( MetaModule::class ),
 			'settings_page' => $this->container->get( SettingsPage::class ),
 			'term_fields'   => $this->container->get( TermFields::class ),
+			'editor'        => $this->container->get( EditorModule::class ),
+			'metabox'       => $this->container->get( Metabox::class ),
 			'head'          => $this->container->get( HeadModule::class ),
 			'sitemap'       => $this->container->get( SitemapModule::class ),
 			'social'        => $this->container->get( SocialModule::class ),

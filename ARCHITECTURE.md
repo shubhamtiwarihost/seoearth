@@ -71,6 +71,23 @@ Helpers\Text::sanitize_line    sanitize_text_field() that keeps %%variables%% in
 - User guides: [docs/TEMPLATES.md](docs/TEMPLATES.md), [docs/INDEXING.md](docs/INDEXING.md).
 - Robots only ever adds restrictions; core's own noindex (blog not public) is never removed. No canonical is printed on noindex pages.
 
+## Editor UI
+
+```
+Admin\PostTypes       post types that get SEO controls (public + show_ui, not attachment; seoearth_editor_post_types)
+Admin\EditorModule    enqueue_block_editor_assets → build/editor (sidebar); adds "custom-fields" support at init:99
+Admin\Metabox         Classic Editor box (only when the block editor is not used for that post); nonce + edit_post
+Admin\SeoForm         shared field names + form → meta rules (used by Metabox and TermFields)
+assets-src/editor/    sidebar: hooks.js (meta via core/editor, debounced analysis), components.js, sidebar.js, utils.js (Jest-tested)
+assets/js/metabox.js  Classic Editor script (no build step); renders with textContent only
+```
+
+- Both UIs save through the normal paths: the sidebar edits post meta (saved by core over REST, with the meta auth callbacks), the metabox saves on `save_post`. Neither saves anything by itself.
+- The search preview shows `preview.title` / `preview.description` from the analysis endpoint, so the editor never re-implements the template engine.
+- `babel.config.js` compiles JSX with the classic runtime (`createElement` from `@wordpress/element`); the default automatic runtime would require the `react-jsx-runtime` script, which WordPress only ships from 6.6. `.eslintrc.js` sets the matching pragma.
+- Status is never shown by color alone: every result has a symbol and a word (Problem / Improvement / Note / Good).
+- User guide: [docs/EDITOR.md](docs/EDITOR.md).
+
 ## Social tags
 
 ```
@@ -197,6 +214,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
+| `seoearth_editor_post_types` (filter) | Post types with the sidebar/metabox |
 | `seoearth_analysis_rules`, `seoearth_readability_rules` (filters) | Add, replace or remove analysis rules |
 | `seoearth_transition_words`, `seoearth_content_locale` (filters) | Readability word list; content language per post |
 | `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail |

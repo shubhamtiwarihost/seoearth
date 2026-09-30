@@ -124,6 +124,15 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 
 		$this->assertSame( 'pass', $results['keyphrase_in_title']['status'] );
 		$this->assertSame( 'pass', $results['keyphrase_in_description']['status'], '%%title%% uses the unsaved post title.' );
+		$preview = $this->request(
+			array(
+				'post_id'   => $post,
+				'seo_title' => 'Trail shoes %%separator%% %%site_name%%',
+				'title'     => 'Trail shoes guide',
+			)
+		)->get_data()['preview'];
+		$this->assertSame( 'Trail shoes – Acme', $preview['title'] );
+		$this->assertSame( get_post( $post )->post_excerpt, $preview['description'], 'Default %%excerpt%% template uses the saved excerpt.' );
 		$this->assertSame( 'pass', $results['keyphrase_in_intro']['status'] );
 		$this->assertSame( 'pass', $results['internal_links']['status'] );
 		$this->assertSame( 'Old', get_post( $post )->post_title, 'Nothing is saved.' );
@@ -169,7 +178,7 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 		$post = self::factory()->post->create( array( 'post_content' => str_repeat( '<p>The cat sat on the mat. However, it was a big cat.</p>', 20 ) ) );
 
 		$data = $this->request( array( 'post_id' => $post ) )->get_data();
-		$this->assertSame( array( 'seo', 'readability' ), array_keys( $data ) );
+		$this->assertSame( array( 'seo', 'readability', 'preview' ), array_keys( $data ) );
 		$readability = array_column( $data['readability']['results'], null, 'id' );
 		$this->assertSame( 'pass', $readability['reading_ease']['status'] );
 		$this->assertSame( 'pass', $readability['transition_words']['status'] );

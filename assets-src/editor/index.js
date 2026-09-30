@@ -1,8 +1,9 @@
 /**
- * SEOEarth editor entry point.
- *
- * The SEO sidebar is implemented in Phase 13. This file exists so the build
- * pipeline, linting and asset manifest (index.asset.php) work from Phase 1.
+ * SEOEarth block editor entry point: registers the sidebar.
  */
+import { registerPlugin } from '@wordpress/plugins';
 
-export const SEOEARTH_EDITOR_READY = true;
+import Sidebar from './sidebar';
+import './editor.scss';
+
+registerPlugin( 'seoearth', { render: Sidebar } );

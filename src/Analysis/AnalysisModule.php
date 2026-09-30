@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * `POST /seoearth/v1/analysis` — analyses a post, optionally with unsaved
- * editor values, and returns two reports: `seo` and `readability`.
+ * editor values, and returns two reports (`seo`, `readability`) plus the
+ * rendered title and description for the search preview (`preview`).
  * Read-only: nothing is saved.
  * Requires permission to edit that post.
  */
@@ -140,6 +141,10 @@ final class AnalysisModule implements Module {
 			array(
 				'seo'         => $this->seo->run( $input ),
 				'readability' => $this->readability->run( $input ),
+				'preview'     => array(
+					'title'       => $input->title,
+					'description' => $input->description,
+				),
 			)
 		);
 	}

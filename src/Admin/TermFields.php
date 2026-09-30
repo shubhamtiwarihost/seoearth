@@ -8,7 +8,6 @@
 namespace SEOEarth\Admin;
 
 use SEOEarth\Context;
-use SEOEarth\Helpers\Text;
 use SEOEarth\Meta\Keys;
 use SEOEarth\Meta\Robots;
 use SEOEarth\Module;
@@ -25,19 +24,14 @@ defined( 'ABSPATH' ) || exit;
 final class TermFields implements Module {
 
 	public const NONCE_FIELD        = 'seoearth_term_nonce';
-	public const TITLE_FIELD        = 'seoearth_title';
-	public const DESC_FIELD         = 'seoearth_description';
-	public const CANON_FIELD        = 'seoearth_canonical';
-	public const INDEX_FIELD        = 'seoearth_robots_index';
-	public const ROBOT_FIELD        = 'seoearth_robots';
-	public const SOCIAL_TITLE_FIELD = 'seoearth_social_title';
-	public const SOCIAL_DESC_FIELD  = 'seoearth_social_description';
-	public const SOCIAL_IMAGE_FIELD = 'seoearth_social_image';
-
-	/**
-	 * Extra robots directives offered as checkboxes.
-	 */
-	private const EXTRA_DIRECTIVES = array( 'nofollow', 'noarchive', 'nosnippet', 'noimageindex' );
+	public const TITLE_FIELD        = SeoForm::TITLE_FIELD;
+	public const DESC_FIELD         = SeoForm::DESC_FIELD;
+	public const CANON_FIELD        = SeoForm::CANON_FIELD;
+	public const INDEX_FIELD        = SeoForm::INDEX_FIELD;
+	public const ROBOT_FIELD        = SeoForm::ROBOT_FIELD;
+	public const SOCIAL_TITLE_FIELD = SeoForm::SOCIAL_TITLE_FIELD;
+	public const SOCIAL_DESC_FIELD  = SeoForm::SOCIAL_DESC_FIELD;
+	public const SOCIAL_IMAGE_FIELD = SeoForm::SOCIAL_IMAGE_FIELD;
 
 	/**
 	 * Request context.
@@ -115,12 +109,7 @@ final class TermFields implements Module {
 		);
 		$robots      = Robots::parse( get_term_meta( $term->term_id, Keys::ROBOTS, true ) );
 		$index       = in_array( 'noindex', $robots, true ) ? 'noindex' : ( in_array( 'index', $robots, true ) ? 'index' : '' );
-		$directives  = array(
-			'nofollow'     => __( 'Do not follow links (nofollow)', 'seoearth' ),
-			'noarchive'    => __( 'Do not show a cached copy (noarchive)', 'seoearth' ),
-			'nosnippet'    => __( 'Do not show a text snippet (nosnippet)', 'seoearth' ),
-			'noimageindex' => __( 'Do not index images (noimageindex)', 'seoearth' ),
-		);
+		$directives  = SeoForm::directive_labels();
 
 		wp_nonce_field( $this->nonce_action( $term->term_id ), self::NONCE_FIELD );
 		?>
@@ -207,50 +196,17 @@ final class TermFields implements Module {
 			return;
 		}
 
-		$fields = array(
-			self::TITLE_FIELD        => Keys::TITLE,
-			self::DESC_FIELD         => Keys::DESCRIPTION,
-			self::SOCIAL_TITLE_FIELD => Keys::SOCIAL_TITLE,
-			self::SOCIAL_DESC_FIELD  => Keys::SOCIAL_DESCRIPTION,
-		);
-		foreach ( $fields as $input => $meta_key ) {
-			$value = isset( $_POST[ $input ] ) && is_string( $_POST[ $input ] ) ? Text::sanitize_line( wp_unslash( $_POST[ $input ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by Text::sanitize_line() (sanitize_text_field() with %%variables%% preserved).
-			if ( '' === $value ) {
-				delete_term_meta( $term_id, $meta_key );
-			} else {
-				update_term_meta( $term_id, $meta_key, $value );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Each field is validated and sanitized in SeoForm::values().
+		$values = SeoForm::values( wp_unslash( $_POST ), false );
+		SeoForm::apply(
+			$values,
+			static function ( string $key, string $value ) use ( $term_id ): void {
+				update_term_meta( $term_id, $key, wp_slash( $value ) );
+			},
+			static function ( string $key ) use ( $term_id ): void {
+				delete_term_meta( $term_id, $key );
 			}
-		}
-
-		// URLs: an invalid value keeps the previous one instead of silently clearing it.
-		$urls = array(
-			self::CANON_FIELD        => Keys::CANONICAL,
-			self::SOCIAL_IMAGE_FIELD => Keys::SOCIAL_IMAGE,
 		);
-		foreach ( $urls as $input => $meta_key ) {
-			$url = isset( $_POST[ $input ] ) ? Text::http_url( wp_unslash( $_POST[ $input ] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated and sanitized by Text::http_url() (esc_url_raw, http/https only).
-			if ( '' === $url ) {
-				delete_term_meta( $term_id, $meta_key );
-			} elseif ( null !== $url ) {
-				update_term_meta( $term_id, $meta_key, $url );
-			}
-		}
-
-		// Robots: index choice + extra directives, reduced to the allowlist.
-		$tokens = array();
-		if ( isset( $_POST[ self::INDEX_FIELD ] ) && is_string( $_POST[ self::INDEX_FIELD ] ) ) {
-			$tokens[] = sanitize_key( wp_unslash( $_POST[ self::INDEX_FIELD ] ) );
-		}
-		if ( isset( $_POST[ self::ROBOT_FIELD ] ) && is_array( $_POST[ self::ROBOT_FIELD ] ) ) {
-			$extra  = array_map( 'sanitize_key', wp_unslash( $_POST[ self::ROBOT_FIELD ] ) );
-			$tokens = array_merge( $tokens, array_intersect( $extra, self::EXTRA_DIRECTIVES ) );
-		}
-		$robots = Robots::sanitize( $tokens );
-		if ( '' === $robots ) {
-			delete_term_meta( $term_id, Keys::ROBOTS );
-		} else {
-			update_term_meta( $term_id, Keys::ROBOTS, $robots );
-		}
 	}
 
 	/**
