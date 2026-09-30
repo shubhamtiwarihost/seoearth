@@ -22,6 +22,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `twitter_site` | X/Twitter handle without `@` | empty |
 | `sitemap_enabled` / `sitemap_images` / `sitemap_users` | boolean | `true` |
 | `social_og_enabled` / `social_twitter_enabled` | boolean | `true` |
+| `schema_enabled` | boolean | `true` |
 | `remove_data_on_uninstall` | boolean | `false` |
 
 ## Personal data

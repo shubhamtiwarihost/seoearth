@@ -82,6 +82,21 @@ Compatibility\Conflicts   detects other SEO plugins that print social tags (vers
 
 User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
 
+## Structured data (JSON-LD)
+
+```
+SchemaModule       prints one <script type="application/ld+json"> at wp_head priority 20; conflict step-aside; settings notice
+Graph              builds SchemaContext once, runs every Piece, filters, drops empty values and dangling @id references
+SchemaContext      shared plain values (canonical, title, description, publisher, image, trail) and every node's @id
+Piece              interface: is_needed( SchemaContext ) / generate( SchemaContext ) → nodes
+Pieces/            Publisher (Organization|Person), WebSite, WebPage, PrimaryImage, BreadcrumbList, Article (+ author Person)
+Breadcrumbs\Trail  home → parents → current page; shared with the visible breadcrumbs feature
+```
+
+- Pieces never call each other; they reference nodes by `@id` from SchemaContext. If a piece is removed, Graph removes references to it.
+- JSON is encoded with `JSON_HEX_TAG|AMP|APOS|QUOT`, so no value can close the script element.
+- User guide and measurements: [docs/SCHEMA.md](docs/SCHEMA.md).
+
 ## XML sitemap
 
 ```
@@ -160,6 +175,8 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_canonical` (filter) | Change or remove the canonical URL |
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
+| `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
+| `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail |
 | `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |

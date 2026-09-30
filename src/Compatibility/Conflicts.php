@@ -10,8 +10,8 @@ namespace SEOEarth\Compatibility;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Detects active plugins known to print Open Graph / X Card tags, so SEOEarth
- * can step aside instead of printing a second set.
+ * Detects active plugins known to print Open Graph / X Card tags or schema.org
+ * JSON-LD, so SEOEarth can step aside instead of printing a second set.
  *
  * Detection uses each plugin's public version constant. Only
  * the name is shown to the site owner, on the SEOEarth settings screen.
@@ -20,8 +20,9 @@ class Conflicts {
 
 	/**
 	 * Display names keyed by the version constant that proves the plugin is active.
+	 * Every plugin listed prints both social tags and a JSON-LD graph.
 	 */
-	private const SOCIAL = array(
+	private const SEO_PLUGINS = array(
 		'WPSEO_VERSION'             => 'Yoast SEO',
 		'RANK_MATH_VERSION'         => 'Rank Math',
 		'AIOSEO_VERSION'            => 'All in One SEO',
@@ -34,20 +35,37 @@ class Conflicts {
 	 * Name of an active plugin that prints social tags, or '' when none.
 	 */
 	public function social_plugin(): string {
-		$found = '';
-		foreach ( self::SOCIAL as $marker => $name ) {
-			if ( defined( $marker ) ) {
-				$found = $name;
-				break;
-			}
-		}
-
 		/**
 		 * Filters the detected conflicting social-tag plugin. Return '' to force SEOEarth's tags on.
 		 *
 		 * @param mixed $found Plugin name, or ''. Non-strings are treated as ''.
 		 */
-		$found = apply_filters( 'seoearth_social_conflict', $found );
+		$found = apply_filters( 'seoearth_social_conflict', $this->active_seo_plugin() );
 		return is_string( $found ) ? $found : '';
+	}
+
+	/**
+	 * Name of an active plugin that prints schema.org JSON-LD, or '' when none.
+	 */
+	public function schema_plugin(): string {
+		/**
+		 * Filters the detected conflicting structured-data plugin. Return '' to force SEOEarth's schema on.
+		 *
+		 * @param mixed $found Plugin name, or ''. Non-strings are treated as ''.
+		 */
+		$found = apply_filters( 'seoearth_schema_conflict', $this->active_seo_plugin() );
+		return is_string( $found ) ? $found : '';
+	}
+
+	/**
+	 * Name of the first known SEO plugin that is active, or ''.
+	 */
+	private function active_seo_plugin(): string {
+		foreach ( self::SEO_PLUGINS as $marker => $name ) {
+			if ( defined( $marker ) ) {
+				return $name;
+			}
+		}
+		return '';
 	}
 }

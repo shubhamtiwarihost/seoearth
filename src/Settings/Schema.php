@@ -54,6 +54,7 @@ class Schema {
 			'general'  => __( 'Site identity', 'seoearth' ),
 			'sitemap'  => __( 'XML sitemap', 'seoearth' ),
 			'social'   => __( 'Social sharing', 'seoearth' ),
+			'schema'   => __( 'Structured data', 'seoearth' ),
 			'advanced' => __( 'Advanced', 'seoearth' ),
 		);
 
@@ -176,6 +177,14 @@ class Schema {
 				'',
 				__( 'X (Twitter) username', 'seoearth' ),
 				__( 'Without the @. Letters, numbers and underscores, up to 15 characters.', 'seoearth' )
+			),
+			new Field(
+				'schema_enabled',
+				'schema',
+				Field::TYPE_BOOL,
+				true,
+				__( 'Add structured data (schema.org)', 'seoearth' ),
+				__( 'Describes your site, pages, articles, authors and breadcrumbs to search engines in one JSON-LD block. Uses the “Site identity” settings above.', 'seoearth' )
 			),
 			new Field(
 				'remove_data_on_uninstall',

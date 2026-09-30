@@ -9,6 +9,7 @@ namespace SEOEarth;
 
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
+use SEOEarth\Breadcrumbs\Trail;
 use SEOEarth\Compatibility\Conflicts;
 use SEOEarth\Frontend\CurrentPage;
 use SEOEarth\Frontend\HeadModule;
@@ -21,6 +22,8 @@ use SEOEarth\Meta\SearchAppearanceFields;
 use SEOEarth\Meta\VariableValues;
 use SEOEarth\Migrations\Migrator;
 use SEOEarth\Migrations\Registry;
+use SEOEarth\Schema\Graph;
+use SEOEarth\Schema\SchemaModule;
 use SEOEarth\Settings\Sanitizer;
 use SEOEarth\Settings\Schema;
 use SEOEarth\Settings\Settings;
@@ -172,6 +175,17 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			SchemaModule::class,
+			static function ( Container $c ) {
+				return new SchemaModule(
+					$c->get( Settings::class ),
+					$c->get( CurrentPage::class ),
+					new Graph( $c->get( Settings::class ), new Trail() ),
+					new Conflicts()
+				);
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -277,6 +291,7 @@ final class Plugin {
 			'head'          => $this->container->get( HeadModule::class ),
 			'sitemap'       => $this->container->get( SitemapModule::class ),
 			'social'        => $this->container->get( SocialModule::class ),
+			'schema'        => $this->container->get( SchemaModule::class ),
 		);
 	}
 

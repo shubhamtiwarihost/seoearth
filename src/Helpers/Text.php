@@ -38,6 +38,15 @@ final class Text {
 	}
 
 	/**
+	 * Plain text for output: entities decoded, tags stripped, trimmed.
+	 *
+	 * @param string $text Text.
+	 */
+	public static function plain( string $text ): string {
+		return trim( wp_strip_all_tags( html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+	}
+
+	/**
 	 * Empty string, or an absolute http(s) URL with a host. Returns null for
 	 * anything else (javascript:, data:, relative, protocol-relative, ftp:).
 	 *
