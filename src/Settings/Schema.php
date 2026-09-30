@@ -56,6 +56,7 @@ class Schema {
 			'social'   => __( 'Social sharing', 'seoearth' ),
 			'schema'   => __( 'Structured data', 'seoearth' ),
 			'crumbs'   => __( 'Breadcrumbs', 'seoearth' ),
+			'images'   => __( 'Images', 'seoearth' ),
 			'advanced' => __( 'Advanced', 'seoearth' ),
 		);
 
@@ -118,7 +119,7 @@ class Schema {
 			new Field(
 				'organization_logo',
 				'general',
-				Field::TYPE_URL,
+				Field::TYPE_IMAGE_URL,
 				'',
 				__( 'Logo URL', 'seoearth' ),
 				__( 'A square image of at least 112 × 112 pixels works best.', 'seoearth' )
@@ -166,7 +167,7 @@ class Schema {
 			new Field(
 				'default_social_image',
 				'social',
-				Field::TYPE_URL,
+				Field::TYPE_IMAGE_URL,
 				'',
 				__( 'Default sharing image URL', 'seoearth' ),
 				__( 'Used when a page has no featured image. 1200 × 630 pixels is recommended.', 'seoearth' )

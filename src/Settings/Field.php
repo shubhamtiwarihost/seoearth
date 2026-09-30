@@ -20,6 +20,7 @@ final class Field {
 	public const TYPE_ENUM           = 'enum';
 	public const TYPE_TWITTER_HANDLE = 'twitter_handle';
 	public const TYPE_TEMPLATE       = 'template';
+	public const TYPE_IMAGE_URL      = 'image_url'; // Stored and validated like TYPE_URL; the settings screen adds a media library picker.
 
 	/**
 	 * Storage key inside the settings array.

@@ -20,6 +20,7 @@ use SEOEarth\Breadcrumbs\Trail;
 use SEOEarth\Compatibility\Conflicts;
 use SEOEarth\Frontend\CurrentPage;
 use SEOEarth\Frontend\HeadModule;
+use SEOEarth\Images\ImagesModule;
 use SEOEarth\Meta\Canonical;
 use SEOEarth\Meta\MetaModule;
 use SEOEarth\Meta\Resolver;
@@ -205,6 +206,12 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			ImagesModule::class,
+			static function ( Container $c ) {
+				return new ImagesModule( $c->get( Context::class ) );
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -327,6 +334,7 @@ final class Plugin {
 			'schema'        => $this->container->get( SchemaModule::class ),
 			'analysis'      => $this->container->get( AnalysisModule::class ),
 			'breadcrumbs'   => $this->container->get( BreadcrumbsModule::class ),
+			'images'        => $this->container->get( ImagesModule::class ),
 		);
 	}
 

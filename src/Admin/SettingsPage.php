@@ -75,6 +75,7 @@ final class SettingsPage implements Module {
 	public function register(): void {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_filter( 'option_page_capability_' . self::GROUP, array( $this, 'capability' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( SEOEARTH_FILE ), array( $this, 'action_links' ) );
 	}
@@ -158,6 +159,20 @@ final class SettingsPage implements Module {
 			'dashicons-search',
 			80
 		);
+	}
+
+	/**
+	 * Media library picker for image fields, on the SEOEarth screen only.
+	 *
+	 * @param mixed $hook_suffix Admin page.
+	 */
+	public function enqueue( $hook_suffix ): void {
+		if ( 'toplevel_page_' . self::PAGE !== $hook_suffix || ! current_user_can( 'upload_files' ) ) {
+			return;
+		}
+		wp_enqueue_media();
+		wp_enqueue_script( 'seoearth-settings', SEOEARTH_URL . 'assets/js/settings.js', array( 'jquery', 'wp-i18n' ), SEOEARTH_VERSION, true );
+		wp_set_script_translations( 'seoearth-settings', 'seoearth', SEOEARTH_DIR . 'languages' );
 	}
 
 	/**
@@ -248,13 +263,21 @@ final class SettingsPage implements Module {
 			default:
 				printf(
 					'<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" class="%5$s"%6$s />',
-					Field::TYPE_URL === $field->type ? 'url' : 'text',
+					in_array( $field->type, array( Field::TYPE_URL, Field::TYPE_IMAGE_URL ), true ) ? 'url' : 'text',
 					esc_attr( $id ),
 					esc_attr( $name ),
 					esc_attr( (string) $value ),
 					Field::TYPE_TEMPLATE === $field->type ? 'large-text code' : 'regular-text',
 					$describedby // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built above with esc_attr().
 				);
+		}
+
+		if ( Field::TYPE_IMAGE_URL === $field->type && current_user_can( 'upload_files' ) ) {
+			printf(
+				' <button type="button" class="button seoearth-pick-image" data-target="%1$s" aria-controls="%1$s">%2$s</button>',
+				esc_attr( $id ),
+				esc_html__( 'Choose from media library', 'seoearth' )
+			);
 		}
 
 		if ( '' !== $description ) {

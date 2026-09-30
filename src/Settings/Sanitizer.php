@@ -119,6 +119,7 @@ class Sanitizer {
 				return array_key_exists( $value, $field->choices ) ? $value : null;
 
 			case Field::TYPE_URL:
+			case Field::TYPE_IMAGE_URL:
 				return Text::http_url( $value );
 
 			case Field::TYPE_TWITTER_HANDLE:

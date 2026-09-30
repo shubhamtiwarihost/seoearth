@@ -99,6 +99,19 @@ Compatibility\Conflicts   detects other SEO plugins that print social tags (vers
 
 User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
 
+## Image SEO
+
+```
+Images\ImagesModule   admin only: media list column + "missing alt" filter (pre_get_posts on the main attachment query),
+                       report in the "Images" settings section (one COUNT query, only on that screen)
+Field::TYPE_IMAGE_URL  stored/validated like TYPE_URL; the settings screen adds a wp.media picker (assets/js/settings.js),
+                       shown only to users with upload_files
+```
+
+- Read-only by design (requirement: never modify media without explicit action). The picker only fills a form field.
+- "Missing" = no `_wp_attachment_image_alt` row, or an empty one. Whitespace-only values are not detected (would need REGEXP).
+- User guide: [docs/IMAGES.md](docs/IMAGES.md).
+
 ## Breadcrumbs
 
 ```

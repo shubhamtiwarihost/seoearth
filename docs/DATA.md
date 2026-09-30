@@ -17,7 +17,7 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `separator` | one of `hyphen`, `ndash`, `mdash`, `pipe`, `middot`, `bullet`, `raquo` | `ndash` |
 | `site_represents` | `organization` or `person` | `organization` |
 | `organization_name` | plain text | empty (site title is used) |
-| `organization_logo` | http(s) URL | empty |
+| `organization_logo` | http(s) URL (media library picker on the settings screen) | empty |
 | `default_social_image` | http(s) URL | empty |
 | `twitter_site` | X/Twitter handle without `@` | empty |
 | `sitemap_enabled` / `sitemap_images` / `sitemap_users` | boolean | `true` |
