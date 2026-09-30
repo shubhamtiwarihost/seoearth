@@ -19,4 +19,6 @@ SEOEarth is GPL-2.0-or-later. This file lists every third-party component **ship
 | PHPStan, phpstan-wordpress, wordpress-stubs | MIT | Static analysis |
 | @wordpress/scripts, @wordpress/env, TypeScript | GPL-2.0+ / Apache-2.0 | Build, lint, test environment |
 
+The original source of both bundles (`assets-src/`) and the build definition (`package.json`, `babel.config.js`) are shipped in the ZIP, as WordPress.org guideline 4 requires for compiled code.
+
 Last audited: 2026-09-30 (Phase 16, release readiness): both bundles checked for license banners and third-party code — none; `assets/js/*.js` and `assets/css/*.css` are our own.

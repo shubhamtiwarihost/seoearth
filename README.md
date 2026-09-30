@@ -12,6 +12,7 @@ An original, privacy-respecting SEO plugin for WordPress: search appearance, sit
 - [Requirements](docs/REQUIREMENTS.md)
 - User guides: [titles & templates](docs/TEMPLATES.md), [indexing](docs/INDEXING.md), [sitemap](docs/SITEMAP.md), [social](docs/SOCIAL.md), [structured data](docs/SCHEMA.md), [SEO analysis](docs/ANALYSIS.md), [readability](docs/READABILITY.md), [editor](docs/EDITOR.md), [breadcrumbs](docs/BREADCRUMBS.md), [images](docs/IMAGES.md), [redirects](docs/REDIRECTS.md), [WooCommerce](docs/WOOCOMMERCE.md)
 - [Stored data](docs/DATA.md)
+- [Name and trademark notes](docs/NAME-AND-TRADEMARK.md) (not legal advice; open concern)
 - [Architecture](ARCHITECTURE.md)
 - [Development setup](DEVELOPMENT.md)
 - [Release checklist](RELEASE_CHECKLIST.md)

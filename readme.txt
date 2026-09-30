@@ -1,5 +1,5 @@
 === SEOEarth ===
-Contributors: seoearth
+Contributors: REPLACE-WITH-WPORG-USERNAME
 Tags: seo, xml sitemap, schema, open graph, breadcrumbs
 Requires at least: 6.4
 Tested up to: 7.1
@@ -54,6 +54,12 @@ SEOEarth helps search engines and social networks understand your site, and help
 
 If another SEO plugin is active, SEOEarth stops printing social tags and structured data and says so, so nothing is duplicated.
 
+= Source code and build tools =
+
+All PHP, CSS and the Classic Editor/settings JavaScript are shipped as written. The block editor sidebar and the Breadcrumbs block are compiled; their original, human-readable source is included in the plugin in `assets-src/`, and the compiled files are in `build/`.
+
+To rebuild `build/` from `assets-src/`: install Node.js 20 or newer, then run `npm install` and `npm run build` in the plugin folder. The build uses the official WordPress tooling, `@wordpress/scripts` (see `package.json` for the exact commands and versions, and `babel.config.js`, which compiles JSX so the scripts also run on WordPress 6.4).
+
 == Installation ==
 
 1. Install SEOEarth from the Plugins screen (search for "SEOEarth"), or upload the `seoearth` folder to `/wp-content/plugins/`.
@@ -86,6 +92,14 @@ Add the **Breadcrumbs** block to a template or post, use the `[seoearth_breadcru
 = What happens to my data if I delete the plugin? =
 
 By default your settings and SEO fields are kept, so reinstalling restores them. To remove everything, tick "Remove all SEOEarth data when the plugin is deleted" under SEOEarth → Advanced before deleting. Your posts and pages are never deleted.
+
+== Screenshots ==
+
+1. The SEOEarth sidebar in the block editor: search result preview, focus keyphrase, SEO title and meta description with length hints.
+2. SEO analysis results in the sidebar. Every finding says what was found and what to do, in words.
+3. SEOEarth settings: site identity, title separator and search appearance templates.
+4. Redirects: old and new addresses, redirect type and status.
+5. The media library lists images without alternative text.
 
 == Privacy ==
 

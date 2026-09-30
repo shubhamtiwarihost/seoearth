@@ -8,6 +8,7 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Plugin Check: removed a redundant `suppress_filters` and a `post__not_in` query.
 
 ### Added
+- WordPress.org preparation: original JavaScript source (`assets-src/`) and build definition (`package.json`, `babel.config.js`) shipped in the ZIP with build instructions in readme.txt (guideline 4); five screenshots of SEOEarth's own UI in `.wordpress-org/` (not in the ZIP); name/trademark research notes (docs/NAME-AND-TRADEMARK.md, not legal advice). Plugin URI header removed until the directory page exists; Contributors set to a clearly marked placeholder.
 - Release readiness: complete readme.txt (description, FAQ, privacy), translation template `languages/seoearth.pot`, version check covers composer.json, build config files excluded from the ZIP.
 - Service container with extension hook `seoearth_container`.
 - Request `Context` service.

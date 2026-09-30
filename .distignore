@@ -1,5 +1,6 @@
 /.git
 /.github
+/.wordpress-org
 /.claude
 /node_modules
 /vendor
@@ -7,17 +8,15 @@
 /bin
 /docs
 /dist
-/assets-src
 /.wp-env.json
 /.wp-env.override.json
 /.editorconfig
 /.gitignore
 /.distignore
-/babel.config.js
 /.eslintrc.js
+/assets-src/editor/test
 /composer.json
 /composer.lock
-/package.json
 /package-lock.json
 /phpcs.xml.dist
 /phpstan.neon.dist
