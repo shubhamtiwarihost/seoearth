@@ -1,0 +1,130 @@
+<?php
+/**
+ * SEO analysis REST endpoint.
+ *
+ * @package SEOEarth
+ */
+
+namespace SEOEarth\Analysis;
+
+use SEOEarth\Helpers\Text;
+use SEOEarth\Module;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * `POST /seoearth/v1/analysis` — analyses a post, optionally with unsaved
+ * editor values, and returns the rule results. Read-only: nothing is saved.
+ * Requires permission to edit that post.
+ */
+final class AnalysisModule implements Module {
+
+	public const REST_NAMESPACE = 'seoearth/v1';
+
+	/**
+	 * Input builder.
+	 *
+	 * @var InputFactory
+	 */
+	private $factory;
+
+	/**
+	 * Rule engine.
+	 *
+	 * @var Engine
+	 */
+	private $engine;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param InputFactory $factory Input builder.
+	 * @param Engine       $engine  Rule engine.
+	 */
+	public function __construct( InputFactory $factory, Engine $engine ) {
+		$this->factory = $factory;
+		$this->engine  = $engine;
+	}
+
+	/**
+	 * REST cannot be detected this early, so the route is always registered on rest_api_init.
+	 */
+	public function should_load(): bool {
+		return true;
+	}
+
+	/**
+	 * Registers hooks.
+	 */
+	public function register(): void {
+		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+	}
+
+	/**
+	 * Registers the route.
+	 */
+	public function register_routes(): void {
+		$args = array(
+			'post_id' => array(
+				'type'     => 'integer',
+				'required' => true,
+				'minimum'  => 1,
+			),
+		);
+		foreach ( InputFactory::OVERRIDES as $name ) {
+			$args[ $name ] = array(
+				'type'      => 'string',
+				'maxLength' => 'content' === $name ? 2000000 : 1000,
+			);
+		}
+
+		register_rest_route(
+			self::REST_NAMESPACE,
+			'/analysis',
+			array(
+				'methods'             => \WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'analyse' ),
+				'permission_callback' => array( $this, 'can_analyse' ),
+				'args'                => $args,
+			)
+		);
+	}
+
+	/**
+	 * Permission: the user must be able to edit the post.
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return true|\WP_Error
+	 */
+	public function can_analyse( \WP_REST_Request $request ) {
+		$post_id = (int) $request->get_param( 'post_id' );
+		if ( current_user_can( 'edit_post', $post_id ) ) {
+			return true;
+		}
+		return new \WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to analyse this content.', 'seoearth' ), array( 'status' => rest_authorization_required_code() ) );
+	}
+
+	/**
+	 * Runs the analysis.
+	 *
+	 * @param \WP_REST_Request $request Request.
+	 * @return \WP_REST_Response|\WP_Error
+	 */
+	public function analyse( \WP_REST_Request $request ) {
+		$post = get_post( (int) $request->get_param( 'post_id' ) );
+		if ( ! $post instanceof \WP_Post ) {
+			return new \WP_Error( 'rest_post_invalid_id', __( 'Invalid post ID.', 'seoearth' ), array( 'status' => 404 ) );
+		}
+
+		$overrides = array();
+		foreach ( InputFactory::OVERRIDES as $name ) {
+			$value = $request->get_param( $name );
+			if ( is_string( $value ) ) {
+				// Content stays HTML (only parsed, never printed or saved); everything else is plain text.
+				$overrides[ $name ] = 'content' === $name ? $value : Text::sanitize_line( $value );
+			}
+		}
+
+		return rest_ensure_response( $this->engine->run( $this->factory->for_post( $post, $overrides ) ) );
+	}
+}

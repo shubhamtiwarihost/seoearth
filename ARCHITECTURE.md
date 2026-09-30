@@ -97,6 +97,24 @@ Breadcrumbs\Trail  home → parents → current page; shared with the visible br
 - JSON is encoded with `JSON_HEX_TAG|AMP|APOS|QUOT`, so no value can close the script element.
 - User guide and measurements: [docs/SCHEMA.md](docs/SCHEMA.md).
 
+## SEO analysis
+
+```
+AnalysisModule     POST /seoearth/v1/analysis (rest_api_init only; edit_post permission; read-only)
+InputFactory       post + unsaved editor values → Input; titles/descriptions rendered by Resolver::resolve_custom
+                   exactly as on the frontend; noindex from Robots; one capped query for duplicate keyphrases
+Input              plain values + Keyphrase + Document; rules read only this
+Document           post HTML → text, word count, first paragraph, subheadings, h1 count, links, image alts (pure PHP)
+Keyphrase          case-insensitive whole-word matching; hyphens = spaces; curly quotes = straight; slug matching
+Engine             runs Rule objects (seoearth_analysis_rules), sorts worst-first, counts per status — no score
+Rules/             one class per check, each returning a Result {status, severity, message, recommendation, metadata}
+```
+
+- Rules are pure (no database, no globals), so they are unit-tested without WordPress and can be ported to JavaScript for live feedback in the editor. Until then, the editor phase calls the REST endpoint.
+- Analysis runs on the stored content (block markup), not on `the_content` output, to avoid running other plugins' filters on every keystroke. Dynamic blocks and shortcodes are therefore not expanded.
+- Measured: ~7,300-word post analysed in about 5 ms, 1 MB peak. Nothing is loaded on frontend requests except one `rest_api_init` hook.
+- User guide: [docs/ANALYSIS.md](docs/ANALYSIS.md).
+
 ## XML sitemap
 
 ```
@@ -176,6 +194,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
+| `seoearth_analysis_rules` (filter) | Add, replace or remove SEO analysis rules |
 | `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail |
 | `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |

@@ -65,6 +65,7 @@ final class MetaModule implements Module {
 			Keys::SOCIAL_TITLE       => array( $this, 'sanitize' ),
 			Keys::SOCIAL_DESCRIPTION => array( $this, 'sanitize' ),
 			Keys::SOCIAL_IMAGE       => array( $this, 'sanitize_canonical' ),
+			Keys::FOCUS_KEYPHRASE    => 'sanitize_text_field',
 		);
 
 		foreach ( $sanitizers as $key => $sanitizer ) {

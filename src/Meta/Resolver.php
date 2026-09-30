@@ -124,8 +124,19 @@ class Resolver {
 	 * @param PageContext $context  Page context.
 	 */
 	private function resolve( string $kind, string $meta_key, PageContext $context ): string {
-		$template = $this->custom_value( $meta_key, $context );
+		return $this->resolve_custom( $kind, $this->custom_value( $meta_key, $context ), $context );
+	}
 
+	/**
+	 * Resolves with a given custom value instead of the stored one (e.g. an
+	 * unsaved value from the editor). '' falls back to the page-type template.
+	 *
+	 * @param string      $kind     "title" or "desc".
+	 * @param string      $template Custom value; may contain %%variables%%.
+	 * @param PageContext $context  Page context.
+	 */
+	public function resolve_custom( string $kind, string $template, PageContext $context ): string {
+		$template = trim( $template );
 		if ( '' === $template ) {
 			$key      = self::template_key( $kind, $context );
 			$template = null === $key ? '' : (string) $this->settings->get( $key );

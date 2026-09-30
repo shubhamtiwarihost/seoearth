@@ -7,6 +7,9 @@
 
 namespace SEOEarth;
 
+use SEOEarth\Analysis\AnalysisModule;
+use SEOEarth\Analysis\Engine;
+use SEOEarth\Analysis\InputFactory;
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
 use SEOEarth\Breadcrumbs\Trail;
@@ -186,6 +189,12 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			AnalysisModule::class,
+			static function ( Container $c ) {
+				return new AnalysisModule( new InputFactory( $c->get( Resolver::class ), $c->get( Robots::class ) ), new Engine() );
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -292,6 +301,7 @@ final class Plugin {
 			'sitemap'       => $this->container->get( SitemapModule::class ),
 			'social'        => $this->container->get( SocialModule::class ),
 			'schema'        => $this->container->get( SchemaModule::class ),
+			'analysis'      => $this->container->get( AnalysisModule::class ),
 		);
 	}
 

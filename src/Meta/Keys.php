@@ -50,9 +50,14 @@ final class Keys {
 	public const SOCIAL_IMAGE = '_seoearth_social_image';
 
 	/**
+	 * Focus keyphrase for the SEO analysis (plain text).
+	 */
+	public const FOCUS_KEYPHRASE = '_seoearth_focus_keyphrase';
+
+	/**
 	 * All per-object meta keys, for registration and uninstall.
 	 */
-	public const ALL = array( self::TITLE, self::DESCRIPTION, self::CANONICAL, self::ROBOTS, self::SOCIAL_TITLE, self::SOCIAL_DESCRIPTION, self::SOCIAL_IMAGE );
+	public const ALL = array( self::TITLE, self::DESCRIPTION, self::CANONICAL, self::ROBOTS, self::SOCIAL_TITLE, self::SOCIAL_DESCRIPTION, self::SOCIAL_IMAGE, self::FOCUS_KEYPHRASE );
 
 	/**
 	 * Turns a post type or taxonomy name into a settings-key-safe fragment.
