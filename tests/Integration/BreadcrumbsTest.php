@@ -126,7 +126,7 @@ final class BreadcrumbsTest extends WP_UnitTestCase {
 		$block = do_blocks( '<!-- wp:seoearth/breadcrumbs {"style":{"spacing":{"margin":{"top":"2rem"}}}} /-->' );
 		$this->assertStringStartsWith( '<nav ', $block );
 		$this->assertStringContainsString( 'class="seoearth-breadcrumbs wp-block-seoearth-breadcrumbs"', $block );
-		$this->assertStringContainsString( 'style="margin-top:2rem"', $block, 'Block supports (spacing) apply.' );
+		$this->assertMatchesRegularExpression( '/style="margin-top:2rem;?"/', $block, 'Block supports (spacing) apply (WordPress 6.4 adds a trailing semicolon).' );
 		$this->assertSame( $this->items( $shortcode ), $this->items( $block ) );
 	}
 

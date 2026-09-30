@@ -3,7 +3,7 @@
  * Plugin Name:       SEOEarth
  * Plugin URI:        https://wordpress.org/plugins/seoearth/
  * Description:       Search appearance, sitemaps, social metadata, structured data and content analysis for WordPress.
- * Version:           0.1.0
+ * Version:           1.0.0
  * Requires at least: 6.4
  * Requires PHP:      7.4
  * Author:            SEOEarth
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SEOEARTH_VERSION', '0.1.0' );
+define( 'SEOEARTH_VERSION', '1.0.0' );
 define( 'SEOEARTH_FILE', __FILE__ );
 define( 'SEOEARTH_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SEOEARTH_URL', plugin_dir_url( __FILE__ ) );

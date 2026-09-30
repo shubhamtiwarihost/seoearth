@@ -2,6 +2,7 @@
  * Tests for the sidebar helpers.
  */
 import {
+	analysisRequest,
 	charLength,
 	indexChoice,
 	lengthBand,
@@ -83,5 +84,28 @@ describe( 'charLength', () => {
 		expect( charLength( 'Boots – Acme' ) ).toBe( 12 );
 		expect( charLength( '😀a' ) ).toBe( 2 );
 		expect( charLength( null ) ).toBe( 0 );
+	} );
+} );
+
+describe( 'analysisRequest', () => {
+	it( 'sends every text field as a string (new posts have a numeric slug)', () => {
+		expect(
+			analysisRequest( 7, {
+				keyphrase: 'boots',
+				slug: 7,
+				title: undefined,
+				excerpt: null,
+				content: '<p>x</p>',
+			} )
+		).toEqual( {
+			post_id: 7,
+			keyphrase: 'boots',
+			seo_title: '',
+			seo_description: '',
+			title: '',
+			slug: '7',
+			excerpt: '',
+			content: '<p>x</p>',
+		} );
 	} );
 } );

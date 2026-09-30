@@ -119,13 +119,12 @@ class InputFactory {
 			array(
 				'post_type'              => 'any',
 				'post_status'            => 'publish',
-				'post__not_in'           => array( $post_id ),
-				'posts_per_page'         => 5,
+				'posts_per_page'         => 6, // One extra, in case the post itself is among them.
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
-				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Editor-only request, limited to 5 IDs.
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Editor-only request, limited to 6 IDs.
 				'meta_query'             => array(
 					array(
 						'key'   => Keys::FOCUS_KEYPHRASE,
@@ -134,6 +133,7 @@ class InputFactory {
 				),
 			)
 		);
-		return array_map( 'intval', $query->posts );
+		$ids   = array_values( array_diff( array_map( 'intval', $query->posts ), array( $post_id ) ) );
+		return array_slice( $ids, 0, 5 );
 	}
 }

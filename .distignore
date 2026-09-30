@@ -13,6 +13,8 @@
 /.editorconfig
 /.gitignore
 /.distignore
+/babel.config.js
+/.eslintrc.js
 /composer.json
 /composer.lock
 /package.json

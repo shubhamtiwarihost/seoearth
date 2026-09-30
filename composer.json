@@ -2,7 +2,7 @@
 	"name": "seoearth/seoearth",
 	"description": "SEOEarth — an original, privacy-respecting SEO plugin for WordPress.",
 	"type": "wordpress-plugin",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=7.4"

@@ -1,0 +1,1239 @@
+# Copyright (C) 2026 SEOEarth
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: SEOEarth 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seoearth\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-30T17:52:35+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: seoearth\n"
+
+#. Plugin Name of the plugin
+#. Author of the plugin
+#: seoearth.php
+#: src/Admin/Metabox.php:73
+#: src/Admin/SettingsPage.php:155
+#: build/editor/index.js:4
+msgid "SEOEarth"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: seoearth.php
+msgid "https://wordpress.org/plugins/seoearth/"
+msgstr ""
+
+#. Description of the plugin
+#: seoearth.php
+msgid "Search appearance, sitemaps, social metadata, structured data and content analysis for WordPress."
+msgstr ""
+
+#: src/Admin/Metabox.php:124
+#: build/editor/index.js:4
+msgid "Focus keyphrase"
+msgstr ""
+
+#: src/Admin/Metabox.php:126
+#: build/editor/index.js:4
+msgid "The words people would search for to find this page."
+msgstr ""
+
+#: src/Admin/Metabox.php:129
+#: src/Admin/TermFields.php:117
+#: build/editor/index.js:4
+msgid "SEO title"
+msgstr ""
+
+#: src/Admin/Metabox.php:131
+#: build/editor/index.js:4
+msgid "Leave empty to use the title template. Variables such as %%site_name%% are allowed."
+msgstr ""
+
+#: src/Admin/Metabox.php:134
+#: src/Admin/TermFields.php:124
+#: build/editor/index.js:4
+msgid "Meta description"
+msgstr ""
+
+#: src/Admin/Metabox.php:136
+#: src/Admin/TermFields.php:127
+#: build/editor/index.js:4
+msgid "Leave empty to use the description template."
+msgstr ""
+
+#: src/Admin/Metabox.php:140
+#: build/editor/index.js:4
+msgid "Search result preview"
+msgstr ""
+
+#: src/Admin/Metabox.php:147
+msgid "Check SEO and readability"
+msgstr ""
+
+#: src/Admin/Metabox.php:153
+#: src/Settings/Schema.php:56
+#: build/editor/index.js:4
+msgid "Social sharing"
+msgstr ""
+
+#: src/Admin/Metabox.php:155
+#: src/Admin/TermFields.php:154
+#: build/editor/index.js:4
+msgid "Social sharing title"
+msgstr ""
+
+#: src/Admin/Metabox.php:159
+#: src/Admin/TermFields.php:161
+#: build/editor/index.js:4
+msgid "Social sharing description"
+msgstr ""
+
+#: src/Admin/Metabox.php:163
+#: src/Admin/TermFields.php:168
+#: build/editor/index.js:4
+msgid "Social sharing image URL"
+msgstr ""
+
+#: src/Admin/Metabox.php:165
+#: build/editor/index.js:4
+msgid "Leave empty to use the featured image, then the default sharing image."
+msgstr ""
+
+#: src/Admin/Metabox.php:170
+#: src/Settings/Schema.php:60
+#: build/editor/index.js:4
+msgid "Advanced"
+msgstr ""
+
+#: src/Admin/Metabox.php:172
+#: src/Admin/TermFields.php:138
+#: build/editor/index.js:4
+msgid "Search engines"
+msgstr ""
+
+#: src/Admin/Metabox.php:174
+#: src/Admin/TermFields.php:141
+#: build/editor/index.js:4
+msgid "Default (from SEOEarth settings)"
+msgstr ""
+
+#: src/Admin/Metabox.php:175
+#: src/Admin/TermFields.php:142
+#: build/editor/index.js:4
+msgid "Show in search results (index)"
+msgstr ""
+
+#: src/Admin/Metabox.php:176
+#: src/Admin/TermFields.php:143
+#: build/editor/index.js:4
+msgid "Hide from search results (noindex)"
+msgstr ""
+
+#: src/Admin/Metabox.php:180
+#: src/Admin/TermFields.php:146
+msgid "Additional search engine directives"
+msgstr ""
+
+#: src/Admin/Metabox.php:186
+#: src/Admin/TermFields.php:131
+#: build/editor/index.js:4
+msgid "Canonical URL"
+msgstr ""
+
+#: src/Admin/Metabox.php:188
+#: build/editor/index.js:4
+msgid "Only if this page duplicates another one. Leave empty for the page’s own address."
+msgstr ""
+
+#: src/Admin/SeoForm.php:113
+#: build/editor/index.js:4
+msgid "Do not follow links (nofollow)"
+msgstr ""
+
+#: src/Admin/SeoForm.php:114
+#: build/editor/index.js:4
+msgid "Do not show a cached copy (noarchive)"
+msgstr ""
+
+#: src/Admin/SeoForm.php:115
+#: build/editor/index.js:4
+msgid "Do not show a text snippet (nosnippet)"
+msgstr ""
+
+#: src/Admin/SeoForm.php:116
+#: build/editor/index.js:4
+msgid "Do not index images (noimageindex)"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:154
+msgid "SEOEarth Settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:191
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:203
+msgid "Sorry, you are not allowed to manage these settings."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:214
+msgid "Warning:"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:215
+msgid "Search engines are currently asked not to index this entire site (Settings → Reading → “Discourage search engines from indexing this site”). SEOEarth does not override this."
+msgstr ""
+
+#: src/Admin/SettingsPage.php:216
+msgid "Change reading settings"
+msgstr ""
+
+#: src/Admin/SettingsPage.php:279
+#: build/editor/index.js:4
+msgid "Choose from media library"
+msgstr ""
+
+#: src/Admin/TermFields.php:120
+msgid "Leave empty to use the title template from SEOEarth settings. Variables such as %%site_name%% are allowed."
+msgstr ""
+
+#: src/Admin/TermFields.php:134
+msgid "Only if this archive duplicates another page. Must be a full address starting with https:// or http://. Leave empty for the archive’s own address."
+msgstr ""
+
+#: src/Admin/TermFields.php:157
+msgid "Shown when this archive is shared on social media. Leave empty to use the SEO title."
+msgstr ""
+
+#: src/Admin/TermFields.php:164
+#: build/editor/index.js:4
+msgid "Leave empty to use the meta description."
+msgstr ""
+
+#: src/Admin/TermFields.php:171
+msgid "Full image address starting with https://. Leave empty to use the default sharing image."
+msgstr ""
+
+#: src/Analysis/AnalysisModule.php:115
+msgid "Sorry, you are not allowed to analyse this content."
+msgstr ""
+
+#: src/Analysis/AnalysisModule.php:127
+msgid "Invalid post ID."
+msgstr ""
+
+#. translators: %d: number of words.
+#: src/Analysis/Rules/ContentLength.php:48
+#, php-format
+msgid "The text contains %d word."
+msgid_plural "The text contains %d words."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/ContentLength.php:53
+msgid "Consider covering the topic in more depth, if readers would benefit."
+msgstr ""
+
+#: src/Analysis/Rules/DescriptionLength.php:56
+msgid "The page has no meta description."
+msgstr ""
+
+#: src/Analysis/Rules/DescriptionLength.php:57
+msgid "Write a short summary; otherwise search engines choose a snippet from the page themselves."
+msgstr ""
+
+#. translators: %d: number of characters.
+#: src/Analysis/Rules/DescriptionLength.php:62
+#, php-format
+msgid "The meta description is %d character long."
+msgid_plural "The meta description is %d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/DescriptionLength.php:64
+msgid "There is room to say a little more about the page."
+msgstr ""
+
+#: src/Analysis/Rules/DescriptionLength.php:67
+msgid "Shorten it so the end is not cut off in search results."
+msgstr ""
+
+#: src/Analysis/Rules/ImageAlt.php:56
+msgid "Every image has alternative text."
+msgstr ""
+
+#. translators: 1: images without alt text, 2: total images.
+#: src/Analysis/Rules/ImageAlt.php:62
+#, php-format
+msgid "%1$d of %2$d image has no alternative text."
+msgid_plural "%1$d of %2$d images have no alternative text."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/ImageAlt.php:63
+msgid "Describe what each image shows. Purely decorative images can stay empty."
+msgstr ""
+
+#: src/Analysis/Rules/Indexable.php:45
+msgid "This page is hidden from search engines (noindex), so it will not appear in search results."
+msgstr ""
+
+#: src/Analysis/Rules/Indexable.php:46
+msgid "If that is not intended, change the page’s search engine visibility."
+msgstr ""
+
+#: src/Analysis/Rules/InternalLinks.php:53
+msgid "The text has no links to other pages on this site."
+msgstr ""
+
+#: src/Analysis/Rules/InternalLinks.php:54
+msgid "Link to related posts or pages where it helps the reader."
+msgstr ""
+
+#. translators: %d: number of links.
+#: src/Analysis/Rules/InternalLinks.php:59
+#, php-format
+msgid "The text has %d link to this site."
+msgid_plural "The text has %d links to this site."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/KeyphraseDensity.php:58
+msgid "The focus keyphrase does not appear in the text."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseDensity.php:59
+msgid "Use the keyphrase where it fits naturally in the text."
+msgstr ""
+
+#. translators: 1: number of times the keyphrase is used, 2: uses per 100 words.
+#: src/Analysis/Rules/KeyphraseDensity.php:64
+#, php-format
+msgid "The focus keyphrase is used %1$d time (%2$s per 100 words)."
+msgid_plural "The focus keyphrase is used %1$d times (%2$s per 100 words)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/KeyphraseDensity.php:67
+msgid "Use the keyphrase a little more often."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseDensity.php:70
+msgid "This is far more than reads naturally. Replace some uses with synonyms or pronouns."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseDensity.php:73
+msgid "Use the keyphrase a little less often so the text does not feel repetitive."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInDescription.php:44
+msgid "The meta description contains the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInDescription.php:49
+msgid "The meta description does not contain the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInDescription.php:50
+msgid "Mention the keyphrase naturally in the meta description."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInIntro.php:44
+msgid "The first paragraph contains the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInIntro.php:49
+msgid "The first paragraph does not contain the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInIntro.php:50
+msgid "Use the keyphrase in the opening paragraph."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSlug.php:43
+msgid "The URL slug contains the words of the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSlug.php:48
+msgid "The URL slug does not contain all words of the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSlug.php:49
+msgid "Before publishing, edit the slug to include the keyphrase. Changing the slug of a published post changes its address."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSubheadings.php:54
+msgid "A subheading contains the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSubheadings.php:59
+msgid "No subheading contains the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInSubheadings.php:60
+msgid "Use the keyphrase (or close wording) in at least one subheading."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInTitle.php:40
+msgid "The SEO title does not contain the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInTitle.php:41
+msgid "Add the keyphrase to the SEO title."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInTitle.php:49
+msgid "The focus keyphrase is in the second half of the SEO title."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInTitle.php:50
+msgid "Move the keyphrase towards the start of the title, where it is less likely to be cut off."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseInTitle.php:54
+msgid "The SEO title contains the focus keyphrase."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseSet.php:45
+msgid "No focus keyphrase is set, so keyphrase checks are skipped."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseSet.php:46
+msgid "Enter the words people would search for to find this page."
+msgstr ""
+
+#: src/Analysis/Rules/KeyphraseUnique.php:35
+msgid "No other content uses this focus keyphrase."
+msgstr ""
+
+#. translators: %d: number of other posts.
+#: src/Analysis/Rules/KeyphraseUnique.php:41
+#, php-format
+msgid "%d other post already uses this focus keyphrase."
+msgid_plural "%d other posts already use this focus keyphrase."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/KeyphraseUnique.php:42
+msgid "Choose a different keyphrase, or combine the pages if they cover the same topic."
+msgstr ""
+
+#: src/Analysis/Rules/OutboundLinks.php:54
+msgid "The text has no links to other websites."
+msgstr ""
+
+#: src/Analysis/Rules/OutboundLinks.php:55
+msgid "Where you rely on facts from elsewhere, link to the source."
+msgstr ""
+
+#. translators: %d: number of links.
+#: src/Analysis/Rules/OutboundLinks.php:60
+#, php-format
+msgid "The text has %d link to another website."
+msgid_plural "The text has %d links to other websites."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/SingleH1.php:46
+msgid "The text contains a level 1 heading, and most themes already show the title as one."
+msgstr ""
+
+#: src/Analysis/Rules/SingleH1.php:47
+msgid "Change headings inside the text to level 2 or lower."
+msgstr ""
+
+#: src/Analysis/Rules/TitleLength.php:53
+msgid "The page has no SEO title."
+msgstr ""
+
+#: src/Analysis/Rules/TitleLength.php:53
+msgid "Give the page a title."
+msgstr ""
+
+#. translators: %d: number of characters.
+#: src/Analysis/Rules/TitleLength.php:56
+#, php-format
+msgid "The SEO title is %d character long."
+msgid_plural "The SEO title is %d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Analysis/Rules/TitleLength.php:58
+msgid "Add a few descriptive words; there is room for more."
+msgstr ""
+
+#: src/Analysis/Rules/TitleLength.php:61
+msgid "Shorten the title so search results are less likely to cut it off."
+msgstr ""
+
+#: src/Breadcrumbs/BreadcrumbsModule.php:77
+#: src/Breadcrumbs/Renderer.php:85
+#: src/Settings/Schema.php:58
+#: build/blocks/breadcrumbs/index.js:1
+msgid "Breadcrumbs"
+msgstr ""
+
+#: src/Breadcrumbs/Trail.php:35
+#: build/blocks/breadcrumbs/index.js:1
+msgid "Home"
+msgstr ""
+
+#. translators: %s: search phrase.
+#: src/Breadcrumbs/Trail.php:77
+#, php-format
+msgid "Search results for “%s”"
+msgstr ""
+
+#: src/Breadcrumbs/Trail.php:81
+msgid "Page not found"
+msgstr ""
+
+#: src/Images/ImagesModule.php:124
+#: src/Images/ImagesModule.php:128
+msgid "Alt text"
+msgstr ""
+
+#: src/Images/ImagesModule.php:147
+msgid "Missing"
+msgstr ""
+
+#: src/Images/ImagesModule.php:166
+msgid "Filter by alt text"
+msgstr ""
+
+#: src/Images/ImagesModule.php:168
+msgid "All alt text"
+msgstr ""
+
+#: src/Images/ImagesModule.php:169
+msgid "Missing alt text"
+msgstr ""
+
+#: src/Images/ImagesModule.php:201
+msgid "Every image in the media library has alternative text."
+msgstr ""
+
+#. translators: %s: number of images.
+#: src/Images/ImagesModule.php:209
+#, php-format
+msgid "%s image in the media library has no alternative text."
+msgid_plural "%s images in the media library have no alternative text."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Images/ImagesModule.php:222
+msgid "Review them in the media library"
+msgstr ""
+
+#: src/Images/ImagesModule.php:224
+msgid "Alternative text describes an image for people who cannot see it and helps image search. SEOEarth only reports; it never changes your media. Purely decorative images can stay empty."
+msgstr ""
+
+#: src/Meta/MetaModule.php:145
+#: src/Meta/MetaModule.php:149
+#: build/editor/index.js:4
+msgid "Search appearance"
+msgstr ""
+
+#. translators: Date format for monthly archives, see https://www.php.net/manual/datetime.format.php
+#: src/Meta/PageContext.php:153
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:36
+#: src/Meta/SearchAppearanceFields.php:37
+msgid "Homepage"
+msgstr ""
+
+#. translators: %s: post type plural name, e.g. "Products".
+#: src/Meta/SearchAppearanceFields.php:49
+#, php-format
+msgid "%s archive"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:63
+msgid "Author archives"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:68
+msgid "Date archives"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:75
+msgid "Search results"
+msgstr ""
+
+#. translators: Keep the %%searchphrase%%, %%page%%, %%separator%% and %%site_name%% variables unchanged.
+#: src/Meta/SearchAppearanceFields.php:77
+msgid "Search results for “%%searchphrase%%” %%separator%% %%page%% %%separator%% %%site_name%%"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:81
+msgid "Page not found (404)"
+msgstr ""
+
+#. translators: Keep the %%separator%% and %%site_name%% variables unchanged.
+#: src/Meta/SearchAppearanceFields.php:83
+msgid "Page not found %%separator%% %%site_name%%"
+msgstr ""
+
+#. translators: %s: page type, e.g. "Posts" or "Homepage".
+#: src/Meta/SearchAppearanceFields.php:98
+#, php-format
+msgid "%s: title"
+msgstr ""
+
+#. translators: %s: page type, e.g. "Posts" or "Homepage".
+#: src/Meta/SearchAppearanceFields.php:110
+#, php-format
+msgid "%s: meta description"
+msgstr ""
+
+#. translators: %s: page type, e.g. "Posts" or "Author archives".
+#: src/Meta/SearchAppearanceFields.php:126
+#, php-format
+msgid "%s: hide from search engines (noindex)"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:127
+msgid "Individual items can still be set to “Index” in their own SEO settings."
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:136
+msgid "Title of the post, term, author or archive"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:137
+msgid "Site title"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:138
+msgid "Site tagline"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:139
+msgid "Title separator chosen above"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:140
+msgid "Post excerpt, or the start of the content"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:141
+msgid "Term description, author biography or post type description"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:142
+msgid "First category of the post"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:143
+msgid "Author name"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:144
+msgid "Publish date, or the date of a date archive"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:145
+msgid "“Page 2 of 5” on paginated pages; empty on page 1"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:146
+msgid "Search terms"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:147
+msgid "Post type name, singular"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:148
+msgid "Post type name, plural"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:149
+msgid "Current year"
+msgstr ""
+
+#: src/Meta/SearchAppearanceFields.php:152
+msgid "Templates are used when a post, page or term has no custom title or description of its own. Available variables:"
+msgstr ""
+
+#. translators: 1: current page number, 2: total number of pages.
+#: src/Meta/VariableValues.php:203
+#, php-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#. translators: %d: current page number.
+#: src/Meta/VariableValues.php:206
+#, php-format
+msgid "Page %d"
+msgstr ""
+
+#. translators: %d: word limit.
+#: src/Readability/Rules/ParagraphLength.php:61
+#, php-format
+msgid "No paragraph is longer than %d words."
+msgstr ""
+
+#. translators: 1: number of paragraphs, 2: word limit.
+#: src/Readability/Rules/ParagraphLength.php:67
+#, php-format
+msgid "%1$d paragraph is longer than %2$d words."
+msgid_plural "%1$d paragraphs are longer than %2$d words."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Readability/Rules/ParagraphLength.php:68
+msgid "Break long paragraphs where the thought changes."
+msgstr ""
+
+#. translators: %s: percentage of sentences.
+#: src/Readability/Rules/PassiveVoice.php:56
+#, php-format
+msgid "%s%% of sentences look like passive voice."
+msgstr ""
+
+#: src/Readability/Rules/PassiveVoice.php:65
+msgid "Where it reads better, say who does what: “We tested the shoes” instead of “The shoes were tested”."
+msgstr ""
+
+#. translators: 1: score, 2: difficulty label such as "fairly difficult".
+#: src/Readability/Rules/ReadingEase.php:76
+#, php-format
+msgid "Flesch reading ease is %1$s (%2$s)."
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:85
+msgid "Use shorter sentences and more everyday words, unless your readers expect technical language."
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:97
+msgid "easy"
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:100
+msgid "fairly easy"
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:103
+msgid "plain"
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:106
+msgid "fairly difficult"
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:109
+msgid "difficult"
+msgstr ""
+
+#: src/Readability/Rules/ReadingEase.php:111
+msgid "very difficult"
+msgstr ""
+
+#. translators: 1: percentage of sentences, 2: word limit.
+#: src/Readability/Rules/SentenceLength.php:60
+#, php-format
+msgid "%1$s%% of sentences are longer than %2$d words."
+msgstr ""
+
+#: src/Readability/Rules/SentenceLength.php:65
+msgid "Split long sentences, or cut words that do not add meaning."
+msgstr ""
+
+#: src/Readability/Rules/SubheadingDistribution.php:65
+msgid "The text has no subheadings."
+msgstr ""
+
+#: src/Readability/Rules/SubheadingDistribution.php:66
+msgid "Add subheadings so readers can scan the text and find the part they need."
+msgstr ""
+
+#. translators: 1: number of sections, 2: word limit.
+#: src/Readability/Rules/SubheadingDistribution.php:75
+#, php-format
+msgid "%1$d section runs longer than %2$d words without a subheading."
+msgid_plural "%1$d sections run longer than %2$d words without a subheading."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Readability/Rules/SubheadingDistribution.php:76
+msgid "Add a subheading where the topic shifts."
+msgstr ""
+
+#: src/Readability/Rules/SubheadingDistribution.php:80
+msgid "Subheadings are spread well through the text."
+msgstr ""
+
+#. translators: %s: percentage of sentences.
+#: src/Readability/Rules/TransitionWords.php:57
+#, php-format
+msgid "%s%% of sentences contain a transition word (such as “however” or “for example”)."
+msgstr ""
+
+#: src/Readability/Rules/TransitionWords.php:66
+msgid "Link sentences with words like “because”, “however” or “as a result” so the text flows."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:85
+msgid "Old address, e.g. /old-page"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:92
+#: src/Redirects/Store.php:66
+msgid "Redirect"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:107
+#: src/Redirects/AdminScreen.php:223
+msgid "New address"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:109
+msgid "A path on this site such as /new-page/, or a full address starting with https://. Not needed for “Gone (410)”."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:112
+#: src/Redirects/AdminScreen.php:224
+msgid "Type"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:117
+msgid "Publish to turn the redirect on; save as a draft to keep it off. Query strings on the old address are ignored when matching and passed on to the new address."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:138
+msgid "The old address must be a path on this site, such as /old-page. The homepage, the dashboard, the login page and the REST API cannot be redirected."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:145
+msgid "The new address must be a path such as /new-page/ or a full address starting with https://."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:156
+msgid "Another active redirect already uses this old address."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:158
+msgid "This redirect would send visitors in a loop (back to the old address, possibly through other redirects)."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:205
+msgid "The redirect was saved as a draft and is not active:"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:222
+msgid "Old address"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:225
+msgid "Status"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:246
+msgid "Active"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:246
+msgid "Inactive"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:260
+msgid "Redirect updated."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:261
+msgid "Redirect saved and active."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:262
+msgid "Redirect saved."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:263
+msgid "Redirect saved as a draft (inactive)."
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:275
+msgid "Moved permanently (301)"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:276
+msgid "Found — temporary (302)"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:277
+msgid "Temporary redirect (307)"
+msgstr ""
+
+#: src/Redirects/AdminScreen.php:278
+msgid "Gone (410) — the page was removed on purpose"
+msgstr ""
+
+#: src/Redirects/Store.php:65
+#: src/Redirects/Store.php:74
+msgid "Redirects"
+msgstr ""
+
+#: src/Redirects/Store.php:67
+#: src/Redirects/Store.php:68
+msgid "Add redirect"
+msgstr ""
+
+#: src/Redirects/Store.php:69
+msgid "Edit redirect"
+msgstr ""
+
+#: src/Redirects/Store.php:70
+msgid "New redirect"
+msgstr ""
+
+#: src/Redirects/Store.php:71
+msgid "Search redirects"
+msgstr ""
+
+#: src/Redirects/Store.php:72
+msgid "No redirects yet."
+msgstr ""
+
+#: src/Redirects/Store.php:73
+msgid "No redirects in the trash."
+msgstr ""
+
+#. translators: 1: required PHP version, 2: required WordPress version.
+#: src/Requirements.php:78
+#, php-format
+msgid "SEOEarth is inactive: it requires PHP %1$s and WordPress %2$s or newer."
+msgstr ""
+
+#. translators: %s: name of another SEO plugin.
+#: src/Schema/SchemaModule.php:142
+#, php-format
+msgid "%s is active and already prints structured data, so SEOEarth does not print its own. The setting below takes effect once it is deactivated."
+msgstr ""
+
+#. translators: %s: settings field label.
+#: src/Settings/Sanitizer.php:82
+#, php-format
+msgid "“%s” was not saved because the value is not valid."
+msgstr ""
+
+#: src/Settings/Schema.php:54
+msgid "Site identity"
+msgstr ""
+
+#: src/Settings/Schema.php:55
+msgid "XML sitemap"
+msgstr ""
+
+#: src/Settings/Schema.php:57
+msgid "Structured data"
+msgstr ""
+
+#: src/Settings/Schema.php:59
+msgid "Images"
+msgstr ""
+
+#: src/Settings/Schema.php:95
+msgid "Title separator"
+msgstr ""
+
+#: src/Settings/Schema.php:96
+msgid "Placed between parts of generated titles, for example “Post title – Site name”."
+msgstr ""
+
+#: src/Settings/Schema.php:104
+msgid "This website represents"
+msgstr ""
+
+#: src/Settings/Schema.php:105
+msgid "Used in structured data to describe who publishes this site."
+msgstr ""
+
+#: src/Settings/Schema.php:107
+msgid "An organization"
+msgstr ""
+
+#: src/Settings/Schema.php:108
+msgid "A person"
+msgstr ""
+
+#: src/Settings/Schema.php:116
+msgid "Organization or person name"
+msgstr ""
+
+#: src/Settings/Schema.php:117
+msgid "Leave empty to use the site title."
+msgstr ""
+
+#: src/Settings/Schema.php:124
+msgid "Logo URL"
+msgstr ""
+
+#: src/Settings/Schema.php:125
+msgid "A square image of at least 112 × 112 pixels works best."
+msgstr ""
+
+#: src/Settings/Schema.php:132
+msgid "Enable the XML sitemap"
+msgstr ""
+
+#: src/Settings/Schema.php:133
+msgid "Helps search engines find your content. Uses the sitemap built into WordPress at /wp-sitemap.xml."
+msgstr ""
+
+#: src/Settings/Schema.php:140
+msgid "Include images"
+msgstr ""
+
+#: src/Settings/Schema.php:141
+msgid "Lists the featured image and up to 10 images from this site found in each post."
+msgstr ""
+
+#: src/Settings/Schema.php:148
+msgid "Include author archives"
+msgstr ""
+
+#: src/Settings/Schema.php:149
+msgid "Always left out while author archives are hidden from search engines."
+msgstr ""
+
+#: src/Settings/Schema.php:156
+msgid "Add Open Graph tags"
+msgstr ""
+
+#: src/Settings/Schema.php:157
+msgid "Controls the title, description and image shown when a page is shared on Facebook, LinkedIn, WhatsApp, Slack and similar apps."
+msgstr ""
+
+#: src/Settings/Schema.php:164
+msgid "Add X (Twitter) Card tags"
+msgstr ""
+
+#: src/Settings/Schema.php:165
+msgid "Controls how links look when shared on X."
+msgstr ""
+
+#: src/Settings/Schema.php:172
+msgid "Default sharing image URL"
+msgstr ""
+
+#: src/Settings/Schema.php:173
+msgid "Used when a page has no featured image. 1200 × 630 pixels is recommended."
+msgstr ""
+
+#: src/Settings/Schema.php:180
+msgid "X (Twitter) username"
+msgstr ""
+
+#: src/Settings/Schema.php:181
+msgid "Without the @. Letters, numbers and underscores, up to 15 characters."
+msgstr ""
+
+#: src/Settings/Schema.php:188
+msgid "Add structured data (schema.org)"
+msgstr ""
+
+#: src/Settings/Schema.php:189
+msgid "Describes your site, pages, articles, authors and breadcrumbs to search engines in one JSON-LD block. Uses the “Site identity” settings above."
+msgstr ""
+
+#: src/Settings/Schema.php:196
+msgid "Label for the homepage"
+msgstr ""
+
+#: src/Settings/Schema.php:197
+msgid "First item of the trail. Leave empty for “Home”."
+msgstr ""
+
+#: src/Settings/Schema.php:204
+msgid "Separator"
+msgstr ""
+
+#: src/Settings/Schema.php:205
+msgid "Shown between items, for example › or / or ». Screen readers skip it."
+msgstr ""
+
+#: src/Settings/Schema.php:212
+msgid "Remove all SEOEarth data when the plugin is deleted"
+msgstr ""
+
+#: src/Settings/Schema.php:213
+msgid "Deletes SEOEarth settings and SEO data stored for your content. Your posts and pages are never deleted. This cannot be undone."
+msgstr ""
+
+#: src/Sitemap/ImageRenderer.php:57
+msgid "Sitemap entries support only loc, lastmod, changefreq, priority and images."
+msgstr ""
+
+#: src/Sitemap/SitemapModule.php:276
+msgid "SEOEarth adds to the sitemap built into WordPress. Content hidden from search engines (noindex) and content whose canonical URL points elsewhere is left out automatically."
+msgstr ""
+
+#: src/Sitemap/SitemapModule.php:279
+msgid "The sitemap is unavailable because the site is set to discourage search engines (Settings → Reading)."
+msgstr ""
+
+#: src/Sitemap/SitemapModule.php:288
+msgid "View your sitemap"
+msgstr ""
+
+#. translators: Accessibility text for links that open in a new tab.
+#: src/Sitemap/SitemapModule.php:290
+msgid "(opens in a new tab)"
+msgstr ""
+
+#. translators: %s: name of another SEO plugin.
+#: src/Social/SocialModule.php:150
+#, php-format
+msgid "%s is active and already prints social sharing tags, so SEOEarth does not print its own. The settings below take effect once it is deactivated."
+msgstr ""
+
+#: assets/js/metabox.js:23
+#: build/editor/index.js:1
+msgid "Problem"
+msgstr ""
+
+#: assets/js/metabox.js:24
+#: build/editor/index.js:1
+msgid "Improvement"
+msgstr ""
+
+#: assets/js/metabox.js:25
+#: build/editor/index.js:1
+msgid "Note"
+msgstr ""
+
+#: assets/js/metabox.js:26
+#: build/editor/index.js:1
+msgid "Good"
+msgstr ""
+
+#: assets/js/metabox.js:96
+#: build/editor/index.js:4
+msgid "Checking…"
+msgstr ""
+
+#: assets/js/metabox.js:108
+msgid "SEO"
+msgstr ""
+
+#: assets/js/metabox.js:109
+#: build/editor/index.js:4
+msgid "Readability"
+msgstr ""
+
+#. translators: 1: number of problems, 2: number of improvements.
+#: assets/js/metabox.js:114
+#, js-format
+msgid "Done: %1$d problems, %2$d improvements."
+msgstr ""
+
+#. translators: %s: error message.
+#: assets/js/metabox.js:123
+#, js-format
+msgid "The check failed: %s"
+msgstr ""
+
+#: assets/js/metabox.js:124
+msgid "unknown error"
+msgstr ""
+
+#: assets/js/settings.js:21
+msgid "Choose an image"
+msgstr ""
+
+#: assets/js/settings.js:22
+msgid "Use this image"
+msgstr ""
+
+#: build/blocks/breadcrumbs/index.js:1
+msgid "Category"
+msgstr ""
+
+#: build/blocks/breadcrumbs/index.js:1
+msgid "Current page"
+msgstr ""
+
+#: build/blocks/breadcrumbs/index.js:1
+msgid "Shows the path from the homepage to the current page. The trail is built for each page when it is displayed."
+msgstr ""
+
+#: build/blocks/breadcrumbs/index.js:1
+msgid "navigation"
+msgstr ""
+
+#: build/blocks/breadcrumbs/index.js:1
+msgid "path"
+msgstr ""
+
+#: build/editor/index.js:1
+msgid "Empty."
+msgstr ""
+
+#. translators: 1: characters, 2: recommended minimum, 3: recommended maximum.
+#: build/editor/index.js:2
+#, js-format
+msgid "%1$d characters — a little short (aim for %2$d–%3$d)."
+msgstr ""
+
+#. translators: 1: characters, 2: recommended minimum, 3: recommended maximum.
+#: build/editor/index.js:3
+#, js-format
+msgid "%1$d characters — may be cut off (aim for %2$d–%3$d)."
+msgstr ""
+
+#. translators: 1: characters, 2: recommended minimum, 3: recommended maximum.
+#: build/editor/index.js:4
+#, js-format
+msgid "%1$d characters — good length (%2$d–%3$d)."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "(no title)"
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "No description: search engines will pick text from the page."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "The check could not run:"
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "There is not enough text to check yet."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "SEOEarth found problems."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "SEOEarth suggests improvements."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "SEOEarth checks passed."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "This page is hidden from search engines."
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "SEO analysis"
+msgstr ""
+
+#: build/editor/index.js:4
+msgid "Leave empty to use the SEO title."
+msgstr ""

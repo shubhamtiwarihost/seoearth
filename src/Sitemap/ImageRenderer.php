@@ -55,7 +55,7 @@ class ImageRenderer extends \WP_Sitemaps_Renderer {
 					_doing_it_wrong(
 						__METHOD__,
 						esc_html__( 'Sitemap entries support only loc, lastmod, changefreq, priority and images.', 'seoearth' ),
-						'0.1.0'
+						'1.0.0'
 					);
 				}
 			}

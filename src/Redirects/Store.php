@@ -137,13 +137,12 @@ class Store {
 	public function rebuild(): void {
 		$ids         = get_posts(
 			array(
-				'post_type'        => self::POST_TYPE,
-				'post_status'      => 'publish',
-				'posts_per_page'   => -1,
-				'fields'           => 'ids',
-				'orderby'          => 'ID',
-				'order'            => 'ASC',
-				'suppress_filters' => true,
+				'post_type'      => self::POST_TYPE,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
 			)
 		);
 		$this->dirty = false;

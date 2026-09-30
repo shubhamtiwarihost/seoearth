@@ -143,7 +143,7 @@ final class SitemapTest extends WP_UnitTestCase {
 
 		$pages = wp_sitemaps_get_server()->registry->get_provider( 'posts' )->get_max_num_pages( 'post' );
 
-		$this->assertSame( 3, $pages, 'Core counts pages with the same (filtered) query.' );
+		$this->assertSame( 3, (int) $pages, 'Core counts pages with the same (filtered) query (a float on WordPress 6.4).' );
 	}
 
 	public function test_terms_follow_the_same_rules(): void {

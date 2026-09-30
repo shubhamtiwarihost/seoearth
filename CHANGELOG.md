@@ -2,8 +2,13 @@
 
 All notable changes are documented here. Format: [Keep a Changelog](https://keepachangelog.com/); versions follow [SemVer](https://semver.org/).
 
-## [Unreleased]
+## [1.0.0] — 2026-09-30
+### Fixed
+- Editor sidebar: analysis failed on new posts before a title was typed (the editor reports a numeric slug).
+- Plugin Check: removed a redundant `suppress_filters` and a `post__not_in` query.
+
 ### Added
+- Release readiness: complete readme.txt (description, FAQ, privacy), translation template `languages/seoearth.pot`, version check covers composer.json, build config files excluded from the ZIP.
 - Service container with extension hook `seoearth_container`.
 - Request `Context` service.
 - Versioned data migrations with resume-on-failure and a concurrency lock; `seoearth_installed` / `seoearth_upgraded` actions.
@@ -29,7 +34,7 @@ All notable changes are documented here. Format: [Keep a Changelog](https://keep
 - Supported post types (public, with UI, not media; `seoearth_editor_post_types` filter) get "custom-fields" support so SEO meta is available over REST.
 - Term SEO fields now keep backslashes when saved.
 - Readability analysis: sentence length, paragraph length, subheading distribution (any language); passive-voice indicators, transition words and Flesch reading ease (English). Returned by the analysis endpoint as a separate `readability` report; rules extensible via `seoearth_readability_rules`, transition words via `seoearth_transition_words`, content language via `seoearth_content_locale`.
-- SEO analysis: 15 original checks (focus keyphrase in title, description, slug, first paragraph and subheadings; keyphrase use per 100 words; keyphrase already used elsewhere; title, description and text length; internal and outbound links; image alt text; h1 in content; noindex notice). Each result has status, severity, message, recommendation and metadata; no numeric score. `POST /seoearth/v1/analysis` analyses a post with optional unsaved editor values (requires `edit_post`, saves nothing). Focus keyphrase stored per post (`_seoearth_focus_keyphrase`, REST meta). Rules extensible via `seoearth_analysis_rules`.
+- SEO analysis: 16 original checks (keyphrase set reminder, focus keyphrase in title, description, slug, first paragraph and subheadings; keyphrase use per 100 words; keyphrase already used elsewhere; title, description and text length; internal and outbound links; image alt text; h1 in content; noindex notice). Each result has status, severity, message, recommendation and metadata; no numeric score. `POST /seoearth/v1/analysis` analyses a post with optional unsaved editor values (requires `edit_post`, saves nothing). Focus keyphrase stored per post (`_seoearth_focus_keyphrase`, REST meta). Rules extensible via `seoearth_analysis_rules`.
 - Structured data: one schema.org JSON-LD `@graph` per page — Organization or Person (from Site identity settings), WebSite with site search, WebPage/CollectionPage/ProfilePage, featured ImageObject, BreadcrumbList, BlogPosting/Article with author Person. Extensible piece registry (`seoearth_schema_pieces`); references to removed pieces are dropped. On/off setting; steps aside when another SEO plugin prints structured data. Password-protected posts expose no text or image; noindex, search and 404 pages carry only site-level nodes.
 
 ### Changed

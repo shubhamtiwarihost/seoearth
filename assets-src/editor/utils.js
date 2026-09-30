@@ -108,3 +108,27 @@ export function overallStatus( reports ) {
 export function charLength( text ) {
 	return Array.from( String( text || '' ) ).length;
 }
+
+/**
+ * Body of an analysis request. Every text field is sent as a string: the
+ * endpoint validates types, and the editor can return other types (for a
+ * new post without a title, getEditedPostSlug() returns the numeric post ID).
+ *
+ * @param {number}                  postId Post ID.
+ * @param {Object<string, unknown>} values Editor values.
+ * @return {Object<string, number|string>} Request body.
+ */
+export function analysisRequest( postId, values ) {
+	const text = ( value ) =>
+		value === null || value === undefined ? '' : String( value );
+	return {
+		post_id: postId,
+		keyphrase: text( values.keyphrase ),
+		seo_title: text( values.seoTitle ),
+		seo_description: text( values.seoDescription ),
+		title: text( values.title ),
+		slug: text( values.slug ),
+		excerpt: text( values.excerpt ),
+		content: text( values.content ),
+	};
+}

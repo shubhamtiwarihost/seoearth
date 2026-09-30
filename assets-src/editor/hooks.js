@@ -5,6 +5,8 @@ import apiFetch from '@wordpress/api-fetch';
 import { select, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
+import { analysisRequest } from './utils';
+
 export const KEYS = {
 	title: '_seoearth_title',
 	description: '_seoearth_description',
@@ -74,16 +76,15 @@ export function useAnalysis( meta ) {
 				path: '/seoearth/v1/analysis',
 				method: 'POST',
 				signal: controller ? controller.signal : undefined,
-				data: {
-					post_id: postId,
+				data: analysisRequest( postId, {
 					keyphrase,
-					seo_title: seoTitle,
-					seo_description: seoDescription,
-					title: title || '',
-					slug: slug || '',
-					excerpt: excerpt || '',
+					seoTitle,
+					seoDescription,
+					title,
+					slug,
+					excerpt,
 					content: select( 'core/editor' ).getEditedPostContent(),
-				},
+				} ),
 			} )
 				.then( ( data ) =>
 					setState( { data, loading: false, error: '' } )
