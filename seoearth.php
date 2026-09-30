@@ -24,6 +24,7 @@ define( 'SEOEARTH_URL', plugin_dir_url( __FILE__ ) );
 
 require_once SEOEARTH_DIR . 'src/Autoloader.php';
 \SEOEarth\Autoloader::register( SEOEARTH_DIR . 'src/' );
+require_once SEOEARTH_DIR . 'src/functions.php';
 
 register_activation_hook( __FILE__, array( \SEOEarth\Lifecycle::class, 'activate' ) );
 register_deactivation_hook( __FILE__, array( \SEOEarth\Lifecycle::class, 'deactivate' ) );

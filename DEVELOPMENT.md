@@ -25,7 +25,7 @@ npm run env:start      # WordPress at http://localhost:8888 (admin / password)
 | `npm run test:php:integration` | Integration tests inside wp-env against real WordPress + MySQL |
 | `npm run test:php:multisite` | Same integration suite, as a multisite network |
 | `npm run lint:js` / `npm run test:js` | ESLint (WordPress config) / Jest |
-| `npm run build` | Build editor assets into `build/` |
+| `npm run build` | Build the editor sidebar (`build/editor/`) and block scripts (`build/blocks/*/`) |
 | `npm run env:stop` | Stop the wp-env containers |
 
 ## Tests

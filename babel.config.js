@@ -19,6 +19,8 @@ module.exports = ( api ) => {
 					runtime: 'classic',
 					pragma: 'createElement',
 					pragmaFrag: 'Fragment',
+					// Spread props as native object spread, not the @babel/runtime "extends" helper.
+					useSpread: true,
 				},
 			],
 		],

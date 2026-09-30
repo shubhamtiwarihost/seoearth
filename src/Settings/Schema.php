@@ -55,6 +55,7 @@ class Schema {
 			'sitemap'  => __( 'XML sitemap', 'seoearth' ),
 			'social'   => __( 'Social sharing', 'seoearth' ),
 			'schema'   => __( 'Structured data', 'seoearth' ),
+			'crumbs'   => __( 'Breadcrumbs', 'seoearth' ),
 			'advanced' => __( 'Advanced', 'seoearth' ),
 		);
 
@@ -185,6 +186,22 @@ class Schema {
 				true,
 				__( 'Add structured data (schema.org)', 'seoearth' ),
 				__( 'Describes your site, pages, articles, authors and breadcrumbs to search engines in one JSON-LD block. Uses the “Site identity” settings above.', 'seoearth' )
+			),
+			new Field(
+				'breadcrumbs_home',
+				'crumbs',
+				Field::TYPE_TEXT,
+				'',
+				__( 'Label for the homepage', 'seoearth' ),
+				__( 'First item of the trail. Leave empty for “Home”.', 'seoearth' )
+			),
+			new Field(
+				'breadcrumbs_separator',
+				'crumbs',
+				Field::TYPE_TEXT,
+				'›',
+				__( 'Separator', 'seoearth' ),
+				__( 'Shown between items, for example › or / or ». Screen readers skip it.', 'seoearth' )
 			),
 			new Field(
 				'remove_data_on_uninstall',

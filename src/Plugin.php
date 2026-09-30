@@ -14,6 +14,8 @@ use SEOEarth\Admin\EditorModule;
 use SEOEarth\Admin\Metabox;
 use SEOEarth\Admin\SettingsPage;
 use SEOEarth\Admin\TermFields;
+use SEOEarth\Breadcrumbs\BreadcrumbsModule;
+use SEOEarth\Breadcrumbs\Renderer;
 use SEOEarth\Breadcrumbs\Trail;
 use SEOEarth\Compatibility\Conflicts;
 use SEOEarth\Frontend\CurrentPage;
@@ -197,6 +199,12 @@ final class Plugin {
 			}
 		);
 		$container->set(
+			BreadcrumbsModule::class,
+			static function ( Container $c ) {
+				return new BreadcrumbsModule( $c->get( CurrentPage::class ), new Renderer( $c->get( Settings::class ), new Trail() ) );
+			}
+		);
+		$container->set(
 			HeadModule::class,
 			static function ( Container $c ) {
 				return new HeadModule( $c->get( Context::class ), $c->get( CurrentPage::class ) );
@@ -318,6 +326,7 @@ final class Plugin {
 			'social'        => $this->container->get( SocialModule::class ),
 			'schema'        => $this->container->get( SchemaModule::class ),
 			'analysis'      => $this->container->get( AnalysisModule::class ),
+			'breadcrumbs'   => $this->container->get( BreadcrumbsModule::class ),
 		);
 	}
 

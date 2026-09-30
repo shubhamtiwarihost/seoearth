@@ -19,7 +19,8 @@ defined( 'ABSPATH' ) || exit;
  * pages | other types: post type archive) → current page. Terms get their
  * parent terms. The last item carries the URL passed in (the canonical URL).
  *
- * Used by structured data now and by visible breadcrumbs later.
+ * Used by structured data (which skips pages without a canonical URL, such
+ * as search and 404) and by visible breadcrumbs.
  */
 class Trail {
 
@@ -69,6 +70,15 @@ class Trail {
 
 			case PageContext::DATE:
 				$items[] = $this->item( $context->date_label, $url );
+				break;
+
+			case PageContext::SEARCH:
+				/* translators: %s: search phrase. */
+				$items[] = $this->item( sprintf( __( 'Search results for “%s”', 'seoearth' ), $context->search ), $url );
+				break;
+
+			case PageContext::NOT_FOUND:
+				$items[] = $this->item( __( 'Page not found', 'seoearth' ), $url );
 				break;
 		}
 

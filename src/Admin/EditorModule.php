@@ -7,6 +7,7 @@
 
 namespace SEOEarth\Admin;
 
+use SEOEarth\Helpers\Assets;
 use SEOEarth\Meta\Robots;
 use SEOEarth\Module;
 
@@ -59,21 +60,14 @@ final class EditorModule implements Module {
 			return;
 		}
 
-		$asset_file = SEOEARTH_DIR . 'build/editor/index.asset.php';
-		if ( ! is_readable( $asset_file ) ) {
+		$asset = Assets::manifest( 'editor' );
+		if ( null === $asset ) {
 			return; // Development checkout without `npm run build`.
 		}
-		$asset = require $asset_file;
 
-		wp_enqueue_script(
-			'seoearth-editor',
-			SEOEARTH_URL . 'build/editor/index.js',
-			(array) ( $asset['dependencies'] ?? array() ),
-			(string) ( $asset['version'] ?? SEOEARTH_VERSION ),
-			true
-		);
+		wp_enqueue_script( 'seoearth-editor', $asset['url'] . 'index.js', $asset['dependencies'], $asset['version'], true );
 		if ( is_readable( SEOEARTH_DIR . 'build/editor/index.css' ) ) {
-			wp_enqueue_style( 'seoearth-editor', SEOEARTH_URL . 'build/editor/index.css', array( 'wp-components' ), (string) ( $asset['version'] ?? SEOEARTH_VERSION ) );
+			wp_enqueue_style( 'seoearth-editor', $asset['url'] . 'index.css', array( 'wp-components' ), $asset['version'] );
 		}
 		wp_set_script_translations( 'seoearth-editor', 'seoearth', SEOEARTH_DIR . 'languages' );
 

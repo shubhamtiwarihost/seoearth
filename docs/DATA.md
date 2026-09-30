@@ -23,6 +23,8 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 | `sitemap_enabled` / `sitemap_images` / `sitemap_users` | boolean | `true` |
 | `social_og_enabled` / `social_twitter_enabled` | boolean | `true` |
 | `schema_enabled` | boolean | `true` |
+| `breadcrumbs_home` | plain text | empty ("Home") |
+| `breadcrumbs_separator` | plain text | `›` |
 | `remove_data_on_uninstall` | boolean | `false` |
 
 ## Personal data

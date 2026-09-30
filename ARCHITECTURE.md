@@ -99,6 +99,21 @@ Compatibility\Conflicts   detects other SEO plugins that print social tags (vers
 
 User guide: [docs/SOCIAL.md](docs/SOCIAL.md).
 
+## Breadcrumbs
+
+```
+Breadcrumbs\Trail              home → parents → current page (shared with the BreadcrumbList schema piece)
+Breadcrumbs\Renderer           trail → <nav aria-label><ol> HTML; every value escaped; settings: home label, separator
+Breadcrumbs\BreadcrumbsModule  shortcode, dynamic block seoearth/breadcrumbs (render_callback + block supports), inline layout CSS
+src/functions.php              seoearth_breadcrumbs() / seoearth_get_breadcrumbs() for themes (loaded by seoearth.php)
+assets-src/blocks/breadcrumbs  editor side of the block: a static sample (the real trail depends on the page being viewed)
+```
+
+- Opt-in by placement: nothing prints until the block, shortcode or function is used. The CSS is enqueued only when a trail is printed.
+- Measured: pages and archives 0 extra queries; posts at most 1 with a cold object cache (parent category), shared with the schema trail.
+- `Helpers\Assets::manifest()` reads build/*/index.asset.php, so an unbuilt checkout (or static analysis in CI) never `require`s a missing file.
+- User guide: [docs/BREADCRUMBS.md](docs/BREADCRUMBS.md).
+
 ## Structured data (JSON-LD)
 
 ```
@@ -217,7 +232,7 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_editor_post_types` (filter) | Post types with the sidebar/metabox |
 | `seoearth_analysis_rules`, `seoearth_readability_rules` (filters) | Add, replace or remove analysis rules |
 | `seoearth_transition_words`, `seoearth_content_locale` (filters) | Readability word list; content language per post |
-| `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail |
+| `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail (visible breadcrumbs and BreadcrumbList schema) |
 | `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |
 | `seoearth_installed` (action) | First install on a site |
