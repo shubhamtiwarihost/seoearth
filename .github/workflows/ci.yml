@@ -35,7 +35,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.1', '8.3', '8.4' ]
+        # Officially supported PHP versions (docs/REQUIREMENTS.md). Newer versions are not declared until tested.
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -75,6 +76,14 @@ jobs:
       - name: Integration with WooCommerce active
         if: matrix.wp == 'latest'
         run: npm run test:php:woo
+      # wp-env runs PHP 8.3; the minimum supported PHP gets its own full run (see bin/test-integration-php.sh).
+      - name: Integration on minimum PHP 7.4 (single-site, multisite)
+        run: |
+          bin/test-integration-php.sh 7.4 single
+          bin/test-integration-php.sh 7.4 multisite
+      - name: Integration on minimum PHP 7.4 with WooCommerce active
+        if: matrix.wp == 'latest'
+        run: bin/test-integration-php.sh 7.4 woo
 
   js:
     name: JS lint, test, build

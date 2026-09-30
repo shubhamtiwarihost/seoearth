@@ -81,6 +81,10 @@ Running two SEO plugins is not recommended. If Yoast SEO, Rank Math, All in One 
 
 No. The checks reflect common, documented writing and on-page practices. Nobody can guarantee rankings, which is why SEOEarth shows findings rather than a score.
 
+= Which PHP versions are supported? =
+
+PHP 7.4, 8.0, 8.1, 8.2 and 8.3, with WordPress 6.4 or newer. Newer PHP versions will be listed once they have been tested.
+
 = Which languages does the readability analysis support? =
 
 Sentence length, paragraph length and subheading checks work for every language. Passive voice, transition words and reading ease are English-only for now.

@@ -6,7 +6,8 @@ Version: `x.y.z`   Date: `YYYY-MM-DD`   Release owner: `____`
 
 ## Code quality
 - [ ] `composer ci` passes (lint, version check, PHPCS, PHPStan, unit tests)
-- [ ] Unit tests pass on PHP 7.4, 8.1, 8.3, 8.4 (CI matrix)
+- [ ] Unit tests pass on PHP 7.4, 8.0, 8.1, 8.2, 8.3 (CI matrix)
+- [ ] Integration tests pass on the minimum PHP 7.4 (`bin/test-integration-php.sh 7.4 single|multisite|woo`)
 - [ ] Integration tests pass on WordPress 6.4 and latest
 - [ ] `npm run lint:js`, `npm run test:js`, `npm run build` pass
 - [ ] Plugin Check (`wordpress/plugin-check-action`) — no errors

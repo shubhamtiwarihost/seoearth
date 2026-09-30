@@ -4,7 +4,7 @@ An original, privacy-respecting SEO plugin for WordPress: search appearance, sit
 
 **Status:** feature-complete for Free 1.0 (all requirements in [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md)); release readiness in progress. Not yet published.
 
-- Requirements: PHP 7.4+, WordPress 6.4+
+- Requirements: PHP 7.4–8.3 (7.4, 8.0, 8.1, 8.2, 8.3 supported and tested), WordPress 6.4+
 - License: GPL-2.0-or-later
 - No telemetry, no external requests.
 

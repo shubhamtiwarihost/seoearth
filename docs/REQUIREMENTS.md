@@ -16,7 +16,7 @@ Name check performed 2026-09-29: WordPress.org API returned `Plugin not found` f
 ## Platform
 | Requirement | Minimum | Notes |
 |---|---|---|
-| PHP | 7.4 | CI matrix: 7.4, 8.1, 8.3, 8.4 |
+| PHP | 7.4 | Supported: 7.4, 8.0, 8.1, 8.2, 8.3. CI unit tests on all five; integration on 8.3 (wp-env) and 7.4 (`bin/test-integration-php.sh`). PHP 8.4+ is not declared supported until tested. |
 | WordPress | 6.4 | CI matrix: 6.4 and latest |
 | Database | Whatever WordPress supports | No custom tables in Free |
 | Multisite | Supported | Per-site settings; network activation supported |
@@ -52,3 +52,4 @@ Advanced schema types, regex redirects/404 log, multiple focus keywords, interna
 
 ## Changelog
 - 2026-09-29 — Initial version.
+- 2026-10-01 — Official PHP support set to 7.4–8.3 (minimum unchanged at 7.4); CI matrix changed from 7.4/8.1/8.3/8.4 to 7.4/8.0/8.1/8.2/8.3.

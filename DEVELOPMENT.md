@@ -1,7 +1,7 @@
 # Development
 
 ## Prerequisites
-- PHP 7.4+ (8.x recommended locally) with `mbstring`, `xml`, `zip`
+- PHP with `mbstring`, `xml`, `zip`. The plugin supports PHP 7.4, 8.0, 8.1, 8.2 and 8.3; code must stay 7.4-compatible (PHPCS and PHPStan enforce it). A newer local PHP is fine for running the tools.
 - Composer 2 (`brew install composer`)
 - Node.js 20+ and npm
 - Docker Desktop (running) — for the wp-env WordPress + MySQL environment
@@ -24,6 +24,7 @@ npm run env:start      # WordPress at http://localhost:8888 (admin / password)
 | `composer ci` | All of the above |
 | `npm run test:php:integration` | Integration tests inside wp-env against real WordPress + MySQL |
 | `npm run test:php:multisite` | Same integration suite, as a multisite network |
+| `bin/test-integration-php.sh <7.4\|8.0\|8.1\|8.2\|8.3> [single\|multisite\|woo]` | Integration suite on a specific PHP version, using the running wp-env environment (Docker required) |
 | `npm run test:php:woo` | Same integration suite with WooCommerce active (wp-env installs it); includes the `woocommerce` test group, which is skipped otherwise. Needs a WordPress version current WooCommerce supports |
 | `npm run lint:js` / `npm run test:js` | ESLint (WordPress config) / Jest |
 | `npm run build` | Build the editor sidebar (`build/editor/`) and block scripts (`build/blocks/*/`) |
