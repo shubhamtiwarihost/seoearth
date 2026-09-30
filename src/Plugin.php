@@ -191,7 +191,7 @@ final class Plugin {
 		$container->set(
 			AnalysisModule::class,
 			static function ( Container $c ) {
-				return new AnalysisModule( new InputFactory( $c->get( Resolver::class ), $c->get( Robots::class ) ), new Engine() );
+				return new AnalysisModule( new InputFactory( $c->get( Resolver::class ), $c->get( Robots::class ) ), Engine::seo(), Engine::readability() );
 			}
 		);
 		$container->set(

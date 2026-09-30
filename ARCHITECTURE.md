@@ -113,7 +113,10 @@ Rules/             one class per check, each returning a Result {status, severit
 - Rules are pure (no database, no globals), so they are unit-tested without WordPress and can be ported to JavaScript for live feedback in the editor. Until then, the editor phase calls the REST endpoint.
 - Analysis runs on the stored content (block markup), not on `the_content` output, to avoid running other plugins' filters on every keystroke. Dynamic blocks and shortcodes are therefore not expanded.
 - Measured: ~7,300-word post analysed in about 5 ms, 1 MB peak. Nothing is loaded on frontend requests except one `rest_api_init` hook.
-- User guide: [docs/ANALYSIS.md](docs/ANALYSIS.md).
+- Two rule sets share the engine: `Engine::seo()` and `Engine::readability()`. The endpoint returns `{ seo, readability }` built from one Input.
+- Readability (`src/Readability/`): `Sentences` (sentence splitting, English syllable estimate), `English` (transition words, passive-voice indicator), and one rule class per check. Language-specific rules check `Input::is_english()`; the content language comes from the site locale (`seoearth_content_locale` filter for multilingual sites).
+- Measured with both rule sets: ~5,900-word post in about 22 ms, 1 MB peak.
+- User guides: [docs/ANALYSIS.md](docs/ANALYSIS.md), [docs/READABILITY.md](docs/READABILITY.md).
 
 ## XML sitemap
 
@@ -194,7 +197,8 @@ assets-src/editor/    Gutenberg sidebar source (built by @wordpress/scripts → 
 | `seoearth_sitemap_images` (filter) | Change a post's sitemap images |
 | `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article` (filters) | Social tag control |
 | `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action` (filters) | Structured data control |
-| `seoearth_analysis_rules` (filter) | Add, replace or remove SEO analysis rules |
+| `seoearth_analysis_rules`, `seoearth_readability_rules` (filters) | Add, replace or remove analysis rules |
+| `seoearth_transition_words`, `seoearth_content_locale` (filters) | Readability word list; content language per post |
 | `seoearth_breadcrumb_trail` (filter) | Change the breadcrumb trail |
 | `seoearth_sitemap_image_hosts` (filter) | Hosts whose images count as this site's (e.g. a CDN) |
 | `seoearth_loaded` (action) | Run after core modules registered |

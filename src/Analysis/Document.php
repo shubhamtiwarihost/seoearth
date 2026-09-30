@@ -41,6 +41,28 @@ final class Document {
 	public $intro;
 
 	/**
+	 * Plain text of each non-empty paragraph. Without <p> tags (classic editor
+	 * text before wpautop), blank lines separate paragraphs.
+	 *
+	 * @var string[]
+	 */
+	public $paragraphs;
+
+	/**
+	 * Plain text of each non-empty list item.
+	 *
+	 * @var string[]
+	 */
+	public $list_items;
+
+	/**
+	 * Word counts of the text before the first subheading and after each one.
+	 *
+	 * @var int[]
+	 */
+	public $section_words;
+
+	/**
 	 * Plain text of each h2–h6 heading.
 	 *
 	 * @var string[]
@@ -80,18 +102,22 @@ final class Document {
 		$this->text       = self::plain( $html );
 		$this->word_count = self::count_words( $this->text );
 
-		$this->intro = '';
-		if ( preg_match_all( '@<p\b[^>]*>(.*?)</p>@is', $html, $paragraphs ) ) {
-			foreach ( $paragraphs[1] as $paragraph ) {
-				$plain = self::plain( $paragraph );
-				if ( '' !== $plain ) {
-					$this->intro = $plain;
-					break;
-				}
-			}
+		$has_p            = (bool) preg_match_all( '@<p\b[^>]*>(.*?)</p>@is', $html, $paragraphs );
+		$raw              = $has_p ? $paragraphs[1] : (array) preg_split( '/\n\s*\n/', $html );
+		$this->paragraphs = array_values( array_filter( array_map( array( self::class, 'plain' ), array_map( 'strval', $raw ) ) ) );
+
+		preg_match_all( '@<li\b[^>]*>(.*?)</li>@is', $html, $items );
+		$this->list_items = array_values( array_filter( array_map( array( self::class, 'plain' ), $items[1] ) ) );
+
+		$this->section_words = array();
+		foreach ( (array) preg_split( '@<h[2-6]\b[^>]*>.*?</h[2-6]>@is', $html ) as $section ) {
+			$this->section_words[] = self::count_words( self::plain( (string) $section ) );
 		}
-		if ( '' === $this->intro ) {
-			$this->intro = implode( ' ', array_slice( self::words( $this->text ), 0, 100 ) );
+
+		// Without <p> tags the first "paragraph" may be the whole text, so only its first 100 words count as the intro.
+		$this->intro = $this->paragraphs[0] ?? '';
+		if ( ! $has_p ) {
+			$this->intro = implode( ' ', array_slice( self::words( $this->intro ), 0, 100 ) );
 		}
 
 		preg_match_all( '@<h([2-6])\b[^>]*>(.*?)</h\1>@is', $html, $headings );

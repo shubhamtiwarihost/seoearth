@@ -79,9 +79,23 @@ final class Input {
 	public $keyphrase_used_by;
 
 	/**
+	 * Two-letter language code of the content, e.g. "en".
+	 *
+	 * @var string
+	 */
+	public $language;
+
+	/**
+	 * Sentences of the body text, split on first use.
+	 *
+	 * @var string[]|null
+	 */
+	private $sentences = null;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param array<string, mixed> $values Keys: keyphrase, title, description, slug, content (HTML), host, post_type, noindex, keyphrase_used_by.
+	 * @param array<string, mixed> $values Keys: keyphrase, title, description, slug, content (HTML), host, post_type, noindex, keyphrase_used_by, language.
 	 */
 	public function __construct( array $values ) {
 		$this->keyphrase         = new Keyphrase( (string) ( $values['keyphrase'] ?? '' ) );
@@ -93,6 +107,29 @@ final class Input {
 		$this->post_type         = (string) ( $values['post_type'] ?? 'post' );
 		$this->noindex           = ! empty( $values['noindex'] );
 		$this->keyphrase_used_by = array_map( 'intval', (array) ( $values['keyphrase_used_by'] ?? array() ) );
+		$this->language          = strtolower( substr( (string) ( $values['language'] ?? 'en' ), 0, 2 ) );
+	}
+
+	/**
+	 * Sentences of the paragraphs and list items (headings excluded).
+	 *
+	 * @return string[]
+	 */
+	public function sentences(): array {
+		if ( null === $this->sentences ) {
+			$this->sentences = array();
+			foreach ( array_merge( $this->content->paragraphs, $this->content->list_items ) as $block ) {
+				$this->sentences = array_merge( $this->sentences, \SEOEarth\Readability\Sentences::split( $block ) );
+			}
+		}
+		return $this->sentences;
+	}
+
+	/**
+	 * Whether the content is English (language-specific checks need this).
+	 */
+	public function is_english(): bool {
+		return 'en' === $this->language;
 	}
 
 	/**

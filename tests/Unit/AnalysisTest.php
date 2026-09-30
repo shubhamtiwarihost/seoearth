@@ -38,7 +38,7 @@ final class AnalysisTest extends TestCase {
 	 * @return array<string, array<string, mixed>>
 	 */
 	private function analyse( array $values ): array {
-		$report = ( new Engine() )->run( new Input( $values + array( 'host' => 'example.org' ) ) );
+		$report = Engine::seo()->run( new Input( $values + array( 'host' => 'example.org' ) ) );
 		return array_column( $report['results'], null, 'id' );
 	}
 
@@ -131,7 +131,7 @@ final class AnalysisTest extends TestCase {
 	}
 
 	public function test_problems_are_reported_worst_first(): void {
-		$report  = ( new Engine() )->run(
+		$report  = Engine::seo()->run(
 			new Input(
 				array(
 					'keyphrase' => 'boots',

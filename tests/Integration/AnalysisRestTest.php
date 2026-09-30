@@ -56,7 +56,7 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 	private function results( array $params ): array {
 		$response = $this->request( $params );
 		$this->assertSame( 200, $response->get_status(), (string) wp_json_encode( $response->get_data() ) );
-		return array_column( $response->get_data()['results'], null, 'id' );
+		return array_column( $response->get_data()['seo']['results'], null, 'id' );
 	}
 
 	public function test_permissions(): void {
@@ -162,5 +162,27 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 		$request->set_body_params( array( 'meta' => array( Keys::FOCUS_KEYPHRASE => 'hijack' ) ) );
 		$this->assertContains( rest_get_server()->dispatch( $request )->get_status(), array( 401, 403 ) );
 		$this->assertSame( 'Rain jackets', get_post_meta( $post, Keys::FOCUS_KEYPHRASE, true ) );
+	}
+
+	public function test_readability_report_and_content_language(): void {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
+		$post = self::factory()->post->create( array( 'post_content' => str_repeat( '<p>The cat sat on the mat. However, it was a big cat.</p>', 20 ) ) );
+
+		$data = $this->request( array( 'post_id' => $post ) )->get_data();
+		$this->assertSame( array( 'seo', 'readability' ), array_keys( $data ) );
+		$readability = array_column( $data['readability']['results'], null, 'id' );
+		$this->assertSame( 'pass', $readability['reading_ease']['status'] );
+		$this->assertSame( 'pass', $readability['transition_words']['status'] );
+
+		$german = static function () {
+			return 'de_DE';
+		};
+		add_filter( 'seoearth_content_locale', $german );
+		$data = $this->request( array( 'post_id' => $post ) )->get_data();
+		remove_filter( 'seoearth_content_locale', $german );
+
+		$ids = array_column( $data['readability']['results'], 'id' );
+		$this->assertContains( 'sentence_length', $ids );
+		$this->assertNotContains( 'reading_ease', $ids, 'English-only checks skipped.' );
 	}
 }

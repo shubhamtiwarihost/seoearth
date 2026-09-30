@@ -93,6 +93,13 @@ class InputFactory {
 				'post_type'         => $post->post_type,
 				'noindex'           => $this->robots->is_noindex( $context ) || '0' === (string) get_option( 'blog_public' ),
 				'keyphrase_used_by' => $this->used_by( $keyphrase, $post->ID ),
+				/**
+				 * Filters the language of a post's content (locale, e.g. "en_US"), for multilingual plugins.
+				 *
+				 * @param string   $locale Site locale.
+				 * @param \WP_Post $post   Post.
+				 */
+				'language'          => (string) apply_filters( 'seoearth_content_locale', get_locale(), $post ),
 			)
 		);
 	}

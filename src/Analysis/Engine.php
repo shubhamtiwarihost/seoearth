@@ -10,7 +10,8 @@ namespace SEOEarth\Analysis;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Runs every applicable rule and summarises the results.
+ * Runs every applicable rule of one rule set and summarises the results.
+ * The SEO checks and the readability checks are two engines with different rules.
  *
  * There is deliberately no numeric score: the checks are editorial guidance,
  * and a score would suggest a ranking effect nobody can promise. The summary
@@ -26,32 +27,73 @@ class Engine {
 	/**
 	 * Built-in rules keyed by ID.
 	 *
-	 * @return array<string, Rule>
+	 * @var array<string, Rule>
 	 */
-	public static function default_rules(): array {
-		$rules = array(
-			new Rules\KeyphraseSet(),
-			new Rules\KeyphraseInTitle(),
-			new Rules\KeyphraseInDescription(),
-			new Rules\KeyphraseInSlug(),
-			new Rules\KeyphraseInIntro(),
-			new Rules\KeyphraseDensity(),
-			new Rules\KeyphraseInSubheadings(),
-			new Rules\KeyphraseUnique(),
-			new Rules\TitleLength(),
-			new Rules\DescriptionLength(),
-			new Rules\ContentLength(),
-			new Rules\InternalLinks(),
-			new Rules\OutboundLinks(),
-			new Rules\ImageAlt(),
-			new Rules\SingleH1(),
-			new Rules\Indexable(),
-		);
-		$by_id = array();
+	private $rules;
+
+	/**
+	 * Filter that lets extensions change the rules.
+	 *
+	 * @var string
+	 */
+	private $filter;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Rule[] $rules  Built-in rules.
+	 * @param string $filter Filter name for extensions, e.g. "seoearth_analysis_rules".
+	 */
+	public function __construct( array $rules, string $filter ) {
+		$this->rules = array();
 		foreach ( $rules as $rule ) {
-			$by_id[ $rule->id() ] = $rule;
+			$this->rules[ $rule->id() ] = $rule;
 		}
-		return $by_id;
+		$this->filter = $filter;
+	}
+
+	/**
+	 * The SEO checks.
+	 */
+	public static function seo(): self {
+		return new self(
+			array(
+				new Rules\KeyphraseSet(),
+				new Rules\KeyphraseInTitle(),
+				new Rules\KeyphraseInDescription(),
+				new Rules\KeyphraseInSlug(),
+				new Rules\KeyphraseInIntro(),
+				new Rules\KeyphraseDensity(),
+				new Rules\KeyphraseInSubheadings(),
+				new Rules\KeyphraseUnique(),
+				new Rules\TitleLength(),
+				new Rules\DescriptionLength(),
+				new Rules\ContentLength(),
+				new Rules\InternalLinks(),
+				new Rules\OutboundLinks(),
+				new Rules\ImageAlt(),
+				new Rules\SingleH1(),
+				new Rules\Indexable(),
+			),
+			'seoearth_analysis_rules'
+		);
+	}
+
+	/**
+	 * The readability checks.
+	 */
+	public static function readability(): self {
+		return new self(
+			array(
+				new \SEOEarth\Readability\Rules\SentenceLength(),
+				new \SEOEarth\Readability\Rules\ParagraphLength(),
+				new \SEOEarth\Readability\Rules\SubheadingDistribution(),
+				new \SEOEarth\Readability\Rules\PassiveVoice(),
+				new \SEOEarth\Readability\Rules\TransitionWords(),
+				new \SEOEarth\Readability\Rules\ReadingEase(),
+			),
+			'seoearth_readability_rules'
+		);
 	}
 
 	/**
@@ -61,16 +103,15 @@ class Engine {
 	 * @return array{status: string, counts: array<string, int>, results: array<int, array{id: string, status: string, severity: string, message: string, recommendation: string, metadata: array<string, int|float|string|bool>}>}
 	 */
 	public function run( Input $input ): array {
-		$rules = self::default_rules();
-		if ( function_exists( 'apply_filters' ) ) {
-			/**
-			 * Filters the analysis rules. Entries that are not Rule instances are ignored.
-			 *
-			 * @param array<string, mixed> $rules Rules keyed by ID.
-			 * @param Input                $input Analysis input.
-			 */
-			$rules = apply_filters( 'seoearth_analysis_rules', $rules, $input );
-		}
+		/**
+		 * Filters the rules of a rule set. Entries that are not Rule instances are ignored.
+		 *
+		 * Hook names: `seoearth_analysis_rules` (SEO checks), `seoearth_readability_rules`.
+		 *
+		 * @param array<string, mixed> $rules Rules keyed by ID.
+		 * @param Input                $input Analysis input.
+		 */
+		$rules = apply_filters( $this->filter, $this->rules, $input ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Always one of the two seoearth_* names above.
 
 		$results = array();
 		foreach ( (array) $rules as $rule ) {

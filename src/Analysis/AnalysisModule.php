@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * `POST /seoearth/v1/analysis` — analyses a post, optionally with unsaved
- * editor values, and returns the rule results. Read-only: nothing is saved.
+ * editor values, and returns two reports: `seo` and `readability`.
+ * Read-only: nothing is saved.
  * Requires permission to edit that post.
  */
 final class AnalysisModule implements Module {
@@ -29,21 +30,30 @@ final class AnalysisModule implements Module {
 	private $factory;
 
 	/**
-	 * Rule engine.
+	 * SEO checks.
 	 *
 	 * @var Engine
 	 */
-	private $engine;
+	private $seo;
+
+	/**
+	 * Readability checks.
+	 *
+	 * @var Engine
+	 */
+	private $readability;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param InputFactory $factory Input builder.
-	 * @param Engine       $engine  Rule engine.
+	 * @param InputFactory $factory     Input builder.
+	 * @param Engine       $seo         SEO checks.
+	 * @param Engine       $readability Readability checks.
 	 */
-	public function __construct( InputFactory $factory, Engine $engine ) {
-		$this->factory = $factory;
-		$this->engine  = $engine;
+	public function __construct( InputFactory $factory, Engine $seo, Engine $readability ) {
+		$this->factory     = $factory;
+		$this->seo         = $seo;
+		$this->readability = $readability;
 	}
 
 	/**
@@ -125,6 +135,12 @@ final class AnalysisModule implements Module {
 			}
 		}
 
-		return rest_ensure_response( $this->engine->run( $this->factory->for_post( $post, $overrides ) ) );
+		$input = $this->factory->for_post( $post, $overrides );
+		return rest_ensure_response(
+			array(
+				'seo'         => $this->seo->run( $input ),
+				'readability' => $this->readability->run( $input ),
+			)
+		);
 	}
 }
