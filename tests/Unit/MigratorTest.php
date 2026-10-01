@@ -2,18 +2,18 @@
 /**
  * Tests for Migrator.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Actions;
-use SEOEarth\Migrations\Migrator;
+use ShubhamTiwariSeoTools\Migrations\Migrator;
 
 /**
  * Covers install, upgrade, ordering, locking and failure recovery.
  *
- * @covers \SEOEarth\Migrations\Migrator
+ * @covers \ShubhamTiwariSeoTools\Migrations\Migrator
  */
 final class MigratorTest extends TestCase {
 
@@ -42,8 +42,8 @@ final class MigratorTest extends TestCase {
 
 	public function test_fresh_install_records_version_without_running_steps(): void {
 		$options = OptionsStub::install();
-		Actions\expectDone( 'seoearth_installed' )->once()->with( '1.1.0' );
-		Actions\expectDone( 'seoearth_upgraded' )->never();
+		Actions\expectDone( 'stseo_installed' )->once()->with( '1.1.0' );
+		Actions\expectDone( 'stseo_upgraded' )->never();
 
 		$result = ( new Migrator( '1.1.0', $this->steps( array( '1.0.1', '1.1.0' ) ) ) )->maybe_run();
 
@@ -56,7 +56,7 @@ final class MigratorTest extends TestCase {
 
 	public function test_upgrade_runs_only_pending_steps_in_version_order(): void {
 		$options = OptionsStub::install( array( Migrator::VERSION_OPTION => '1.0.0' ) );
-		Actions\expectDone( 'seoearth_upgraded' )->once()->with( '1.0.0', '1.1.0', array( '1.0.1', '1.0.10', '1.1.0' ) );
+		Actions\expectDone( 'stseo_upgraded' )->once()->with( '1.0.0', '1.1.0', array( '1.0.1', '1.0.10', '1.1.0' ) );
 
 		$steps = $this->steps( array( '1.2.0', '1.0.10', '0.9.0', '1.1.0', '1.0.0', '1.0.1' ) );
 		$ran   = ( new Migrator( '1.1.0', $steps ) )->maybe_run();
@@ -69,7 +69,7 @@ final class MigratorTest extends TestCase {
 
 	public function test_up_to_date_site_does_nothing(): void {
 		OptionsStub::install( array( Migrator::VERSION_OPTION => '1.1.0' ) );
-		Actions\expectDone( 'seoearth_upgraded' )->never();
+		Actions\expectDone( 'stseo_upgraded' )->never();
 
 		$migrator = new Migrator( '1.1.0', $this->steps( array( '1.1.0' ) ) );
 

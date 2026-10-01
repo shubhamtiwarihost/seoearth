@@ -1,15 +1,18 @@
 /**
- * Presentational components for the SEOEarth sidebar.
+ * Presentational components for the ShubhamTiwari SEO Tools sidebar.
  */
 import { createElement } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 import { charLength, lengthBand } from './utils';
 
 export const STATUS = {
-	error: { symbol: '✕', label: __( 'Problem', 'seoearth' ) },
-	warning: { symbol: '!', label: __( 'Improvement', 'seoearth' ) },
-	info: { symbol: 'i', label: __( 'Note', 'seoearth' ) },
-	pass: { symbol: '✓', label: __( 'Good', 'seoearth' ) },
+	error: { symbol: '✕', label: __( 'Problem', 'shubhamtiwari-seo-tools' ) },
+	warning: {
+		symbol: '!',
+		label: __( 'Improvement', 'shubhamtiwari-seo-tools' ),
+	},
+	info: { symbol: 'i', label: __( 'Note', 'shubhamtiwari-seo-tools' ) },
+	pass: { symbol: '✓', label: __( 'Good', 'shubhamtiwari-seo-tools' ) },
 };
 
 /**
@@ -21,11 +24,11 @@ export const STATUS = {
 export function StatusMarker( { status } ) {
 	const info = STATUS[ status ] || STATUS.info;
 	return (
-		<span className={ `seoearth-status seoearth-status--${ status }` }>
-			<span aria-hidden="true" className="seoearth-status__symbol">
+		<span className={ `stseo-status stseo-status--${ status }` }>
+			<span aria-hidden="true" className="stseo-status__symbol">
 				{ info.symbol }
 			</span>
-			<span className="seoearth-status__label">{ info.label }</span>
+			<span className="stseo-status__label">{ info.label }</span>
 		</span>
 	);
 }
@@ -44,14 +47,14 @@ export function LengthHint( { text, min, max } ) {
 	let message;
 	switch ( band ) {
 		case 'empty':
-			message = __( 'Empty.', 'seoearth' );
+			message = __( 'Empty.', 'shubhamtiwari-seo-tools' );
 			break;
 		case 'short':
 			message = sprintf(
 				/* translators: 1: characters, 2: recommended minimum, 3: recommended maximum. */
 				__(
 					'%1$d characters — a little short (aim for %2$d–%3$d).',
-					'seoearth'
+					'shubhamtiwari-seo-tools'
 				),
 				length,
 				min,
@@ -63,7 +66,7 @@ export function LengthHint( { text, min, max } ) {
 				/* translators: 1: characters, 2: recommended minimum, 3: recommended maximum. */
 				__(
 					'%1$d characters — may be cut off (aim for %2$d–%3$d).',
-					'seoearth'
+					'shubhamtiwari-seo-tools'
 				),
 				length,
 				min,
@@ -73,14 +76,17 @@ export function LengthHint( { text, min, max } ) {
 		default:
 			message = sprintf(
 				/* translators: 1: characters, 2: recommended minimum, 3: recommended maximum. */
-				__( '%1$d characters — good length (%2$d–%3$d).', 'seoearth' ),
+				__(
+					'%1$d characters — good length (%2$d–%3$d).',
+					'shubhamtiwari-seo-tools'
+				),
 				length,
 				min,
 				max
 			);
 	}
 	return (
-		<span className={ `seoearth-length seoearth-length--${ band }` }>
+		<span className={ `stseo-length stseo-length--${ band }` }>
 			{ message }
 		</span>
 	);
@@ -97,19 +103,22 @@ export function LengthHint( { text, min, max } ) {
 export function SearchPreview( { title, url, description } ) {
 	return (
 		<div
-			className="seoearth-preview"
-			aria-label={ __( 'Search result preview', 'seoearth' ) }
+			className="stseo-preview"
+			aria-label={ __(
+				'Search result preview',
+				'shubhamtiwari-seo-tools'
+			) }
 			role="group"
 		>
-			<p className="seoearth-preview__url">{ url }</p>
-			<p className="seoearth-preview__title">
-				{ title || __( '(no title)', 'seoearth' ) }
+			<p className="stseo-preview__url">{ url }</p>
+			<p className="stseo-preview__title">
+				{ title || __( '(no title)', 'shubhamtiwari-seo-tools' ) }
 			</p>
-			<p className="seoearth-preview__description">
+			<p className="stseo-preview__description">
 				{ description ||
 					__(
 						'No description: search engines will pick text from the page.',
-						'seoearth'
+						'shubhamtiwari-seo-tools'
 					) }
 			</p>
 		</div>
@@ -127,18 +136,18 @@ export function ResultList( { report } ) {
 		return null;
 	}
 	return (
-		<ul className="seoearth-results">
+		<ul className="stseo-results">
 			{ report.results.map( ( result ) => (
 				<li
 					key={ result.id }
-					className={ `seoearth-result seoearth-result--${ result.status }` }
+					className={ `stseo-result stseo-result--${ result.status }` }
 				>
 					<StatusMarker status={ result.status } />
-					<span className="seoearth-result__message">
+					<span className="stseo-result__message">
 						{ result.message }
 					</span>
 					{ result.recommendation && (
-						<span className="seoearth-result__advice">
+						<span className="stseo-result__advice">
 							{ result.recommendation }
 						</span>
 					) }

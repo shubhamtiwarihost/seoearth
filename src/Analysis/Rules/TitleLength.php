@@ -2,13 +2,13 @@
 /**
  * SEO title length.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -50,15 +50,15 @@ final class TitleLength extends BaseRule {
 			'max'    => self::MAX,
 		);
 		if ( 0 === $length ) {
-			return $this->result( Result::ERROR, Result::HIGH, __( 'The page has no SEO title.', 'seoearth' ), __( 'Give the page a title.', 'seoearth' ), $meta );
+			return $this->result( Result::ERROR, Result::HIGH, __( 'The page has no SEO title.', 'shubhamtiwari-seo-tools' ), __( 'Give the page a title.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		/* translators: %d: number of characters. */
-		$found = sprintf( _n( 'The SEO title is %d character long.', 'The SEO title is %d characters long.', $length, 'seoearth' ), $length );
+		$found = sprintf( _n( 'The SEO title is %d character long.', 'The SEO title is %d characters long.', $length, 'shubhamtiwari-seo-tools' ), $length );
 		if ( $length < self::MIN ) {
-			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Add a few descriptive words; there is room for more.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Add a few descriptive words; there is room for more.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		if ( $length > self::MAX ) {
-			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Shorten the title so search results are less likely to cut it off.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Shorten the title so search results are less likely to cut it off.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		return $this->result( Result::PASS, Result::MEDIUM, $found, '', $meta );
 	}

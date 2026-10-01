@@ -2,10 +2,10 @@
 /**
  * Post types that get SEO editing controls.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Admin;
+namespace ShubhamTiwariSeoTools\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -33,11 +33,11 @@ final class PostTypes {
 		);
 
 		/**
-		 * Filters the post types that get the SEOEarth sidebar and metabox.
+		 * Filters the post types that get the ShubhamTiwari SEO Tools sidebar and metabox.
 		 *
 		 * @param mixed $types Post type names. Non-strings are ignored.
 		 */
-		$filtered = apply_filters( 'seoearth_editor_post_types', $types );
+		$filtered = apply_filters( 'stseo_editor_post_types', $types );
 		return array_values( array_filter( (array) $filtered, 'is_string' ) );
 	}
 

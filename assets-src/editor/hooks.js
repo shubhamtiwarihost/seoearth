@@ -1,5 +1,5 @@
 /**
- * Data hooks for the SEOEarth sidebar.
+ * Data hooks for the ShubhamTiwari SEO Tools sidebar.
  */
 import apiFetch from '@wordpress/api-fetch';
 import { select, useDispatch, useSelect } from '@wordpress/data';
@@ -8,18 +8,18 @@ import { useEffect, useState } from '@wordpress/element';
 import { analysisRequest } from './utils';
 
 export const KEYS = {
-	title: '_seoearth_title',
-	description: '_seoearth_description',
-	keyphrase: '_seoearth_focus_keyphrase',
-	canonical: '_seoearth_canonical',
-	robots: '_seoearth_robots',
-	socialTitle: '_seoearth_social_title',
-	socialDescription: '_seoearth_social_description',
-	socialImage: '_seoearth_social_image',
+	title: '_stseo_title',
+	description: '_stseo_description',
+	keyphrase: '_stseo_focus_keyphrase',
+	canonical: '_stseo_canonical',
+	robots: '_stseo_robots',
+	socialTitle: '_stseo_social_title',
+	socialDescription: '_stseo_social_description',
+	socialImage: '_stseo_social_image',
 };
 
 /**
- * The post's SEOEarth meta and a setter. Values are saved with the post.
+ * The post's ShubhamTiwari SEO Tools meta and a setter. Values are saved with the post.
  *
  * @return {[Object<string, string>, function(string, string): void]} Meta and setter.
  */
@@ -37,7 +37,7 @@ export function useSeoMeta() {
  * Runs the analysis on the unsaved post, one second after the last change.
  * Older requests are aborted so a slow response never overwrites a newer one.
  *
- * @param {Object<string, string>} meta Current SEOEarth meta.
+ * @param {Object<string, string>} meta Current ShubhamTiwari SEO Tools meta.
  * @return {{data: Object|null, loading: boolean, error: string}} State.
  */
 export function useAnalysis( meta ) {
@@ -73,7 +73,7 @@ export function useAnalysis( meta ) {
 		const timer = window.setTimeout( () => {
 			setState( ( previous ) => ( { ...previous, loading: true } ) );
 			apiFetch( {
-				path: '/seoearth/v1/analysis',
+				path: '/stseo/v1/analysis',
 				method: 'POST',
 				signal: controller ? controller.signal : undefined,
 				data: analysisRequest( postId, {

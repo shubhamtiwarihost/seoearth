@@ -2,48 +2,48 @@
 /**
  * Plugin container and module registry.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth;
+namespace ShubhamTiwariSeoTools;
 
-use SEOEarth\Analysis\AnalysisModule;
-use SEOEarth\Analysis\Engine;
-use SEOEarth\Analysis\InputFactory;
-use SEOEarth\Admin\EditorModule;
-use SEOEarth\Admin\Metabox;
-use SEOEarth\Admin\SettingsPage;
-use SEOEarth\Admin\TermFields;
-use SEOEarth\Breadcrumbs\BreadcrumbsModule;
-use SEOEarth\Breadcrumbs\Renderer;
-use SEOEarth\Breadcrumbs\Trail;
-use SEOEarth\Compatibility\Conflicts;
-use SEOEarth\Frontend\CurrentPage;
-use SEOEarth\Frontend\HeadModule;
-use SEOEarth\Redirects\AdminScreen as RedirectsAdmin;
-use SEOEarth\Redirects\RedirectsModule;
-use SEOEarth\Redirects\Store as RedirectStore;
-use SEOEarth\Images\ImagesModule;
-use SEOEarth\Meta\Canonical;
-use SEOEarth\Meta\MetaModule;
-use SEOEarth\Meta\Resolver;
-use SEOEarth\Meta\Robots;
-use SEOEarth\Meta\TemplateEngine;
-use SEOEarth\Meta\SearchAppearanceFields;
-use SEOEarth\Meta\VariableValues;
-use SEOEarth\Migrations\Migrator;
-use SEOEarth\Migrations\Registry;
-use SEOEarth\Schema\Graph;
-use SEOEarth\Schema\SchemaModule;
-use SEOEarth\Settings\Sanitizer;
-use SEOEarth\Settings\Schema;
-use SEOEarth\Settings\Settings;
-use SEOEarth\Sitemap\Exclusions;
-use SEOEarth\Sitemap\Images;
-use SEOEarth\Sitemap\SitemapModule;
-use SEOEarth\Social\SocialModule;
-use SEOEarth\Social\SocialTags;
-use SEOEarth\WooCommerce\WooModule;
+use ShubhamTiwariSeoTools\Analysis\AnalysisModule;
+use ShubhamTiwariSeoTools\Analysis\Engine;
+use ShubhamTiwariSeoTools\Analysis\InputFactory;
+use ShubhamTiwariSeoTools\Admin\EditorModule;
+use ShubhamTiwariSeoTools\Admin\Metabox;
+use ShubhamTiwariSeoTools\Admin\SettingsPage;
+use ShubhamTiwariSeoTools\Admin\TermFields;
+use ShubhamTiwariSeoTools\Breadcrumbs\BreadcrumbsModule;
+use ShubhamTiwariSeoTools\Breadcrumbs\Renderer;
+use ShubhamTiwariSeoTools\Breadcrumbs\Trail;
+use ShubhamTiwariSeoTools\Compatibility\Conflicts;
+use ShubhamTiwariSeoTools\Frontend\CurrentPage;
+use ShubhamTiwariSeoTools\Frontend\HeadModule;
+use ShubhamTiwariSeoTools\Redirects\AdminScreen as RedirectsAdmin;
+use ShubhamTiwariSeoTools\Redirects\RedirectsModule;
+use ShubhamTiwariSeoTools\Redirects\Store as RedirectStore;
+use ShubhamTiwariSeoTools\Images\ImagesModule;
+use ShubhamTiwariSeoTools\Meta\Canonical;
+use ShubhamTiwariSeoTools\Meta\MetaModule;
+use ShubhamTiwariSeoTools\Meta\Resolver;
+use ShubhamTiwariSeoTools\Meta\Robots;
+use ShubhamTiwariSeoTools\Meta\TemplateEngine;
+use ShubhamTiwariSeoTools\Meta\SearchAppearanceFields;
+use ShubhamTiwariSeoTools\Meta\VariableValues;
+use ShubhamTiwariSeoTools\Migrations\Migrator;
+use ShubhamTiwariSeoTools\Migrations\Registry;
+use ShubhamTiwariSeoTools\Schema\Graph;
+use ShubhamTiwariSeoTools\Schema\SchemaModule;
+use ShubhamTiwariSeoTools\Settings\Sanitizer;
+use ShubhamTiwariSeoTools\Settings\Schema;
+use ShubhamTiwariSeoTools\Settings\Settings;
+use ShubhamTiwariSeoTools\Sitemap\Exclusions;
+use ShubhamTiwariSeoTools\Sitemap\Images;
+use ShubhamTiwariSeoTools\Sitemap\SitemapModule;
+use ShubhamTiwariSeoTools\Social\SocialModule;
+use ShubhamTiwariSeoTools\Social\SocialTags;
+use ShubhamTiwariSeoTools\WooCommerce\WooModule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,7 +51,7 @@ defined( 'ABSPATH' ) || exit;
  * Owns the service container and boots modules once.
  *
  * Extensions (including a future Pro add-on) add modules through the
- * `seoearth_modules` filter and services through the `seoearth_container`
+ * `stseo_modules` filter and services through the `stseo_container`
  * action rather than by editing this class.
  */
 final class Plugin {
@@ -118,7 +118,7 @@ final class Plugin {
 		$container->set(
 			Migrator::class,
 			static function () {
-				return new Migrator( SEOEARTH_VERSION, Registry::all() );
+				return new Migrator( STSEO_VERSION, Registry::all() );
 			}
 		);
 		$container->set(
@@ -291,10 +291,10 @@ final class Plugin {
 		 *
 		 * @param Container $container Service container.
 		 */
-		do_action( 'seoearth_container', $this->container );
+		do_action( 'stseo_container', $this->container );
 
 		/**
-		 * Filters the modules SEOEarth loads.
+		 * Filters the modules ShubhamTiwari SEO Tools loads.
 		 *
 		 * Third-party callbacks may return anything, so entries that are not
 		 * Module instances are skipped.
@@ -302,7 +302,7 @@ final class Plugin {
 		 * @param array<string, mixed> $modules   Modules keyed by ID.
 		 * @param Container            $container Service container.
 		 */
-		$modules = apply_filters( 'seoearth_modules', $this->default_modules(), $this->container );
+		$modules = apply_filters( 'stseo_modules', $this->default_modules(), $this->container );
 
 		foreach ( (array) $modules as $id => $module ) {
 			if ( ! $module instanceof Module || ! $module->should_load() ) {
@@ -313,11 +313,11 @@ final class Plugin {
 		}
 
 		/**
-		 * Fires after SEOEarth has registered its modules.
+		 * Fires after ShubhamTiwari SEO Tools has registered its modules.
 		 *
 		 * @param Plugin $plugin The plugin instance.
 		 */
-		do_action( 'seoearth_loaded', $this );
+		do_action( 'stseo_loaded', $this );
 	}
 
 	/**

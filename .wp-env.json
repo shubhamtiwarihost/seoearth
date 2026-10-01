@@ -6,10 +6,10 @@
 		"https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip"
 	],
 	"mappings": {
-		"wp-content/plugins/seoearth": "."
+		"wp-content/plugins/shubhamtiwari-seo-tools": "."
 	},
 	"lifecycleScripts": {
-		"afterStart": "npx wp-env run cli wp plugin activate seoearth && npx wp-env run tests-cli wp plugin activate seoearth"
+		"afterStart": "npx wp-env run cli wp plugin activate shubhamtiwari-seo-tools && npx wp-env run tests-cli wp plugin activate shubhamtiwari-seo-tools"
 	},
 	"config": {
 		"WP_DEBUG": true,

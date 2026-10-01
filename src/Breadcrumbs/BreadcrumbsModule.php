@@ -2,27 +2,27 @@
 /**
  * Visible breadcrumbs.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Breadcrumbs;
+namespace ShubhamTiwariSeoTools\Breadcrumbs;
 
-use SEOEarth\Frontend\CurrentPage;
-use SEOEarth\Helpers\Assets;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Frontend\CurrentPage;
+use ShubhamTiwariSeoTools\Helpers\Assets;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Breadcrumbs are opt-in: nothing is printed until the site owner places the
- * "Breadcrumbs" block, the [seoearth_breadcrumbs] shortcode, or a
- * seoearth_breadcrumbs() call in the theme.
+ * "Breadcrumbs" block, the [stseo_breadcrumbs] shortcode, or a
+ * stseo_breadcrumbs() call in the theme.
  */
 final class BreadcrumbsModule implements Module {
 
-	public const SHORTCODE = 'seoearth_breadcrumbs';
-	public const BLOCK     = 'seoearth/breadcrumbs';
-	public const STYLE     = 'seoearth-breadcrumbs';
+	public const SHORTCODE = 'stseo_breadcrumbs';
+	public const BLOCK     = 'stseo/breadcrumbs';
+	public const STYLE     = 'stseo-breadcrumbs';
 
 	/**
 	 * Current page SEO data.
@@ -69,12 +69,12 @@ final class BreadcrumbsModule implements Module {
 	public function register_block_and_shortcode(): void {
 		add_shortcode( self::SHORTCODE, array( $this, 'shortcode' ) );
 
-		wp_register_style( self::STYLE, false, array(), SEOEARTH_VERSION );
+		wp_register_style( self::STYLE, false, array(), STSEO_VERSION );
 		wp_add_inline_style( self::STYLE, Renderer::css() );
 
 		$args = array(
 			'api_version'     => '3',
-			'title'           => __( 'Breadcrumbs', 'seoearth' ),
+			'title'           => __( 'Breadcrumbs', 'shubhamtiwari-seo-tools' ),
 			'category'        => 'theme',
 			'render_callback' => array( $this, 'render_block' ),
 			'style_handles'   => array( self::STYLE ),
@@ -96,9 +96,9 @@ final class BreadcrumbsModule implements Module {
 
 		$asset = Assets::manifest( 'blocks/breadcrumbs' );
 		if ( null !== $asset ) {
-			wp_register_script( 'seoearth-breadcrumbs-block', $asset['url'] . 'index.js', $asset['dependencies'], $asset['version'], true );
-			wp_set_script_translations( 'seoearth-breadcrumbs-block', 'seoearth', SEOEARTH_DIR . 'languages' );
-			$args['editor_script_handles'] = array( 'seoearth-breadcrumbs-block' );
+			wp_register_script( 'stseo-breadcrumbs-block', $asset['url'] . 'index.js', $asset['dependencies'], $asset['version'], true );
+			wp_set_script_translations( 'stseo-breadcrumbs-block', 'shubhamtiwari-seo-tools', STSEO_DIR . 'languages' );
+			$args['editor_script_handles'] = array( 'stseo-breadcrumbs-block' );
 		}
 
 		register_block_type( self::BLOCK, $args );
@@ -109,7 +109,7 @@ final class BreadcrumbsModule implements Module {
 	 *
 	 * @param string $wrapper_attrs Already-escaped attributes for the <nav>.
 	 */
-	public function html( string $wrapper_attrs = 'class="seoearth-breadcrumbs"' ): string {
+	public function html( string $wrapper_attrs = 'class="stseo-breadcrumbs"' ): string {
 		$data = $this->page->data();
 		if ( null === $data ) {
 			return '';
@@ -136,6 +136,6 @@ final class BreadcrumbsModule implements Module {
 	 * @return string
 	 */
 	public function render_block(): string {
-		return $this->html( get_block_wrapper_attributes( array( 'class' => 'seoearth-breadcrumbs' ) ) );
+		return $this->html( get_block_wrapper_attributes( array( 'class' => 'stseo-breadcrumbs' ) ) );
 	}
 }

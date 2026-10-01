@@ -2,10 +2,10 @@
 /**
  * Finding the focus keyphrase in text.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
 defined( 'ABSPATH' ) || exit;
 

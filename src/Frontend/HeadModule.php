@@ -2,13 +2,13 @@
 /**
  * Prints the SEO title, meta description, canonical and robots directives.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Frontend;
+namespace ShubhamTiwariSeoTools\Frontend;
 
-use SEOEarth\Context;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -97,7 +97,7 @@ final class HeadModule implements Module {
 	}
 
 	/**
-	 * Adds SEOEarth directives to core's robots meta tag. Never removes core directives.
+	 * Adds ShubhamTiwari SEO Tools directives to core's robots meta tag. Never removes core directives.
 	 *
 	 * @param mixed $robots Directives from core and other plugins.
 	 * @return mixed
@@ -171,14 +171,14 @@ final class HeadModule implements Module {
 	}
 
 	/**
-	 * Whether SEOEarth should print its head tags.
+	 * Whether ShubhamTiwari SEO Tools should print its head tags.
 	 */
 	private function enabled(): bool {
 		/**
-		 * Filters whether SEOEarth outputs title, description, canonical and robots.
+		 * Filters whether ShubhamTiwari SEO Tools outputs title, description, canonical and robots.
 		 *
 		 * @param bool $enabled Default true.
 		 */
-		return (bool) apply_filters( 'seoearth_head_output_enabled', true );
+		return (bool) apply_filters( 'stseo_head_output_enabled', true );
 	}
 }

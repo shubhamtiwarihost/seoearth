@@ -1,23 +1,23 @@
 <?php
 /**
- * PSR-4 autoloader for the SEOEarth namespace.
+ * PSR-4 autoloader for the ShubhamTiwariSeoTools namespace.
  *
  * The plugin ships without a Composer vendor directory, so it carries its own
  * tiny autoloader. Composer is used for development tooling only.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth;
+namespace ShubhamTiwariSeoTools;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Maps SEOEarth\Foo\Bar to src/Foo/Bar.php.
+ * Maps ShubhamTiwariSeoTools\Foo\Bar to src/Foo/Bar.php.
  */
 final class Autoloader {
 
-	private const PREFIX = 'SEOEarth\\';
+	private const PREFIX = 'ShubhamTiwariSeoTools\\';
 
 	/**
 	 * Base directory of the namespace root, with trailing slash.
@@ -37,7 +37,7 @@ final class Autoloader {
 	}
 
 	/**
-	 * Loads a class file if it belongs to the SEOEarth namespace.
+	 * Loads a class file if it belongs to the ShubhamTiwariSeoTools namespace.
 	 *
 	 * @param string $class_name Fully qualified class name.
 	 */

@@ -2,13 +2,13 @@
 /**
  * Meta description length.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,18 +53,18 @@ final class DescriptionLength extends BaseRule {
 			return $this->result(
 				Result::WARNING,
 				Result::MEDIUM,
-				__( 'The page has no meta description.', 'seoearth' ),
-				__( 'Write a short summary; otherwise search engines choose a snippet from the page themselves.', 'seoearth' ),
+				__( 'The page has no meta description.', 'shubhamtiwari-seo-tools' ),
+				__( 'Write a short summary; otherwise search engines choose a snippet from the page themselves.', 'shubhamtiwari-seo-tools' ),
 				$meta
 			);
 		}
 		/* translators: %d: number of characters. */
-		$found = sprintf( _n( 'The meta description is %d character long.', 'The meta description is %d characters long.', $length, 'seoearth' ), $length );
+		$found = sprintf( _n( 'The meta description is %d character long.', 'The meta description is %d characters long.', $length, 'shubhamtiwari-seo-tools' ), $length );
 		if ( $length < self::MIN ) {
-			return $this->result( Result::WARNING, Result::LOW, $found, __( 'There is room to say a little more about the page.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::LOW, $found, __( 'There is room to say a little more about the page.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		if ( $length > self::MAX ) {
-			return $this->result( Result::WARNING, Result::LOW, $found, __( 'Shorten it so the end is not cut off in search results.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::LOW, $found, __( 'Shorten it so the end is not cut off in search results.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		return $this->result( Result::PASS, Result::LOW, $found, '', $meta );
 	}

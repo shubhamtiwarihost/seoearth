@@ -2,15 +2,15 @@
 /**
  * SEO fields on the term edit screen.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Admin;
+namespace ShubhamTiwariSeoTools\Admin;
 
-use SEOEarth\Context;
-use SEOEarth\Meta\Keys;
-use SEOEarth\Meta\Robots;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Meta\Keys;
+use ShubhamTiwariSeoTools\Meta\Robots;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class TermFields implements Module {
 
-	public const NONCE_FIELD        = 'seoearth_term_nonce';
+	public const NONCE_FIELD        = 'stseo_term_nonce';
 	public const TITLE_FIELD        = SeoForm::TITLE_FIELD;
 	public const DESC_FIELD         = SeoForm::DESC_FIELD;
 	public const CANON_FIELD        = SeoForm::CANON_FIELD;
@@ -113,62 +113,62 @@ final class TermFields implements Module {
 
 		wp_nonce_field( $this->nonce_action( $term->term_id ), self::NONCE_FIELD );
 		?>
-		<tr class="form-field seoearth-term-title">
-			<th scope="row"><label for="seoearth-term-title"><?php esc_html_e( 'SEO title', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-title">
+			<th scope="row"><label for="stseo-term-title"><?php esc_html_e( 'SEO title', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<input type="text" id="seoearth-term-title" name="<?php echo esc_attr( self::TITLE_FIELD ); ?>" value="<?php echo esc_attr( $title ); ?>" aria-describedby="seoearth-term-title-description" />
-				<p class="description" id="seoearth-term-title-description"><?php esc_html_e( 'Leave empty to use the title template from SEOEarth settings. Variables such as %%site_name%% are allowed.', 'seoearth' ); ?></p>
+				<input type="text" id="stseo-term-title" name="<?php echo esc_attr( self::TITLE_FIELD ); ?>" value="<?php echo esc_attr( $title ); ?>" aria-describedby="stseo-term-title-description" />
+				<p class="description" id="stseo-term-title-description"><?php esc_html_e( 'Leave empty to use the title template from ShubhamTiwari SEO Tools settings. Variables such as %%site_name%% are allowed.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-description">
-			<th scope="row"><label for="seoearth-term-description"><?php esc_html_e( 'Meta description', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-description">
+			<th scope="row"><label for="stseo-term-description"><?php esc_html_e( 'Meta description', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<textarea id="seoearth-term-description" name="<?php echo esc_attr( self::DESC_FIELD ); ?>" rows="3" aria-describedby="seoearth-term-description-help"><?php echo esc_textarea( $description ); ?></textarea>
-				<p class="description" id="seoearth-term-description-help"><?php esc_html_e( 'Leave empty to use the description template.', 'seoearth' ); ?></p>
+				<textarea id="stseo-term-description" name="<?php echo esc_attr( self::DESC_FIELD ); ?>" rows="3" aria-describedby="stseo-term-description-help"><?php echo esc_textarea( $description ); ?></textarea>
+				<p class="description" id="stseo-term-description-help"><?php esc_html_e( 'Leave empty to use the description template.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-canonical">
-			<th scope="row"><label for="seoearth-term-canonical"><?php esc_html_e( 'Canonical URL', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-canonical">
+			<th scope="row"><label for="stseo-term-canonical"><?php esc_html_e( 'Canonical URL', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<input type="url" id="seoearth-term-canonical" name="<?php echo esc_attr( self::CANON_FIELD ); ?>" value="<?php echo esc_attr( $canonical ); ?>" aria-describedby="seoearth-term-canonical-help" />
-				<p class="description" id="seoearth-term-canonical-help"><?php esc_html_e( 'Only if this archive duplicates another page. Must be a full address starting with https:// or http://. Leave empty for the archive’s own address.', 'seoearth' ); ?></p>
+				<input type="url" id="stseo-term-canonical" name="<?php echo esc_attr( self::CANON_FIELD ); ?>" value="<?php echo esc_attr( $canonical ); ?>" aria-describedby="stseo-term-canonical-help" />
+				<p class="description" id="stseo-term-canonical-help"><?php esc_html_e( 'Only if this archive duplicates another page. Must be a full address starting with https:// or http://. Leave empty for the archive’s own address.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-robots">
-			<th scope="row"><label for="seoearth-term-robots-index"><?php esc_html_e( 'Search engines', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-robots">
+			<th scope="row"><label for="stseo-term-robots-index"><?php esc_html_e( 'Search engines', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<select id="seoearth-term-robots-index" name="<?php echo esc_attr( self::INDEX_FIELD ); ?>">
-					<option value="" <?php selected( $index, '' ); ?>><?php esc_html_e( 'Default (from SEOEarth settings)', 'seoearth' ); ?></option>
-					<option value="index" <?php selected( $index, 'index' ); ?>><?php esc_html_e( 'Show in search results (index)', 'seoearth' ); ?></option>
-					<option value="noindex" <?php selected( $index, 'noindex' ); ?>><?php esc_html_e( 'Hide from search results (noindex)', 'seoearth' ); ?></option>
+				<select id="stseo-term-robots-index" name="<?php echo esc_attr( self::INDEX_FIELD ); ?>">
+					<option value="" <?php selected( $index, '' ); ?>><?php esc_html_e( 'Default (from ShubhamTiwari SEO Tools settings)', 'shubhamtiwari-seo-tools' ); ?></option>
+					<option value="index" <?php selected( $index, 'index' ); ?>><?php esc_html_e( 'Show in search results (index)', 'shubhamtiwari-seo-tools' ); ?></option>
+					<option value="noindex" <?php selected( $index, 'noindex' ); ?>><?php esc_html_e( 'Hide from search results (noindex)', 'shubhamtiwari-seo-tools' ); ?></option>
 				</select>
 				<fieldset>
-					<legend class="screen-reader-text"><?php esc_html_e( 'Additional search engine directives', 'seoearth' ); ?></legend>
+					<legend class="screen-reader-text"><?php esc_html_e( 'Additional search engine directives', 'shubhamtiwari-seo-tools' ); ?></legend>
 					<?php foreach ( $directives as $directive => $label ) : ?>
 						<label><input type="checkbox" name="<?php echo esc_attr( self::ROBOT_FIELD ); ?>[]" value="<?php echo esc_attr( $directive ); ?>" <?php checked( in_array( $directive, $robots, true ) ); ?> /> <?php echo esc_html( $label ); ?></label><br />
 					<?php endforeach; ?>
 				</fieldset>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-social-title">
-			<th scope="row"><label for="seoearth-term-social-title"><?php esc_html_e( 'Social sharing title', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-social-title">
+			<th scope="row"><label for="stseo-term-social-title"><?php esc_html_e( 'Social sharing title', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<input type="text" id="seoearth-term-social-title" name="<?php echo esc_attr( self::SOCIAL_TITLE_FIELD ); ?>" value="<?php echo esc_attr( $social['title'] ); ?>" aria-describedby="seoearth-term-social-title-help" />
-				<p class="description" id="seoearth-term-social-title-help"><?php esc_html_e( 'Shown when this archive is shared on social media. Leave empty to use the SEO title.', 'seoearth' ); ?></p>
+				<input type="text" id="stseo-term-social-title" name="<?php echo esc_attr( self::SOCIAL_TITLE_FIELD ); ?>" value="<?php echo esc_attr( $social['title'] ); ?>" aria-describedby="stseo-term-social-title-help" />
+				<p class="description" id="stseo-term-social-title-help"><?php esc_html_e( 'Shown when this archive is shared on social media. Leave empty to use the SEO title.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-social-description">
-			<th scope="row"><label for="seoearth-term-social-description"><?php esc_html_e( 'Social sharing description', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-social-description">
+			<th scope="row"><label for="stseo-term-social-description"><?php esc_html_e( 'Social sharing description', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<textarea id="seoearth-term-social-description" name="<?php echo esc_attr( self::SOCIAL_DESC_FIELD ); ?>" rows="2" aria-describedby="seoearth-term-social-description-help"><?php echo esc_textarea( $social['description'] ); ?></textarea>
-				<p class="description" id="seoearth-term-social-description-help"><?php esc_html_e( 'Leave empty to use the meta description.', 'seoearth' ); ?></p>
+				<textarea id="stseo-term-social-description" name="<?php echo esc_attr( self::SOCIAL_DESC_FIELD ); ?>" rows="2" aria-describedby="stseo-term-social-description-help"><?php echo esc_textarea( $social['description'] ); ?></textarea>
+				<p class="description" id="stseo-term-social-description-help"><?php esc_html_e( 'Leave empty to use the meta description.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
-		<tr class="form-field seoearth-term-social-image">
-			<th scope="row"><label for="seoearth-term-social-image"><?php esc_html_e( 'Social sharing image URL', 'seoearth' ); ?></label></th>
+		<tr class="form-field stseo-term-social-image">
+			<th scope="row"><label for="stseo-term-social-image"><?php esc_html_e( 'Social sharing image URL', 'shubhamtiwari-seo-tools' ); ?></label></th>
 			<td>
-				<input type="url" id="seoearth-term-social-image" name="<?php echo esc_attr( self::SOCIAL_IMAGE_FIELD ); ?>" value="<?php echo esc_attr( $social['image'] ); ?>" aria-describedby="seoearth-term-social-image-help" />
-				<p class="description" id="seoearth-term-social-image-help"><?php esc_html_e( 'Full image address starting with https://. Leave empty to use the default sharing image.', 'seoearth' ); ?></p>
+				<input type="url" id="stseo-term-social-image" name="<?php echo esc_attr( self::SOCIAL_IMAGE_FIELD ); ?>" value="<?php echo esc_attr( $social['image'] ); ?>" aria-describedby="stseo-term-social-image-help" />
+				<p class="description" id="stseo-term-social-image-help"><?php esc_html_e( 'Full image address starting with https://. Leave empty to use the default sharing image.', 'shubhamtiwari-seo-tools' ); ?></p>
 			</td>
 		</tr>
 		<?php
@@ -215,6 +215,6 @@ final class TermFields implements Module {
 	 * @param int $term_id Term ID.
 	 */
 	private function nonce_action( int $term_id ): string {
-		return 'seoearth_term_' . $term_id;
+		return 'stseo_term_' . $term_id;
 	}
 }

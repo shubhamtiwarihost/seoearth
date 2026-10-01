@@ -2,18 +2,18 @@
 /**
  * English word lists for readability checks.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability;
+namespace ShubhamTiwariSeoTools\Readability;
 
-use SEOEarth\Analysis\Keyphrase;
+use ShubhamTiwariSeoTools\Analysis\Keyphrase;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Word lists and detectors for English text. Compiled for SEOEarth from
- * general English grammar; extend with the `seoearth_transition_words` filter.
+ * Word lists and detectors for English text. Compiled for ShubhamTiwari SEO Tools from
+ * general English grammar; extend with the `stseo_transition_words` filter.
  */
 final class English {
 
@@ -238,7 +238,7 @@ final class English {
 			 *
 			 * @param mixed $words Lowercase words and phrases (strings; other entries are ignored).
 			 */
-			$words             = (array) apply_filters( 'seoearth_transition_words', self::TRANSITIONS );
+			$words             = (array) apply_filters( 'stseo_transition_words', self::TRANSITIONS );
 			self::$transitions = array();
 			foreach ( $words as $word ) {
 				if ( is_string( $word ) && '' !== trim( $word ) ) {

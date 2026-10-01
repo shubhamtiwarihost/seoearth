@@ -2,13 +2,13 @@
 /**
  * Keyphrase in subheadings.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,13 +51,13 @@ final class KeyphraseInSubheadings extends BaseRule {
 			'subheadings' => count( $input->content->subheadings ),
 		);
 		if ( $matches > 0 ) {
-			return $this->result( Result::PASS, Result::LOW, __( 'A subheading contains the focus keyphrase.', 'seoearth' ), '', $meta );
+			return $this->result( Result::PASS, Result::LOW, __( 'A subheading contains the focus keyphrase.', 'shubhamtiwari-seo-tools' ), '', $meta );
 		}
 		return $this->result(
 			Result::WARNING,
 			Result::LOW,
-			__( 'No subheading contains the focus keyphrase.', 'seoearth' ),
-			__( 'Use the keyphrase (or close wording) in at least one subheading.', 'seoearth' ),
+			__( 'No subheading contains the focus keyphrase.', 'shubhamtiwari-seo-tools' ),
+			__( 'Use the keyphrase (or close wording) in at least one subheading.', 'shubhamtiwari-seo-tools' ),
 			$meta
 		);
 	}

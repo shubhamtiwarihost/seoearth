@@ -115,14 +115,14 @@ jobs:
           path: build/
       - name: Build distributable directory
         run: |
-          mkdir -p dist/seoearth
-          rsync -a --exclude-from=.distignore ./ dist/seoearth/
-          (cd dist && zip -qr seoearth.zip seoearth)
-          unzip -l dist/seoearth.zip
+          mkdir -p dist/shubhamtiwari-seo-tools
+          rsync -a --exclude-from=.distignore ./ dist/shubhamtiwari-seo-tools/
+          (cd dist && zip -qr shubhamtiwari-seo-tools.zip shubhamtiwari-seo-tools)
+          unzip -l dist/shubhamtiwari-seo-tools.zip
       - uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: dist/seoearth
+          build-dir: dist/shubhamtiwari-seo-tools
       - uses: actions/upload-artifact@v4
         with:
-          name: seoearth-zip
-          path: dist/seoearth.zip
+          name: shubhamtiwari-seo-tools-zip
+          path: dist/shubhamtiwari-seo-tools.zip

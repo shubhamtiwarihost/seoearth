@@ -2,12 +2,12 @@
 /**
  * Everything schema pieces need to know about the page.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema;
+namespace ShubhamTiwariSeoTools\Schema;
 
-use SEOEarth\Meta\PageContext;
+use ShubhamTiwariSeoTools\Meta\PageContext;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -2,13 +2,13 @@
 /**
  * Whether search engines may index the page.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -42,8 +42,8 @@ final class Indexable extends BaseRule {
 		return $this->result(
 			Result::INFO,
 			Result::HIGH,
-			__( 'This page is hidden from search engines (noindex), so it will not appear in search results.', 'seoearth' ),
-			__( 'If that is not intended, change the page’s search engine visibility.', 'seoearth' )
+			__( 'This page is hidden from search engines (noindex), so it will not appear in search results.', 'shubhamtiwari-seo-tools' ),
+			__( 'If that is not intended, change the page’s search engine visibility.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 }

@@ -2,10 +2,10 @@
 /**
  * What is being analysed.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -119,7 +119,7 @@ final class Input {
 		if ( null === $this->sentences ) {
 			$this->sentences = array();
 			foreach ( array_merge( $this->content->paragraphs, $this->content->list_items ) as $block ) {
-				$this->sentences = array_merge( $this->sentences, \SEOEarth\Readability\Sentences::split( $block ) );
+				$this->sentences = array_merge( $this->sentences, \ShubhamTiwariSeoTools\Readability\Sentences::split( $block ) );
 			}
 		}
 		return $this->sentences;

@@ -2,15 +2,15 @@
 /**
  * Builds analysis input for a post.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
-use SEOEarth\Meta\Keys;
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Meta\Resolver;
-use SEOEarth\Meta\Robots;
+use ShubhamTiwariSeoTools\Meta\Keys;
+use ShubhamTiwariSeoTools\Meta\PageContext;
+use ShubhamTiwariSeoTools\Meta\Resolver;
+use ShubhamTiwariSeoTools\Meta\Robots;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -99,7 +99,7 @@ class InputFactory {
 				 * @param string   $locale Site locale.
 				 * @param \WP_Post $post   Post.
 				 */
-				'language'          => (string) apply_filters( 'seoearth_content_locale', get_locale(), $post ),
+				'language'          => (string) apply_filters( 'stseo_content_locale', get_locale(), $post ),
 			)
 		);
 	}

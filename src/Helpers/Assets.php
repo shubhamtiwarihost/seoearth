@@ -2,10 +2,10 @@
 /**
  * Built script manifests.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Helpers;
+namespace ShubhamTiwariSeoTools\Helpers;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Assets {
 	 * @return array{dependencies: string[], version: string, url: string}|null
 	 */
 	public static function manifest( string $dir ): ?array {
-		$file = SEOEARTH_DIR . 'build/' . $dir . '/index.asset.php';
+		$file = STSEO_DIR . 'build/' . $dir . '/index.asset.php';
 		if ( ! is_readable( $file ) ) {
 			return null;
 		}
@@ -32,8 +32,8 @@ final class Assets {
 		}
 		return array(
 			'dependencies' => array_values( array_filter( (array) ( $asset['dependencies'] ?? array() ), 'is_string' ) ),
-			'version'      => is_string( $asset['version'] ?? null ) ? $asset['version'] : SEOEARTH_VERSION,
-			'url'          => SEOEARTH_URL . 'build/' . $dir . '/',
+			'version'      => is_string( $asset['version'] ?? null ) ? $asset['version'] : STSEO_VERSION,
+			'url'          => STSEO_URL . 'build/' . $dir . '/',
 		);
 	}
 }

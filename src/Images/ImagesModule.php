@@ -2,35 +2,35 @@
 /**
  * Image SEO: missing alternative text.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Images;
+namespace ShubhamTiwariSeoTools\Images;
 
-use SEOEarth\Admin\SettingsPage;
-use SEOEarth\Context;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Admin\SettingsPage;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Finds images without alternative text. Read-only: SEOEarth never changes
+ * Finds images without alternative text. Read-only: ShubhamTiwari SEO Tools never changes
  * media; the site owner edits alt text in the media library.
  *
  * - Media Library (list view): "Alt text" column and a "Missing alt text" filter.
- * - SEOEarth settings, "Images" section: how many images have no alt text, with a link to that list.
+ * - ShubhamTiwari SEO Tools settings, "Images" section: how many images have no alt text, with a link to that list.
  */
 final class ImagesModule implements Module {
 
 	/**
 	 * Query variable of the media list filter.
 	 */
-	public const FILTER_VAR = 'seoearth_alt';
+	public const FILTER_VAR = 'stseo_alt';
 
 	/**
 	 * Media list column ID.
 	 */
-	public const COLUMN = 'seoearth_alt';
+	public const COLUMN = 'stseo_alt';
 
 	/**
 	 * Request context.
@@ -63,7 +63,7 @@ final class ImagesModule implements Module {
 		add_action( 'manage_media_custom_column', array( $this, 'render_column' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( $this, 'render_filter' ) );
 		add_action( 'pre_get_posts', array( $this, 'apply_filter' ) );
-		add_action( 'seoearth_settings_section_images', array( $this, 'render_report' ) );
+		add_action( 'stseo_settings_section_images', array( $this, 'render_report' ) );
 	}
 
 	/**
@@ -121,11 +121,11 @@ final class ImagesModule implements Module {
 		foreach ( (array) $columns as $key => $label ) {
 			$result[ (string) $key ] = (string) $label;
 			if ( 'title' === $key ) {
-				$result[ self::COLUMN ] = __( 'Alt text', 'seoearth' );
+				$result[ self::COLUMN ] = __( 'Alt text', 'shubhamtiwari-seo-tools' );
 			}
 		}
 		if ( ! isset( $result[ self::COLUMN ] ) ) {
-			$result[ self::COLUMN ] = __( 'Alt text', 'seoearth' );
+			$result[ self::COLUMN ] = __( 'Alt text', 'shubhamtiwari-seo-tools' );
 		}
 		return $result;
 	}
@@ -143,8 +143,8 @@ final class ImagesModule implements Module {
 		$alt = trim( (string) get_post_meta( (int) $post_id, '_wp_attachment_image_alt', true ) );
 		if ( '' === $alt ) {
 			printf(
-				'<span class="seoearth-alt-missing"><span aria-hidden="true">✕ </span>%s</span>',
-				esc_html__( 'Missing', 'seoearth' )
+				'<span class="stseo-alt-missing"><span aria-hidden="true">✕ </span>%s</span>',
+				esc_html__( 'Missing', 'shubhamtiwari-seo-tools' )
 			);
 			return;
 		}
@@ -163,10 +163,10 @@ final class ImagesModule implements Module {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only list filter, like core's own filters.
 		$current = isset( $_GET[ self::FILTER_VAR ] ) ? sanitize_key( wp_unslash( $_GET[ self::FILTER_VAR ] ) ) : '';
 		?>
-		<label for="seoearth-alt-filter" class="screen-reader-text"><?php esc_html_e( 'Filter by alt text', 'seoearth' ); ?></label>
-		<select name="<?php echo esc_attr( self::FILTER_VAR ); ?>" id="seoearth-alt-filter">
-			<option value=""><?php esc_html_e( 'All alt text', 'seoearth' ); ?></option>
-			<option value="missing" <?php selected( $current, 'missing' ); ?>><?php esc_html_e( 'Missing alt text', 'seoearth' ); ?></option>
+		<label for="stseo-alt-filter" class="screen-reader-text"><?php esc_html_e( 'Filter by alt text', 'shubhamtiwari-seo-tools' ); ?></label>
+		<select name="<?php echo esc_attr( self::FILTER_VAR ); ?>" id="stseo-alt-filter">
+			<option value=""><?php esc_html_e( 'All alt text', 'shubhamtiwari-seo-tools' ); ?></option>
+			<option value="missing" <?php selected( $current, 'missing' ); ?>><?php esc_html_e( 'Missing alt text', 'shubhamtiwari-seo-tools' ); ?></option>
 		</select>
 		<?php
 	}
@@ -198,7 +198,7 @@ final class ImagesModule implements Module {
 		}
 		$count = self::missing_alt_count();
 		if ( 0 === $count ) {
-			printf( '<p><span aria-hidden="true">✓ </span>%s</p>', esc_html__( 'Every image in the media library has alternative text.', 'seoearth' ) );
+			printf( '<p><span aria-hidden="true">✓ </span>%s</p>', esc_html__( 'Every image in the media library has alternative text.', 'shubhamtiwari-seo-tools' ) );
 			return;
 		}
 		printf(
@@ -206,7 +206,7 @@ final class ImagesModule implements Module {
 			esc_html(
 				sprintf(
 					/* translators: %s: number of images. */
-					_n( '%s image in the media library has no alternative text.', '%s images in the media library have no alternative text.', $count, 'seoearth' ),
+					_n( '%s image in the media library has no alternative text.', '%s images in the media library have no alternative text.', $count, 'shubhamtiwari-seo-tools' ),
 					number_format_i18n( $count )
 				)
 			),
@@ -219,8 +219,8 @@ final class ImagesModule implements Module {
 					admin_url( 'upload.php' )
 				)
 			),
-			esc_html__( 'Review them in the media library', 'seoearth' )
+			esc_html__( 'Review them in the media library', 'shubhamtiwari-seo-tools' )
 		);
-		echo '<p class="description">' . esc_html__( 'Alternative text describes an image for people who cannot see it and helps image search. SEOEarth only reports; it never changes your media. Purely decorative images can stay empty.', 'seoearth' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Alternative text describes an image for people who cannot see it and helps image search. ShubhamTiwari SEO Tools only reports; it never changes your media. Purely decorative images can stay empty.', 'shubhamtiwari-seo-tools' ) . '</p>';
 	}
 }

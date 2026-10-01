@@ -8,22 +8,25 @@ import { createElement } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 const SAMPLE = [
-	__( 'Home', 'seoearth' ),
-	__( 'Category', 'seoearth' ),
-	__( 'Current page', 'seoearth' ),
+	__( 'Home', 'shubhamtiwari-seo-tools' ),
+	__( 'Category', 'shubhamtiwari-seo-tools' ),
+	__( 'Current page', 'shubhamtiwari-seo-tools' ),
 ];
 
 function Edit() {
-	const blockProps = useBlockProps( { className: 'seoearth-breadcrumbs' } );
+	const blockProps = useBlockProps( { className: 'stseo-breadcrumbs' } );
 	return (
-		<nav { ...blockProps } aria-label={ __( 'Breadcrumbs', 'seoearth' ) }>
-			<ol className="seoearth-breadcrumbs__list">
+		<nav
+			{ ...blockProps }
+			aria-label={ __( 'Breadcrumbs', 'shubhamtiwari-seo-tools' ) }
+		>
+			<ol className="stseo-breadcrumbs__list">
 				{ SAMPLE.map( ( name, index ) => (
-					<li key={ name } className="seoearth-breadcrumbs__item">
+					<li key={ name } className="stseo-breadcrumbs__item">
 						{ index < SAMPLE.length - 1 ? (
 							// Not a real link in the editor; the frontend links to the real pages.
 							<a
-								href="#seoearth-breadcrumbs"
+								href="#stseo-breadcrumbs"
 								onClick={ ( event ) => event.preventDefault() }
 							>
 								{ name }
@@ -33,7 +36,7 @@ function Edit() {
 						) }
 						{ index < SAMPLE.length - 1 && (
 							<span
-								className="seoearth-breadcrumbs__separator"
+								className="stseo-breadcrumbs__separator"
 								aria-hidden="true"
 							>
 								›
@@ -46,16 +49,19 @@ function Edit() {
 	);
 }
 
-registerBlockType( 'seoearth/breadcrumbs', {
+registerBlockType( 'stseo/breadcrumbs', {
 	apiVersion: 3,
-	title: __( 'Breadcrumbs', 'seoearth' ),
+	title: __( 'Breadcrumbs', 'shubhamtiwari-seo-tools' ),
 	description: __(
 		'Shows the path from the homepage to the current page. The trail is built for each page when it is displayed.',
-		'seoearth'
+		'shubhamtiwari-seo-tools'
 	),
 	category: 'theme',
 	icon: 'arrow-right-alt2',
-	keywords: [ __( 'navigation', 'seoearth' ), __( 'path', 'seoearth' ) ],
+	keywords: [
+		__( 'navigation', 'shubhamtiwari-seo-tools' ),
+		__( 'path', 'shubhamtiwari-seo-tools' ),
+	],
 	edit: Edit,
 	save: () => null,
 } );

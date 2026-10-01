@@ -2,12 +2,12 @@
 /**
  * Sentence and syllable helpers.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability;
+namespace ShubhamTiwariSeoTools\Readability;
 
-use SEOEarth\Analysis\Document;
+use ShubhamTiwariSeoTools\Analysis\Document;
 
 defined( 'ABSPATH' ) || exit;
 

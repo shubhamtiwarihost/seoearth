@@ -2,19 +2,19 @@
 /**
  * Block editor sidebar.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Admin;
+namespace ShubhamTiwariSeoTools\Admin;
 
-use SEOEarth\Helpers\Assets;
-use SEOEarth\Meta\Robots;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Helpers\Assets;
+use ShubhamTiwariSeoTools\Meta\Robots;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Loads the SEOEarth sidebar (build/editor) in the block editor for supported
+ * Loads the ShubhamTiwari SEO Tools sidebar (build/editor) in the block editor for supported
  * post types, and makes sure those post types expose SEO meta over REST.
  *
  * Core only includes registered post meta in REST responses for post types
@@ -65,15 +65,15 @@ final class EditorModule implements Module {
 			return; // Development checkout without `npm run build`.
 		}
 
-		wp_enqueue_script( 'seoearth-editor', $asset['url'] . 'index.js', $asset['dependencies'], $asset['version'], true );
-		if ( is_readable( SEOEARTH_DIR . 'build/editor/index.css' ) ) {
-			wp_enqueue_style( 'seoearth-editor', $asset['url'] . 'index.css', array( 'wp-components' ), $asset['version'] );
+		wp_enqueue_script( 'stseo-editor', $asset['url'] . 'index.js', $asset['dependencies'], $asset['version'], true );
+		if ( is_readable( STSEO_DIR . 'build/editor/index.css' ) ) {
+			wp_enqueue_style( 'stseo-editor', $asset['url'] . 'index.css', array( 'wp-components' ), $asset['version'] );
 		}
-		wp_set_script_translations( 'seoearth-editor', 'seoearth', SEOEARTH_DIR . 'languages' );
+		wp_set_script_translations( 'stseo-editor', 'shubhamtiwari-seo-tools', STSEO_DIR . 'languages' );
 
 		wp_add_inline_script(
-			'seoearth-editor',
-			'window.seoearthEditor = ' . wp_json_encode(
+			'stseo-editor',
+			'window.stseoEditor = ' . wp_json_encode(
 				array(
 					'robotsTokens' => Robots::TOKENS,
 					'blogPublic'   => '0' !== (string) get_option( 'blog_public' ),

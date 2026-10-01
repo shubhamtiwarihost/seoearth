@@ -2,15 +2,15 @@
 /**
  * Passive voice indicators.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability\Rules;
+namespace ShubhamTiwariSeoTools\Readability\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
-use SEOEarth\Analysis\Rules\BaseRule;
-use SEOEarth\Readability\English;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Rules\BaseRule;
+use ShubhamTiwariSeoTools\Readability\English;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -53,7 +53,7 @@ final class PassiveVoice extends BaseRule {
 			'percent'   => $percent,
 		);
 		/* translators: %s: percentage of sentences. */
-		$found = sprintf( __( '%s%% of sentences look like passive voice.', 'seoearth' ), (string) $percent );
+		$found = sprintf( __( '%s%% of sentences look like passive voice.', 'shubhamtiwari-seo-tools' ), (string) $percent );
 
 		if ( $percent <= self::MAX_PERCENT ) {
 			return $this->result( Result::PASS, Result::LOW, $found, '', $meta );
@@ -62,7 +62,7 @@ final class PassiveVoice extends BaseRule {
 			Result::WARNING,
 			Result::LOW,
 			$found,
-			__( 'Where it reads better, say who does what: “We tested the shoes” instead of “The shoes were tested”.', 'seoearth' ),
+			__( 'Where it reads better, say who does what: “We tested the shoes” instead of “The shoes were tested”.', 'shubhamtiwari-seo-tools' ),
 			$meta
 		);
 	}

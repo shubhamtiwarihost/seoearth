@@ -2,10 +2,10 @@
 /**
  * Minimal dependency injection container.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth;
+namespace ShubhamTiwariSeoTools;
 
 defined( 'ABSPATH' ) || exit;
 

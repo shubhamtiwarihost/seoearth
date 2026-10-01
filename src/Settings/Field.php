@@ -2,10 +2,10 @@
 /**
  * Settings field definition.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Settings;
+namespace ShubhamTiwariSeoTools\Settings;
 
 defined( 'ABSPATH' ) || exit;
 

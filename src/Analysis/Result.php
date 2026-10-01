@@ -2,10 +2,10 @@
 /**
  * Outcome of one analysis rule.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
 defined( 'ABSPATH' ) || exit;
 

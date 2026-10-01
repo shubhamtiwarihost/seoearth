@@ -2,13 +2,13 @@
 /**
  * Links to other pages of this site.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -41,7 +41,7 @@ final class InternalLinks extends BaseRule {
 	public function check( Input $input ): Result {
 		$count = 0;
 		foreach ( $input->content->links as $href ) {
-			if ( \SEOEarth\Analysis\Document::is_internal( $href, $input->host ) ) {
+			if ( \ShubhamTiwariSeoTools\Analysis\Document::is_internal( $href, $input->host ) ) {
 				++$count;
 			}
 		}
@@ -50,12 +50,12 @@ final class InternalLinks extends BaseRule {
 			return $this->result(
 				Result::WARNING,
 				Result::MEDIUM,
-				__( 'The text has no links to other pages on this site.', 'seoearth' ),
-				__( 'Link to related posts or pages where it helps the reader.', 'seoearth' ),
+				__( 'The text has no links to other pages on this site.', 'shubhamtiwari-seo-tools' ),
+				__( 'Link to related posts or pages where it helps the reader.', 'shubhamtiwari-seo-tools' ),
 				$meta
 			);
 		}
 		/* translators: %d: number of links. */
-		return $this->result( Result::PASS, Result::MEDIUM, sprintf( _n( 'The text has %d link to this site.', 'The text has %d links to this site.', $count, 'seoearth' ), $count ), '', $meta );
+		return $this->result( Result::PASS, Result::MEDIUM, sprintf( _n( 'The text has %d link to this site.', 'The text has %d links to this site.', $count, 'shubhamtiwari-seo-tools' ), $count ), '', $meta );
 	}
 }

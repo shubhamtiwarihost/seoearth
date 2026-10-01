@@ -2,21 +2,21 @@
 /**
  * WooCommerce integration.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\WooCommerce;
+namespace ShubhamTiwariSeoTools\WooCommerce;
 
-use SEOEarth\Helpers\Text;
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Module;
-use SEOEarth\Schema\SchemaContext;
-use SEOEarth\Schema\SchemaModule;
+use ShubhamTiwariSeoTools\Helpers\Text;
+use ShubhamTiwariSeoTools\Meta\PageContext;
+use ShubhamTiwariSeoTools\Module;
+use ShubhamTiwariSeoTools\Schema\SchemaContext;
+use ShubhamTiwariSeoTools\Schema\SchemaModule;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Loaded only when WooCommerce is active. Works purely through SEOEarth's
+ * Loaded only when WooCommerce is active. Works purely through ShubhamTiwari SEO Tools'
  * own filters; it never changes WooCommerce data or output.
  *
  * - Cart, checkout and account pages: noindex and out of the sitemap.
@@ -24,14 +24,14 @@ defined( 'ABSPATH' ) || exit;
  *   schema (WooCommerce prints its own Product structured data), WebPage
  *   type "ItemPage".
  * - Breadcrumbs: Home › Shop › product categories › product.
- * - While SEOEarth prints structured data, WooCommerce's own BreadcrumbList
- *   and WebSite blocks (duplicates of nodes in SEOEarth's graph) are turned
+ * - While ShubhamTiwari SEO Tools prints structured data, WooCommerce's own BreadcrumbList
+ *   and WebSite blocks (duplicates of nodes in ShubhamTiwari SEO Tools' graph) are turned
  *   off through WooCommerce's filters; its Product data is kept.
  */
 final class WooModule implements Module {
 
 	/**
-	 * Structured data module (whether SEOEarth prints a graph on this request).
+	 * Structured data module (whether ShubhamTiwari SEO Tools prints a graph on this request).
 	 *
 	 * @var SchemaModule|null
 	 */
@@ -57,19 +57,19 @@ final class WooModule implements Module {
 	 * Registers hooks.
 	 */
 	public function register(): void {
-		add_filter( 'seoearth_robots_directives', array( $this, 'robots' ), 10, 2 );
-		add_filter( 'seoearth_sitemap_excluded_posts', array( $this, 'sitemap_exclusions' ), 10, 2 );
-		add_filter( 'seoearth_og_is_article', array( $this, 'og_is_article' ), 10, 2 );
-		add_filter( 'seoearth_social_tags', array( $this, 'social_tags' ), 10, 2 );
-		add_filter( 'seoearth_schema_article_type', array( $this, 'article_type' ), 10, 2 );
-		add_filter( 'seoearth_schema_webpage_type', array( $this, 'webpage_type' ), 10, 2 );
-		add_filter( 'seoearth_breadcrumb_trail', array( $this, 'breadcrumbs' ), 10, 2 );
+		add_filter( 'stseo_robots_directives', array( $this, 'robots' ), 10, 2 );
+		add_filter( 'stseo_sitemap_excluded_posts', array( $this, 'sitemap_exclusions' ), 10, 2 );
+		add_filter( 'stseo_og_is_article', array( $this, 'og_is_article' ), 10, 2 );
+		add_filter( 'stseo_social_tags', array( $this, 'social_tags' ), 10, 2 );
+		add_filter( 'stseo_schema_article_type', array( $this, 'article_type' ), 10, 2 );
+		add_filter( 'stseo_schema_webpage_type', array( $this, 'webpage_type' ), 10, 2 );
+		add_filter( 'stseo_breadcrumb_trail', array( $this, 'breadcrumbs' ), 10, 2 );
 		add_filter( 'woocommerce_structured_data_breadcrumblist', array( $this, 'drop_duplicate_schema' ) );
 		add_filter( 'woocommerce_structured_data_website', array( $this, 'drop_duplicate_schema' ) );
 	}
 
 	/**
-	 * Drops a WooCommerce structured-data block that SEOEarth's graph already
+	 * Drops a WooCommerce structured-data block that ShubhamTiwari SEO Tools' graph already
 	 * contains (an empty array makes WooCommerce skip it).
 	 *
 	 * @param mixed $markup WooCommerce's markup.

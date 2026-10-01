@@ -2,13 +2,13 @@
 /**
  * Breadcrumb HTML.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Breadcrumbs;
+namespace ShubhamTiwariSeoTools\Breadcrumbs;
 
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Meta\PageContext;
+use ShubhamTiwariSeoTools\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,7 +51,7 @@ class Renderer {
 	 * @param string      $url           Current page URL ('' is fine; the last item is never linked).
 	 * @param string      $wrapper_attrs Attributes for the <nav>, already escaped (e.g. from get_block_wrapper_attributes()).
 	 */
-	public function html( PageContext $context, string $url, string $wrapper_attrs = 'class="seoearth-breadcrumbs"' ): string {
+	public function html( PageContext $context, string $url, string $wrapper_attrs = 'class="stseo-breadcrumbs"' ): string {
 		$items = $this->trail->items( $context, $url );
 		if ( array() === $items ) {
 			return '';
@@ -74,15 +74,15 @@ class Renderer {
 				$label = '<a href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['name'] ) . '</a>';
 			}
 			$sep   = $index < $last && '' !== $separator
-				? '<span class="seoearth-breadcrumbs__separator" aria-hidden="true">' . esc_html( $separator ) . '</span>'
+				? '<span class="stseo-breadcrumbs__separator" aria-hidden="true">' . esc_html( $separator ) . '</span>'
 				: '';
-			$html .= '<li class="seoearth-breadcrumbs__item">' . $label . $sep . '</li>';
+			$html .= '<li class="stseo-breadcrumbs__item">' . $label . $sep . '</li>';
 		}
 
 		return sprintf(
-			'<nav %1$s aria-label="%2$s"><ol class="seoearth-breadcrumbs__list">%3$s</ol></nav>',
+			'<nav %1$s aria-label="%2$s"><ol class="stseo-breadcrumbs__list">%3$s</ol></nav>',
 			$wrapper_attrs,
-			esc_attr__( 'Breadcrumbs', 'seoearth' ),
+			esc_attr__( 'Breadcrumbs', 'shubhamtiwari-seo-tools' ),
 			$html
 		);
 	}
@@ -91,7 +91,7 @@ class Renderer {
 	 * Minimal layout CSS; colors and fonts come from the theme.
 	 */
 	public static function css(): string {
-		return '.seoearth-breadcrumbs__list{display:flex;flex-wrap:wrap;gap:.25em .5em;list-style:none;margin:0;padding:0}'
-			. '.seoearth-breadcrumbs__item{display:inline-flex;gap:.5em;margin:0}';
+		return '.stseo-breadcrumbs__list{display:flex;flex-wrap:wrap;gap:.25em .5em;list-style:none;margin:0;padding:0}'
+			. '.stseo-breadcrumbs__item{display:inline-flex;gap:.5em;margin:0}';
 	}
 }

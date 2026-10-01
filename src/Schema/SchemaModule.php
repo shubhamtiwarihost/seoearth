@@ -2,15 +2,15 @@
 /**
  * Prints schema.org structured data.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema;
+namespace ShubhamTiwariSeoTools\Schema;
 
-use SEOEarth\Compatibility\Conflicts;
-use SEOEarth\Frontend\CurrentPage;
-use SEOEarth\Module;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Compatibility\Conflicts;
+use ShubhamTiwariSeoTools\Frontend\CurrentPage;
+use ShubhamTiwariSeoTools\Module;
+use ShubhamTiwariSeoTools\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -75,11 +75,11 @@ final class SchemaModule implements Module {
 	 */
 	public function register(): void {
 		add_action( 'wp_head', array( $this, 'print_graph' ), 20 );
-		add_action( 'seoearth_settings_section_schema', array( $this, 'render_notice' ) );
+		add_action( 'stseo_settings_section_schema', array( $this, 'render_notice' ) );
 	}
 
 	/**
-	 * Whether SEOEarth prints structured data on this request.
+	 * Whether ShubhamTiwari SEO Tools prints structured data on this request.
 	 */
 	public function active(): bool {
 		if ( '' !== $this->conflicts->schema_plugin() ) {
@@ -87,11 +87,11 @@ final class SchemaModule implements Module {
 		}
 
 		/**
-		 * Filters whether SEOEarth outputs schema.org JSON-LD.
+		 * Filters whether ShubhamTiwari SEO Tools outputs schema.org JSON-LD.
 		 *
 		 * @param bool $enabled Whether structured data is enabled in settings.
 		 */
-		return (bool) apply_filters( 'seoearth_schema_output_enabled', false !== $this->settings->get( 'schema_enabled' ) );
+		return (bool) apply_filters( 'stseo_schema_output_enabled', false !== $this->settings->get( 'schema_enabled' ) );
 	}
 
 	/**
@@ -123,11 +123,11 @@ final class SchemaModule implements Module {
 		}
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON encoded with JSON_HEX_TAG/AMP/APOS/QUOT above; HTML escaping would corrupt JSON.
-		echo '<script type="application/ld+json" class="seoearth-schema">' . $json . "</script>\n";
+		echo '<script type="application/ld+json" class="stseo-schema">' . $json . "</script>\n";
 	}
 
 	/**
-	 * Notice on the SEOEarth settings screen when another plugin handles structured data.
+	 * Notice on the ShubhamTiwari SEO Tools settings screen when another plugin handles structured data.
 	 */
 	public function render_notice(): void {
 		$plugin = $this->conflicts->schema_plugin();
@@ -139,7 +139,7 @@ final class SchemaModule implements Module {
 			esc_html(
 				sprintf(
 					/* translators: %s: name of another SEO plugin. */
-					__( '%s is active and already prints structured data, so SEOEarth does not print its own. The setting below takes effect once it is deactivated.', 'seoearth' ),
+					__( '%s is active and already prints structured data, so ShubhamTiwari SEO Tools does not print its own. The setting below takes effect once it is deactivated.', 'shubhamtiwari-seo-tools' ),
 					$plugin
 				)
 			)

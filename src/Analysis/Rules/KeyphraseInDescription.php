@@ -2,13 +2,13 @@
 /**
  * Keyphrase in the meta description.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -41,13 +41,13 @@ final class KeyphraseInDescription extends BaseRule {
 	 */
 	public function check( Input $input ): Result {
 		if ( $input->keyphrase->in( $input->description ) ) {
-			return $this->result( Result::PASS, Result::MEDIUM, __( 'The meta description contains the focus keyphrase.', 'seoearth' ) );
+			return $this->result( Result::PASS, Result::MEDIUM, __( 'The meta description contains the focus keyphrase.', 'shubhamtiwari-seo-tools' ) );
 		}
 		return $this->result(
 			Result::WARNING,
 			Result::MEDIUM,
-			__( 'The meta description does not contain the focus keyphrase.', 'seoearth' ),
-			__( 'Mention the keyphrase naturally in the meta description.', 'seoearth' )
+			__( 'The meta description does not contain the focus keyphrase.', 'shubhamtiwari-seo-tools' ),
+			__( 'Mention the keyphrase naturally in the meta description.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 }

@@ -4,21 +4,21 @@
  *
  * Run with `npm run test:php:woo`; skipped in the regular runs (WooCommerce not loaded).
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Frontend\CurrentPage;
-use SEOEarth\Plugin;
-use SEOEarth\Settings\Settings;
-use SEOEarth\Sitemap\SitemapModule;
-use SEOEarth\WooCommerce\WooModule;
+use ShubhamTiwariSeoTools\Frontend\CurrentPage;
+use ShubhamTiwariSeoTools\Plugin;
+use ShubhamTiwariSeoTools\Settings\Settings;
+use ShubhamTiwariSeoTools\Sitemap\SitemapModule;
+use ShubhamTiwariSeoTools\WooCommerce\WooModule;
 use WP_UnitTestCase;
 
 /**
  * @group woocommerce
- * @covers \SEOEarth\WooCommerce\WooModule
+ * @covers \ShubhamTiwariSeoTools\WooCommerce\WooModule
  */
 final class WooCommerceTest extends WP_UnitTestCase {
 
@@ -130,29 +130,29 @@ final class WooCommerceTest extends WP_UnitTestCase {
 			'@type'           => 'BreadcrumbList',
 			'itemListElement' => array(),
 		);
-		$this->assertSame( array(), $woo->drop_duplicate_schema( $crumbs ), 'Duplicate of the SEOEarth graph.' );
+		$this->assertSame( array(), $woo->drop_duplicate_schema( $crumbs ), 'Duplicate of the ShubhamTiwari SEO Tools graph.' );
 
-		add_filter( 'seoearth_schema_output_enabled', '__return_false' );
-		$this->assertSame( $crumbs, $woo->drop_duplicate_schema( $crumbs ), 'Kept when SEOEarth prints no graph.' );
-		remove_filter( 'seoearth_schema_output_enabled', '__return_false' );
+		add_filter( 'stseo_schema_output_enabled', '__return_false' );
+		$this->assertSame( $crumbs, $woo->drop_duplicate_schema( $crumbs ), 'Kept when ShubhamTiwari SEO Tools prints no graph.' );
+		remove_filter( 'stseo_schema_output_enabled', '__return_false' );
 	}
 
 	public function test_breadcrumbs(): void {
 		list( $product, $parent, $child ) = $this->product();
 		$shop                             = (int) wc_get_page_id( 'shop' );
 		$names                            = static function ( string $html ): array {
-			preg_match_all( '#<li class="seoearth-breadcrumbs__item">(?:<a href="[^"]*">|<span[^>]*>)([^<]*)<#', $html, $m );
+			preg_match_all( '#<li class="stseo-breadcrumbs__item">(?:<a href="[^"]*">|<span[^>]*>)([^<]*)<#', $html, $m );
 			return array_map( 'html_entity_decode', $m[1] );
 		};
 
 		$this->visit( get_permalink( $product ) );
-		$this->assertSame( array( 'Home', get_the_title( $shop ), 'Footwear', 'Boots', 'Trail boot' ), $names( seoearth_get_breadcrumbs() ) );
+		$this->assertSame( array( 'Home', get_the_title( $shop ), 'Footwear', 'Boots', 'Trail boot' ), $names( stseo_get_breadcrumbs() ) );
 
 		$this->visit( get_term_link( $child ) );
-		$this->assertSame( array( 'Home', get_the_title( $shop ), 'Footwear', 'Boots' ), $names( seoearth_get_breadcrumbs() ) );
+		$this->assertSame( array( 'Home', get_the_title( $shop ), 'Footwear', 'Boots' ), $names( stseo_get_breadcrumbs() ) );
 
 		$this->visit( get_permalink( $shop ) );
-		$this->assertSame( array( 'Home', get_the_title( $shop ) ), $names( seoearth_get_breadcrumbs() ) );
+		$this->assertSame( array( 'Home', get_the_title( $shop ) ), $names( stseo_get_breadcrumbs() ) );
 		unset( $parent );
 	}
 }

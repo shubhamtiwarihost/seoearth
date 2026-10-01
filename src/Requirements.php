@@ -2,10 +2,10 @@
 /**
  * Environment requirement checks.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth;
+namespace ShubhamTiwariSeoTools;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -64,10 +64,22 @@ final class Requirements {
 	}
 
 	/**
-	 * Admin notice shown when requirements are not met.
+	 * Whether the current admin screen is a Plugins screen (site or network).
+	 */
+	public static function on_plugins_screen(): bool {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		return $screen instanceof \WP_Screen && in_array( $screen->id, array( 'plugins', 'plugins-network' ), true );
+	}
+
+	/**
+	 * Notice shown when requirements are not met.
+	 *
+	 * Limited to the Plugins screen, the only place where the reader can act on
+	 * it (update the environment or deactivate the plugin), and to users who
+	 * manage plugins. It is never printed on the Dashboard or any other screen.
 	 */
 	public function render_notice(): void {
-		if ( ! current_user_can( 'activate_plugins' ) ) {
+		if ( ! self::on_plugins_screen() || ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
 		printf(
@@ -75,7 +87,7 @@ final class Requirements {
 			esc_html(
 				sprintf(
 					/* translators: 1: required PHP version, 2: required WordPress version. */
-					__( 'SEOEarth is inactive: it requires PHP %1$s and WordPress %2$s or newer.', 'seoearth' ),
+					__( 'ShubhamTiwari SEO Tools is inactive: it requires PHP %1$s and WordPress %2$s or newer.', 'shubhamtiwari-seo-tools' ),
 					self::MIN_PHP,
 					self::MIN_WP
 				)

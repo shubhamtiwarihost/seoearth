@@ -2,19 +2,19 @@
 /**
  * Detection of other plugins that print the same tags.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Compatibility;
+namespace ShubhamTiwariSeoTools\Compatibility;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Detects active plugins known to print Open Graph / X Card tags or schema.org
- * JSON-LD, so SEOEarth can step aside instead of printing a second set.
+ * JSON-LD, so ShubhamTiwari SEO Tools can step aside instead of printing a second set.
  *
  * Detection uses each plugin's public version constant. Only
- * the name is shown to the site owner, on the SEOEarth settings screen.
+ * the name is shown to the site owner, on the ShubhamTiwari SEO Tools settings screen.
  */
 class Conflicts {
 
@@ -36,11 +36,11 @@ class Conflicts {
 	 */
 	public function social_plugin(): string {
 		/**
-		 * Filters the detected conflicting social-tag plugin. Return '' to force SEOEarth's tags on.
+		 * Filters the detected conflicting social-tag plugin. Return '' to force ShubhamTiwari SEO Tools' tags on.
 		 *
 		 * @param mixed $found Plugin name, or ''. Non-strings are treated as ''.
 		 */
-		$found = apply_filters( 'seoearth_social_conflict', $this->active_seo_plugin() );
+		$found = apply_filters( 'stseo_social_conflict', $this->active_seo_plugin() );
 		return is_string( $found ) ? $found : '';
 	}
 
@@ -49,11 +49,11 @@ class Conflicts {
 	 */
 	public function schema_plugin(): string {
 		/**
-		 * Filters the detected conflicting structured-data plugin. Return '' to force SEOEarth's schema on.
+		 * Filters the detected conflicting structured-data plugin. Return '' to force ShubhamTiwari SEO Tools' schema on.
 		 *
 		 * @param mixed $found Plugin name, or ''. Non-strings are treated as ''.
 		 */
-		$found = apply_filters( 'seoearth_schema_conflict', $this->active_seo_plugin() );
+		$found = apply_filters( 'stseo_schema_conflict', $this->active_seo_plugin() );
 		return is_string( $found ) ? $found : '';
 	}
 

@@ -1,6 +1,6 @@
 # Structured data (schema.org)
 
-SEOEarth adds one JSON-LD block to every page. It describes the site, the page and — on posts — the article and its author, as a single connected `@graph`. Search engines use it to understand the page; it does not guarantee rich results.
+ShubhamTiwari SEO Tools adds one JSON-LD block to every page. It describes the site, the page and — on posts — the article and its author, as a single connected `@graph`. Search engines use it to understand the page; it does not guarantee rich results.
 
 ## What is printed
 
@@ -20,21 +20,21 @@ SEOEarth adds one JSON-LD block to every page. It describes the site, the page a
 
 ## Settings
 
-*SEOEarth → Structured data → Add structured data* (default on). Publisher values come from *Site identity* (*This website represents*, name, logo).
+*SEO Tools → Structured data → Add structured data* (default on). Publisher values come from *Site identity* (*This website represents*, name, logo).
 
-If another SEO plugin that prints structured data is active (Yoast SEO, Rank Math, All in One SEO, SEOPress, The SEO Framework, Slim SEO), SEOEarth prints none and says so on its settings screen.
+If another SEO plugin that prints structured data is active (Yoast SEO, Rank Math, All in One SEO, SEOPress, The SEO Framework, Slim SEO), ShubhamTiwari SEO Tools prints none and says so on its settings screen.
 
 ## Extending
 
 ```php
-add_filter( 'seoearth_schema_pieces', function ( $pieces ) {
-	$pieces['faq'] = new My_FAQ_Piece(); // implements SEOEarth\Schema\Piece
+add_filter( 'stseo_schema_pieces', function ( $pieces ) {
+	$pieces['faq'] = new My_FAQ_Piece(); // implements ShubhamTiwariSeoTools\Schema\Piece
 	unset( $pieces['breadcrumb'] );      // references to it are dropped automatically
 	return $pieces;
 } );
 ```
 
-Filters: `seoearth_schema_output_enabled`, `seoearth_schema_conflict`, `seoearth_schema_pieces`, `seoearth_schema_graph`, `seoearth_schema_article_type`, `seoearth_schema_search_action`, `seoearth_breadcrumb_trail`.
+Filters: `stseo_schema_output_enabled`, `stseo_schema_conflict`, `stseo_schema_pieces`, `stseo_schema_graph`, `stseo_schema_article_type`, `stseo_schema_search_action`, `stseo_breadcrumb_trail`.
 
 ## Cost (measured, Phase 8)
 

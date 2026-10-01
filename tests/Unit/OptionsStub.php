@@ -2,10 +2,10 @@
 /**
  * In-memory replacement for the WordPress options API.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Functions;
 

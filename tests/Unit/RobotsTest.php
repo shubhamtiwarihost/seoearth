@@ -2,18 +2,18 @@
 /**
  * Tests for robots token parsing.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
-use SEOEarth\Meta\Robots;
+use ShubhamTiwariSeoTools\Meta\Robots;
 
 /**
  * Covers the allowlist and conflict rules for stored robots values.
  *
- * @covers \SEOEarth\Meta\Robots::sanitize
- * @covers \SEOEarth\Meta\Robots::parse
+ * @covers \ShubhamTiwariSeoTools\Meta\Robots::sanitize
+ * @covers \ShubhamTiwariSeoTools\Meta\Robots::parse
  */
 final class RobotsTest extends TestCase {
 

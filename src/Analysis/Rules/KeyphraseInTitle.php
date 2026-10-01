@@ -2,13 +2,13 @@
 /**
  * Keyphrase in the SEO title.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -37,8 +37,8 @@ final class KeyphraseInTitle extends BaseRule {
 			return $this->result(
 				Result::ERROR,
 				Result::HIGH,
-				__( 'The SEO title does not contain the focus keyphrase.', 'seoearth' ),
-				__( 'Add the keyphrase to the SEO title.', 'seoearth' ),
+				__( 'The SEO title does not contain the focus keyphrase.', 'shubhamtiwari-seo-tools' ),
+				__( 'Add the keyphrase to the SEO title.', 'shubhamtiwari-seo-tools' ),
 				$meta
 			);
 		}
@@ -46,11 +46,11 @@ final class KeyphraseInTitle extends BaseRule {
 			return $this->result(
 				Result::WARNING,
 				Result::LOW,
-				__( 'The focus keyphrase is in the second half of the SEO title.', 'seoearth' ),
-				__( 'Move the keyphrase towards the start of the title, where it is less likely to be cut off.', 'seoearth' ),
+				__( 'The focus keyphrase is in the second half of the SEO title.', 'shubhamtiwari-seo-tools' ),
+				__( 'Move the keyphrase towards the start of the title, where it is less likely to be cut off.', 'shubhamtiwari-seo-tools' ),
 				$meta
 			);
 		}
-		return $this->result( Result::PASS, Result::HIGH, __( 'The SEO title contains the focus keyphrase.', 'seoearth' ), '', $meta );
+		return $this->result( Result::PASS, Result::HIGH, __( 'The SEO title contains the focus keyphrase.', 'shubhamtiwari-seo-tools' ), '', $meta );
 	}
 }

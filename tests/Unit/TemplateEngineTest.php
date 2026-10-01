@@ -2,20 +2,20 @@
 /**
  * Tests for TemplateEngine and text truncation.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Functions;
-use SEOEarth\Meta\TemplateEngine;
-use SEOEarth\Meta\VariableValues;
+use ShubhamTiwariSeoTools\Meta\TemplateEngine;
+use ShubhamTiwariSeoTools\Meta\VariableValues;
 
 /**
  * Covers variable replacement, separator cleanup and injection resistance.
  *
- * @covers \SEOEarth\Meta\TemplateEngine
- * @covers \SEOEarth\Meta\VariableValues::truncate
+ * @covers \ShubhamTiwariSeoTools\Meta\TemplateEngine
+ * @covers \ShubhamTiwariSeoTools\Meta\VariableValues::truncate
  */
 final class TemplateEngineTest extends TestCase {
 

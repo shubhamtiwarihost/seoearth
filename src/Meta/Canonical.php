@@ -2,12 +2,12 @@
 /**
  * Canonical URLs.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Meta;
+namespace ShubhamTiwariSeoTools\Meta;
 
-use SEOEarth\Helpers\Text;
+use ShubhamTiwariSeoTools\Helpers\Text;
 
 defined( 'ABSPATH' ) || exit;
 

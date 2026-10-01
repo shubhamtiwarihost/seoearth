@@ -2,14 +2,14 @@
 /**
  * The site itself.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema\Pieces;
+namespace ShubhamTiwariSeoTools\Schema\Pieces;
 
-use SEOEarth\Helpers\Text;
-use SEOEarth\Schema\Piece;
-use SEOEarth\Schema\SchemaContext;
+use ShubhamTiwariSeoTools\Helpers\Text;
+use ShubhamTiwariSeoTools\Schema\Piece;
+use ShubhamTiwariSeoTools\Schema\SchemaContext;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -49,7 +49,7 @@ final class WebSite implements Piece {
 		 *
 		 * @param bool $search Default true.
 		 */
-		if ( apply_filters( 'seoearth_schema_search_action', true ) ) {
+		if ( apply_filters( 'stseo_schema_search_action', true ) ) {
 			$node['potentialAction'] = array(
 				array(
 					'@type'       => 'SearchAction',

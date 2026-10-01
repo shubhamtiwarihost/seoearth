@@ -2,10 +2,10 @@
 /**
  * Text sanitizing helpers.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Helpers;
+namespace ShubhamTiwariSeoTools\Helpers;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,7 +17,7 @@ final class Text {
 	/**
 	 * Stand-in for "%" while core sanitizes. Plain ASCII letters so core leaves it alone.
 	 */
-	private const PERCENT = 'SEOEARTHPERCENTSIGN';
+	private const PERCENT = 'STSEOPERCENTSIGN';
 
 	/**
 	 * Single-line plain text that may contain %%variables%%.

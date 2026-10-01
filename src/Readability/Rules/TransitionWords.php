@@ -2,15 +2,15 @@
 /**
  * Transition words.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability\Rules;
+namespace ShubhamTiwariSeoTools\Readability\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
-use SEOEarth\Analysis\Rules\BaseRule;
-use SEOEarth\Readability\English;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Rules\BaseRule;
+use ShubhamTiwariSeoTools\Readability\English;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -54,7 +54,7 @@ final class TransitionWords extends BaseRule {
 			'percent'         => $percent,
 		);
 		/* translators: %s: percentage of sentences. */
-		$found = sprintf( __( '%s%% of sentences contain a transition word (such as “however” or “for example”).', 'seoearth' ), (string) $percent );
+		$found = sprintf( __( '%s%% of sentences contain a transition word (such as “however” or “for example”).', 'shubhamtiwari-seo-tools' ), (string) $percent );
 
 		if ( $percent >= self::MIN_PERCENT ) {
 			return $this->result( Result::PASS, Result::LOW, $found, '', $meta );
@@ -63,7 +63,7 @@ final class TransitionWords extends BaseRule {
 			Result::WARNING,
 			Result::LOW,
 			$found,
-			__( 'Link sentences with words like “because”, “however” or “as a result” so the text flows.', 'seoearth' ),
+			__( 'Link sentences with words like “because”, “however” or “as a result” so the text flows.', 'shubhamtiwari-seo-tools' ),
 			$meta
 		);
 	}

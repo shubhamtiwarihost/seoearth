@@ -2,16 +2,16 @@
 /**
  * Settings screen.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Admin;
+namespace ShubhamTiwariSeoTools\Admin;
 
-use SEOEarth\Context;
-use SEOEarth\Module;
-use SEOEarth\Settings\Field;
-use SEOEarth\Settings\Sanitizer;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Module;
+use ShubhamTiwariSeoTools\Settings\Field;
+use ShubhamTiwariSeoTools\Settings\Sanitizer;
+use ShubhamTiwariSeoTools\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -24,8 +24,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class SettingsPage implements Module {
 
-	public const PAGE       = 'seoearth';
-	public const GROUP      = 'seoearth_settings_group';
+	public const PAGE       = 'shubhamtiwari-seo-tools';
+	public const GROUP      = 'stseo_settings_group';
 	public const CAPABILITY = 'manage_options';
 
 	/**
@@ -77,7 +77,7 @@ final class SettingsPage implements Module {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_filter( 'option_page_capability_' . self::GROUP, array( $this, 'capability' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( SEOEARTH_FILE ), array( $this, 'action_links' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( STSEO_FILE ), array( $this, 'action_links' ) );
 	}
 
 	/**
@@ -104,13 +104,13 @@ final class SettingsPage implements Module {
 		$schema = $this->settings->schema();
 		foreach ( $schema->sections() as $id => $title ) {
 			add_settings_section(
-				'seoearth_' . $id,
+				'stseo_' . $id,
 				$title,
 				static function () use ( $id ) {
 					/**
 					 * Fires above the fields of a settings section, e.g. to print help text.
 					 */
-					do_action( 'seoearth_settings_section_' . $id );
+					do_action( 'stseo_settings_section_' . $id );
 				},
 				self::PAGE
 			);
@@ -118,11 +118,11 @@ final class SettingsPage implements Module {
 
 		foreach ( $schema->fields() as $field ) {
 			add_settings_field(
-				'seoearth_' . $field->key,
+				'stseo_' . $field->key,
 				esc_html( $field->label ),
 				array( $this, 'render_field' ),
 				self::PAGE,
-				'seoearth_' . $field->section,
+				'stseo_' . $field->section,
 				array(
 					'field'     => $field,
 					'label_for' => Field::TYPE_BOOL === $field->type ? null : $this->input_id( $field ),
@@ -141,7 +141,7 @@ final class SettingsPage implements Module {
 		$clean = $this->sanitizer->sanitize( $input, $this->settings->all() );
 
 		foreach ( $this->sanitizer->errors() as $key => $message ) {
-			add_settings_error( Settings::OPTION, 'seoearth_invalid_' . $key, $message, 'error' );
+			add_settings_error( Settings::OPTION, 'stseo_invalid_' . $key, $message, 'error' );
 		}
 		return $clean;
 	}
@@ -151,8 +151,8 @@ final class SettingsPage implements Module {
 	 */
 	public function add_menu(): void {
 		add_menu_page(
-			__( 'SEOEarth Settings', 'seoearth' ),
-			__( 'SEOEarth', 'seoearth' ),
+			__( 'ShubhamTiwari SEO Tools Settings', 'shubhamtiwari-seo-tools' ),
+			__( 'SEO Tools', 'shubhamtiwari-seo-tools' ),
 			self::CAPABILITY,
 			self::PAGE,
 			array( $this, 'render_page' ),
@@ -162,7 +162,7 @@ final class SettingsPage implements Module {
 	}
 
 	/**
-	 * Media library picker for image fields, on the SEOEarth screen only.
+	 * Media library picker for image fields, on the ShubhamTiwari SEO Tools screen only.
 	 *
 	 * @param mixed $hook_suffix Admin page.
 	 */
@@ -171,8 +171,8 @@ final class SettingsPage implements Module {
 			return;
 		}
 		wp_enqueue_media();
-		wp_enqueue_script( 'seoearth-settings', SEOEARTH_URL . 'assets/js/settings.js', array( 'jquery', 'wp-i18n' ), SEOEARTH_VERSION, true );
-		wp_set_script_translations( 'seoearth-settings', 'seoearth', SEOEARTH_DIR . 'languages' );
+		wp_enqueue_script( 'stseo-settings', STSEO_URL . 'assets/js/settings.js', array( 'jquery', 'wp-i18n' ), STSEO_VERSION, true );
+		wp_set_script_translations( 'stseo-settings', 'shubhamtiwari-seo-tools', STSEO_DIR . 'languages' );
 	}
 
 	/**
@@ -188,7 +188,7 @@ final class SettingsPage implements Module {
 				sprintf(
 					'<a href="%s">%s</a>',
 					esc_url( admin_url( 'admin.php?page=' . self::PAGE ) ),
-					esc_html__( 'Settings', 'seoearth' )
+					esc_html__( 'Settings', 'shubhamtiwari-seo-tools' )
 				)
 			);
 		}
@@ -200,7 +200,7 @@ final class SettingsPage implements Module {
 	 */
 	public function render_page(): void {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'Sorry, you are not allowed to manage these settings.', 'seoearth' ), 403 );
+			wp_die( esc_html__( 'Sorry, you are not allowed to manage these settings.', 'shubhamtiwari-seo-tools' ), 403 );
 		}
 
 		$sections = implode( ',', array_keys( $this->settings->schema()->sections() ) );
@@ -211,9 +211,9 @@ final class SettingsPage implements Module {
 			<?php if ( '0' === (string) get_option( 'blog_public' ) ) : ?>
 				<div class="notice notice-warning inline">
 					<p>
-						<strong><?php esc_html_e( 'Warning:', 'seoearth' ); ?></strong>
-						<?php esc_html_e( 'Search engines are currently asked not to index this entire site (Settings → Reading → “Discourage search engines from indexing this site”). SEOEarth does not override this.', 'seoearth' ); ?>
-						<a href="<?php echo esc_url( admin_url( 'options-reading.php' ) ); ?>"><?php esc_html_e( 'Change reading settings', 'seoearth' ); ?></a>
+						<strong><?php esc_html_e( 'Warning:', 'shubhamtiwari-seo-tools' ); ?></strong>
+						<?php esc_html_e( 'Search engines are currently asked not to index this entire site (Settings → Reading → “Discourage search engines from indexing this site”). ShubhamTiwari SEO Tools does not override this.', 'shubhamtiwari-seo-tools' ); ?>
+						<a href="<?php echo esc_url( admin_url( 'options-reading.php' ) ); ?>"><?php esc_html_e( 'Change reading settings', 'shubhamtiwari-seo-tools' ); ?></a>
 					</p>
 				</div>
 			<?php endif; ?>
@@ -274,9 +274,9 @@ final class SettingsPage implements Module {
 
 		if ( Field::TYPE_IMAGE_URL === $field->type && current_user_can( 'upload_files' ) ) {
 			printf(
-				' <button type="button" class="button seoearth-pick-image" data-target="%1$s" aria-controls="%1$s">%2$s</button>',
+				' <button type="button" class="button stseo-pick-image" data-target="%1$s" aria-controls="%1$s">%2$s</button>',
 				esc_attr( $id ),
-				esc_html__( 'Choose from media library', 'seoearth' )
+				esc_html__( 'Choose from media library', 'shubhamtiwari-seo-tools' )
 			);
 		}
 
@@ -291,6 +291,6 @@ final class SettingsPage implements Module {
 	 * @param Field $field Field.
 	 */
 	private function input_id( Field $field ): string {
-		return 'seoearth-' . str_replace( '_', '-', $field->key );
+		return 'stseo-' . str_replace( '_', '-', $field->key );
 	}
 }

@@ -1,4 +1,4 @@
-# What SEOEarth stores
+# What ShubhamTiwari SEO Tools stores
 
 Kept up to date with every phase. Used for the privacy section of readme.txt and for uninstall behaviour.
 
@@ -6,12 +6,12 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 
 | Option | Autoload | Contents | Created | Deleted on uninstall |
 |---|---|---|---|---|
-| `seoearth_settings` | yes | Site-wide settings (see table below) | First time settings are saved | Only if "Remove all SEOEarth data" is ticked |
-| `seoearth_db_version` | yes | Data version string, e.g. `0.1.0` | First request after activation | Only if "Remove all SEOEarth data" is ticked (kept otherwise so a reinstall upgrades correctly) |
-| `seoearth_redirect_index` | yes (up to 500 redirects) | Active redirects: source path => post ID, target, type. Rebuilt from the redirect posts on every change | Install, and whenever a redirect changes | Only if "Remove all SEOEarth data" is ticked |
-| `seoearth_migration_lock` | no | Unix timestamp; exists only while an upgrade runs | During upgrades | Always |
+| `stseo_settings` | yes | Site-wide settings (see table below) | First time settings are saved | Only if "Remove all ShubhamTiwari SEO Tools data" is ticked |
+| `stseo_db_version` | yes | Data version string, e.g. `0.1.0` | First request after activation | Only if "Remove all ShubhamTiwari SEO Tools data" is ticked (kept otherwise so a reinstall upgrades correctly) |
+| `stseo_redirect_index` | yes (up to 500 redirects) | Active redirects: source path => post ID, target, type. Rebuilt from the redirect posts on every change | Install, and whenever a redirect changes | Only if "Remove all ShubhamTiwari SEO Tools data" is ticked |
+| `stseo_migration_lock` | no | Unix timestamp; exists only while an upgrade runs | During upgrades | Always |
 
-### `seoearth_settings` keys
+### `stseo_settings` keys
 
 | Key | Type | Default |
 |---|---|---|
@@ -30,24 +30,24 @@ Kept up to date with every phase. Used for the privacy section of readme.txt and
 
 ## Redirect posts
 
-Redirects are posts of type `seoearth_redirect` (title = old path, `_seoearth_redirect_target` and `_seoearth_redirect_type` meta; published = active, draft = inactive). Only administrators can see or change them; they are not public and not available over the REST API. Deleted on uninstall only if "Remove all SEOEarth data" is ticked.
+Redirects are posts of type `stseo_redirect` (title = old path, `_stseo_redirect_target` and `_stseo_redirect_type` meta; published = active, draft = inactive). Only administrators can see or change them; they are not public and not available over the REST API. Deleted on uninstall only if "Remove all ShubhamTiwari SEO Tools data" is ticked.
 
 ## Personal data
-None. SEOEarth does not store information about visitors or users, sets no cookies, and makes no outbound HTTP requests.
+None. ShubhamTiwari SEO Tools does not store information about visitors or users, sets no cookies, and makes no outbound HTTP requests.
 
-Template settings (`title_*` / `desc_*` keys) and page-type indexing switches (`noindex_*` keys, default off) are also stored in `seoearth_settings`; see [TEMPLATES.md](TEMPLATES.md) and [INDEXING.md](INDEXING.md).
+Template settings (`title_*` / `desc_*` keys) and page-type indexing switches (`noindex_*` keys, default off) are also stored in `stseo_settings`; see [TEMPLATES.md](TEMPLATES.md) and [INDEXING.md](INDEXING.md).
 
 ## Post meta / term meta
 
 | Key | Stored on | Contents | Who can change it | Deleted on uninstall |
 |---|---|---|---|---|
-| `_seoearth_title` | posts (any type), terms | Custom SEO title, single-line text, may contain `%%variables%%` | Posts: users who can `edit_post` that post. Terms: users who can `edit_term` | Only if "Remove all SEOEarth data" is ticked |
-| `_seoearth_description` | posts (any type), terms | Custom meta description | same | same |
-| `_seoearth_canonical` | posts (any type), terms | Custom canonical URL, absolute http(s) only | same | same |
-| `_seoearth_robots` | posts (any type), terms | Comma-separated robots tokens from a fixed allowlist | same | same |
-| `_seoearth_social_title` | posts (any type), terms | Social sharing title; may contain `%%variables%%` | same | same |
-| `_seoearth_social_description` | posts (any type), terms | Social sharing description | same | same |
-| `_seoearth_social_image` | posts (any type), terms | Social sharing image URL, absolute http(s) only | same | same |
-| `_seoearth_focus_keyphrase` | posts (any type), terms | Focus keyphrase for the SEO analysis, plain text | same | same |
+| `_stseo_title` | posts (any type), terms | Custom SEO title, single-line text, may contain `%%variables%%` | Posts: users who can `edit_post` that post. Terms: users who can `edit_term` | Only if "Remove all ShubhamTiwari SEO Tools data" is ticked |
+| `_stseo_description` | posts (any type), terms | Custom meta description | same | same |
+| `_stseo_canonical` | posts (any type), terms | Custom canonical URL, absolute http(s) only | same | same |
+| `_stseo_robots` | posts (any type), terms | Comma-separated robots tokens from a fixed allowlist | same | same |
+| `_stseo_social_title` | posts (any type), terms | Social sharing title; may contain `%%variables%%` | same | same |
+| `_stseo_social_description` | posts (any type), terms | Social sharing description | same | same |
+| `_stseo_social_image` | posts (any type), terms | Social sharing image URL, absolute http(s) only | same | same |
+| `_stseo_focus_keyphrase` | posts (any type), terms | Focus keyphrase for the SEO analysis, plain text | same | same |
 
-Keys start with `_`, so they are hidden from the Custom Fields box. Because core only exposes registered post meta over REST for post types that support "custom-fields", SEOEarth adds that support to the post types it edits (this adds no data). They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.
+Keys start with `_`, so they are hidden from the Custom Fields box. Because core only exposes registered post meta over REST for post types that support "custom-fields", ShubhamTiwari SEO Tools adds that support to the post types it edits (this adds no data). They are exposed in the REST API (`meta` field) for the block editor, subject to the capability checks above; the REST API does not show them for posts the requester cannot read.

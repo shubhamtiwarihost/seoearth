@@ -2,15 +2,15 @@
 /**
  * Tests for the Autoloader.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
-use SEOEarth\Autoloader;
+use ShubhamTiwariSeoTools\Autoloader;
 
 /**
- * @covers \SEOEarth\Autoloader
+ * @covers \ShubhamTiwariSeoTools\Autoloader
  */
 final class AutoloaderTest extends TestCase {
 
@@ -18,7 +18,7 @@ final class AutoloaderTest extends TestCase {
 		Autoloader::register( dirname( __DIR__, 2 ) . '/src' );
 
 		Autoloader::load( 'Other\\Thing' );
-		Autoloader::load( 'SEOEarth\\..\\..\\etc\\passwd' );
+		Autoloader::load( 'ShubhamTiwariSeoTools\\..\\..\\etc\\passwd' );
 
 		$this->assertFalse( class_exists( 'Other\\Thing', false ) );
 	}

@@ -2,10 +2,10 @@
 /**
  * %%variable%% template engine.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Meta;
+namespace ShubhamTiwariSeoTools\Meta;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -1,16 +1,16 @@
-// SEOEarth sidebar. Status is always written out in text; symbols and color only reinforce it.
+// ShubhamTiwari SEO Tools sidebar. Status is always written out in text; symbols and color only reinforce it.
 
-.seoearth-sidebar .components-base-control {
+.stseo-sidebar .components-base-control {
 	margin-bottom: 16px;
 }
 
-.seoearth-panel-title {
+.stseo-panel-title {
 	display: inline-flex;
 	gap: 8px;
 	align-items: center;
 }
 
-.seoearth-preview {
+.stseo-preview {
 	margin-bottom: 16px;
 	padding: 12px;
 	border: 1px solid #dcdcde;
@@ -23,81 +23,81 @@
 	}
 }
 
-.seoearth-preview__url {
+.stseo-preview__url {
 	color: #006621;
 	font-size: 12px;
 	word-break: break-all;
 }
 
-.seoearth-preview__title {
+.stseo-preview__title {
 	color: #1a0dab;
 	font-size: 16px;
 	line-height: 1.3;
 }
 
-.seoearth-preview__description {
+.stseo-preview__description {
 	color: #3c4043;
 	font-size: 13px;
 	line-height: 1.5;
 }
 
-.seoearth-status {
+.stseo-status {
 	display: inline-flex;
 	gap: 4px;
 	align-items: center;
 	font-weight: 400;
 }
 
-.seoearth-status__symbol {
+.stseo-status__symbol {
 	display: inline-block;
 	width: 1.2em;
 	font-weight: 700;
 	text-align: center;
 }
 
-.seoearth-status--error .seoearth-status__symbol {
+.stseo-status--error .stseo-status__symbol {
 	color: #b32d2e;
 }
 
-.seoearth-status--warning .seoearth-status__symbol {
+.stseo-status--warning .stseo-status__symbol {
 	color: #996800;
 }
 
-.seoearth-status--info .seoearth-status__symbol {
+.stseo-status--info .stseo-status__symbol {
 	color: #2271b1;
 }
 
-.seoearth-status--pass .seoearth-status__symbol {
+.stseo-status--pass .stseo-status__symbol {
 	color: #007017;
 }
 
-.seoearth-results {
+.stseo-results {
 	margin: 0;
 }
 
-.seoearth-result {
+.stseo-result {
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
 	margin-bottom: 12px;
 }
 
-.seoearth-result__status,
-.seoearth-status__label {
+.stseo-result__status,
+.stseo-status__label {
 	font-size: 11px;
 	text-transform: uppercase;
 }
 
-.seoearth-result__advice {
+.stseo-result__advice {
 	color: #50575e;
 }
 
-.seoearth-length--long,
-.seoearth-length--empty {
+.stseo-length--long,
+.stseo-length--empty {
 	font-weight: 600;
 }
 
-.seoearth-loading {
+.stseo-loading {
 	display: flex;
 	align-items: center;
 	gap: 4px;

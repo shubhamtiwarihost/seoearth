@@ -2,10 +2,10 @@
 /**
  * Meta keys and settings key helpers.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Meta;
+namespace ShubhamTiwariSeoTools\Meta;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,42 +17,42 @@ final class Keys {
 	/**
 	 * Custom SEO title (post meta and term meta). Protected (leading underscore).
 	 */
-	public const TITLE = '_seoearth_title';
+	public const TITLE = '_stseo_title';
 
 	/**
 	 * Custom meta description (post meta and term meta).
 	 */
-	public const DESCRIPTION = '_seoearth_description';
+	public const DESCRIPTION = '_stseo_description';
 
 	/**
 	 * Custom canonical URL (absolute http/https).
 	 */
-	public const CANONICAL = '_seoearth_canonical';
+	public const CANONICAL = '_stseo_canonical';
 
 	/**
 	 * Robots tokens, comma-separated, from Robots::TOKENS.
 	 */
-	public const ROBOTS = '_seoearth_robots';
+	public const ROBOTS = '_stseo_robots';
 
 	/**
 	 * Social sharing title (Open Graph / X). Falls back to the SEO title.
 	 */
-	public const SOCIAL_TITLE = '_seoearth_social_title';
+	public const SOCIAL_TITLE = '_stseo_social_title';
 
 	/**
 	 * Social sharing description. Falls back to the meta description.
 	 */
-	public const SOCIAL_DESCRIPTION = '_seoearth_social_description';
+	public const SOCIAL_DESCRIPTION = '_stseo_social_description';
 
 	/**
 	 * Social sharing image URL (absolute http/https). Falls back to the featured image, then the site default.
 	 */
-	public const SOCIAL_IMAGE = '_seoearth_social_image';
+	public const SOCIAL_IMAGE = '_stseo_social_image';
 
 	/**
 	 * Focus keyphrase for the SEO analysis (plain text).
 	 */
-	public const FOCUS_KEYPHRASE = '_seoearth_focus_keyphrase';
+	public const FOCUS_KEYPHRASE = '_stseo_focus_keyphrase';
 
 	/**
 	 * All per-object meta keys, for registration and uninstall.

@@ -2,15 +2,15 @@
 /**
  * SEO data of the page being rendered.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Frontend;
+namespace ShubhamTiwariSeoTools\Frontend;
 
-use SEOEarth\Meta\Canonical;
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Meta\Resolver;
-use SEOEarth\Meta\Robots;
+use ShubhamTiwariSeoTools\Meta\Canonical;
+use ShubhamTiwariSeoTools\Meta\PageContext;
+use ShubhamTiwariSeoTools\Meta\Resolver;
+use ShubhamTiwariSeoTools\Meta\Robots;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -85,7 +85,7 @@ class CurrentPage {
 		 * @param mixed       $canonical Canonical URL string ('' on noindex pages). Non-strings are ignored.
 		 * @param PageContext $context   Page context.
 		 */
-		$canonical = apply_filters( 'seoearth_canonical', isset( $robots['noindex'] ) ? '' : $this->canonical->url( $context ), $context );
+		$canonical = apply_filters( 'stseo_canonical', isset( $robots['noindex'] ) ? '' : $this->canonical->url( $context ), $context );
 
 		$this->data = array(
 			'context'     => $context,

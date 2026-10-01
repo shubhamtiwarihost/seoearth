@@ -2,13 +2,13 @@
 /**
  * Breadcrumb trail as structured data.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema\Pieces;
+namespace ShubhamTiwariSeoTools\Schema\Pieces;
 
-use SEOEarth\Schema\Piece;
-use SEOEarth\Schema\SchemaContext;
+use ShubhamTiwariSeoTools\Schema\Piece;
+use ShubhamTiwariSeoTools\Schema\SchemaContext;
 
 defined( 'ABSPATH' ) || exit;
 

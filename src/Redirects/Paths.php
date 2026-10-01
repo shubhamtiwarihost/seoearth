@@ -2,10 +2,10 @@
 /**
  * Redirect source/target normalisation and loop detection.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Redirects;
+namespace ShubhamTiwariSeoTools\Redirects;
 
 defined( 'ABSPATH' ) || exit;
 

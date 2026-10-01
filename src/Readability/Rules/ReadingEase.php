@@ -2,16 +2,16 @@
 /**
  * Flesch reading ease.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability\Rules;
+namespace ShubhamTiwariSeoTools\Readability\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
-use SEOEarth\Analysis\Rules\BaseRule;
-use SEOEarth\Analysis\Document;
-use SEOEarth\Readability\Sentences;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Rules\BaseRule;
+use ShubhamTiwariSeoTools\Analysis\Document;
+use ShubhamTiwariSeoTools\Readability\Sentences;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -73,7 +73,7 @@ final class ReadingEase extends BaseRule {
 			'label' => $this->label( $score ),
 		);
 		/* translators: 1: score, 2: difficulty label such as "fairly difficult". */
-		$found = sprintf( __( 'Flesch reading ease is %1$s (%2$s).', 'seoearth' ), (string) $score, $this->label( $score ) );
+		$found = sprintf( __( 'Flesch reading ease is %1$s (%2$s).', 'shubhamtiwari-seo-tools' ), (string) $score, $this->label( $score ) );
 
 		if ( $score >= self::MIN_SCORE ) {
 			return $this->result( Result::PASS, Result::MEDIUM, $found, '', $meta );
@@ -82,7 +82,7 @@ final class ReadingEase extends BaseRule {
 			Result::WARNING,
 			Result::MEDIUM,
 			$found,
-			__( 'Use shorter sentences and more everyday words, unless your readers expect technical language.', 'seoearth' ),
+			__( 'Use shorter sentences and more everyday words, unless your readers expect technical language.', 'shubhamtiwari-seo-tools' ),
 			$meta
 		);
 	}
@@ -94,20 +94,20 @@ final class ReadingEase extends BaseRule {
 	 */
 	private function label( float $score ): string {
 		if ( $score >= 80 ) {
-			return __( 'easy', 'seoearth' );
+			return __( 'easy', 'shubhamtiwari-seo-tools' );
 		}
 		if ( $score >= 70 ) {
-			return __( 'fairly easy', 'seoearth' );
+			return __( 'fairly easy', 'shubhamtiwari-seo-tools' );
 		}
 		if ( $score >= 60 ) {
-			return __( 'plain', 'seoearth' );
+			return __( 'plain', 'shubhamtiwari-seo-tools' );
 		}
 		if ( $score >= 50 ) {
-			return __( 'fairly difficult', 'seoearth' );
+			return __( 'fairly difficult', 'shubhamtiwari-seo-tools' );
 		}
 		if ( $score >= 30 ) {
-			return __( 'difficult', 'seoearth' );
+			return __( 'difficult', 'shubhamtiwari-seo-tools' );
 		}
-		return __( 'very difficult', 'seoearth' );
+		return __( 'very difficult', 'shubhamtiwari-seo-tools' );
 	}
 }

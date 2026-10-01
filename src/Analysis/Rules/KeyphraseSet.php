@@ -2,13 +2,13 @@
 /**
  * Whether a focus keyphrase is set.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -42,8 +42,8 @@ final class KeyphraseSet extends BaseRule {
 		return $this->result(
 			Result::INFO,
 			Result::MEDIUM,
-			__( 'No focus keyphrase is set, so keyphrase checks are skipped.', 'seoearth' ),
-			__( 'Enter the words people would search for to find this page.', 'seoearth' )
+			__( 'No focus keyphrase is set, so keyphrase checks are skipped.', 'shubhamtiwari-seo-tools' ),
+			__( 'Enter the words people would search for to find this page.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 }

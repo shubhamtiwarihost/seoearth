@@ -1,11 +1,11 @@
 <?php
 /**
- * Constants PHPStan needs to know about (defined at runtime in seoearth.php).
+ * Constants PHPStan needs to know about (defined at runtime in shubhamtiwari-seo-tools.php).
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-define( 'SEOEARTH_VERSION', '0.0.0' );
-define( 'SEOEARTH_FILE', '' );
-define( 'SEOEARTH_DIR', '' );
-define( 'SEOEARTH_URL', '' );
+define( 'STSEO_VERSION', '0.0.0' );
+define( 'STSEO_FILE', '' );
+define( 'STSEO_DIR', '' );
+define( 'STSEO_URL', '' );

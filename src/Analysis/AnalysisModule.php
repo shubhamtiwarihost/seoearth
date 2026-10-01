@@ -2,18 +2,18 @@
 /**
  * SEO analysis REST endpoint.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
-use SEOEarth\Helpers\Text;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Helpers\Text;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * `POST /seoearth/v1/analysis` — analyses a post, optionally with unsaved
+ * `POST /stseo/v1/analysis` — analyses a post, optionally with unsaved
  * editor values, and returns two reports (`seo`, `readability`) plus the
  * rendered title and description for the search preview (`preview`).
  * Read-only: nothing is saved.
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class AnalysisModule implements Module {
 
-	public const REST_NAMESPACE = 'seoearth/v1';
+	public const REST_NAMESPACE = 'stseo/v1';
 
 	/**
 	 * Input builder.
@@ -112,7 +112,7 @@ final class AnalysisModule implements Module {
 		if ( current_user_can( 'edit_post', $post_id ) ) {
 			return true;
 		}
-		return new \WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to analyse this content.', 'seoearth' ), array( 'status' => rest_authorization_required_code() ) );
+		return new \WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to analyse this content.', 'shubhamtiwari-seo-tools' ), array( 'status' => rest_authorization_required_code() ) );
 	}
 
 	/**
@@ -124,7 +124,7 @@ final class AnalysisModule implements Module {
 	public function analyse( \WP_REST_Request $request ) {
 		$post = get_post( (int) $request->get_param( 'post_id' ) );
 		if ( ! $post instanceof \WP_Post ) {
-			return new \WP_Error( 'rest_post_invalid_id', __( 'Invalid post ID.', 'seoearth' ), array( 'status' => 404 ) );
+			return new \WP_Error( 'rest_post_invalid_id', __( 'Invalid post ID.', 'shubhamtiwari-seo-tools' ), array( 'status' => 404 ) );
 		}
 
 		$overrides = array();

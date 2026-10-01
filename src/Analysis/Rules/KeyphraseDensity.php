@@ -2,13 +2,13 @@
 /**
  * How often the keyphrase is used.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -55,22 +55,22 @@ final class KeyphraseDensity extends BaseRule {
 			return $this->result(
 				Result::WARNING,
 				Result::HIGH,
-				__( 'The focus keyphrase does not appear in the text.', 'seoearth' ),
-				__( 'Use the keyphrase where it fits naturally in the text.', 'seoearth' ),
+				__( 'The focus keyphrase does not appear in the text.', 'shubhamtiwari-seo-tools' ),
+				__( 'Use the keyphrase where it fits naturally in the text.', 'shubhamtiwari-seo-tools' ),
 				$meta
 			);
 		}
 		/* translators: 1: number of times the keyphrase is used, 2: uses per 100 words. */
-		$found = sprintf( _n( 'The focus keyphrase is used %1$d time (%2$s per 100 words).', 'The focus keyphrase is used %1$d times (%2$s per 100 words).', $count, 'seoearth' ), $count, (string) $density );
+		$found = sprintf( _n( 'The focus keyphrase is used %1$d time (%2$s per 100 words).', 'The focus keyphrase is used %1$d times (%2$s per 100 words).', $count, 'shubhamtiwari-seo-tools' ), $count, (string) $density );
 
 		if ( $density < 0.5 ) {
-			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Use the keyphrase a little more often.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Use the keyphrase a little more often.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		if ( $density > 4.5 ) {
-			return $this->result( Result::ERROR, Result::HIGH, $found, __( 'This is far more than reads naturally. Replace some uses with synonyms or pronouns.', 'seoearth' ), $meta );
+			return $this->result( Result::ERROR, Result::HIGH, $found, __( 'This is far more than reads naturally. Replace some uses with synonyms or pronouns.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		if ( $density > 3 ) {
-			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Use the keyphrase a little less often so the text does not feel repetitive.', 'seoearth' ), $meta );
+			return $this->result( Result::WARNING, Result::MEDIUM, $found, __( 'Use the keyphrase a little less often so the text does not feel repetitive.', 'shubhamtiwari-seo-tools' ), $meta );
 		}
 		return $this->result( Result::PASS, Result::HIGH, $found, '', $meta );
 	}

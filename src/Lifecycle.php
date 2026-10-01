@@ -2,12 +2,12 @@
 /**
  * Activation and deactivation handlers.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth;
+namespace ShubhamTiwariSeoTools;
 
-use SEOEarth\Migrations\Migrator;
+use ShubhamTiwariSeoTools\Migrations\Migrator;
 
 defined( 'ABSPATH' ) || exit;
 

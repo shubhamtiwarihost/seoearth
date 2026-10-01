@@ -2,26 +2,26 @@
 /**
  * Block editor sidebar loading and the Classic Editor metabox.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Admin\EditorModule;
-use SEOEarth\Admin\Metabox;
-use SEOEarth\Admin\SeoForm;
-use SEOEarth\Context;
-use SEOEarth\Meta\Keys;
-use SEOEarth\Meta\MetaModule;
-use SEOEarth\Plugin;
+use ShubhamTiwariSeoTools\Admin\EditorModule;
+use ShubhamTiwariSeoTools\Admin\Metabox;
+use ShubhamTiwariSeoTools\Admin\SeoForm;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Meta\Keys;
+use ShubhamTiwariSeoTools\Meta\MetaModule;
+use ShubhamTiwariSeoTools\Plugin;
 use WP_REST_Request;
 use WP_UnitTestCase;
 
 /**
- * @covers \SEOEarth\Admin\EditorModule
- * @covers \SEOEarth\Admin\Metabox
- * @covers \SEOEarth\Admin\SeoForm
- * @covers \SEOEarth\Admin\PostTypes
+ * @covers \ShubhamTiwariSeoTools\Admin\EditorModule
+ * @covers \ShubhamTiwariSeoTools\Admin\Metabox
+ * @covers \ShubhamTiwariSeoTools\Admin\SeoForm
+ * @covers \ShubhamTiwariSeoTools\Admin\PostTypes
  */
 final class EditorTest extends WP_UnitTestCase {
 
@@ -54,7 +54,7 @@ final class EditorTest extends WP_UnitTestCase {
 	 * @param string|null          $nonce   Nonce (default: valid).
 	 */
 	private function submit( int $post_id, array $fields, ?string $nonce = null ): void {
-		$_POST = wp_slash( $fields ) + array( Metabox::NONCE_FIELD => $nonce ?? wp_create_nonce( 'seoearth_post_' . $post_id ) );
+		$_POST = wp_slash( $fields ) + array( Metabox::NONCE_FIELD => $nonce ?? wp_create_nonce( 'stseo_post_' . $post_id ) );
 		$this->metabox->save( $post_id, get_post( $post_id ) );
 		$_POST = array();
 	}
@@ -149,24 +149,24 @@ final class EditorTest extends WP_UnitTestCase {
 	}
 
 	public function test_sidebar_script_only_on_supported_post_screens(): void {
-		if ( ! is_readable( SEOEARTH_DIR . 'build/editor/index.asset.php' ) ) {
+		if ( ! is_readable( STSEO_DIR . 'build/editor/index.asset.php' ) ) {
 			$this->markTestSkipped( 'Run `npm run build` first.' );
 		}
 		$module = new EditorModule();
 
 		set_current_screen( 'edit.php' );
 		$module->enqueue();
-		$this->assertFalse( wp_script_is( 'seoearth-editor', 'enqueued' ), 'Not on list screens.' );
+		$this->assertFalse( wp_script_is( 'stseo-editor', 'enqueued' ), 'Not on list screens.' );
 
 		set_current_screen( 'post' );
 		$module->enqueue();
-		$this->assertTrue( wp_script_is( 'seoearth-editor', 'enqueued' ) );
-		$this->assertStringContainsString( 'seoearthEditor', (string) wp_scripts()->get_data( 'seoearth-editor', 'before' )[1] );
+		$this->assertTrue( wp_script_is( 'stseo-editor', 'enqueued' ) );
+		$this->assertStringContainsString( 'stseoEditor', (string) wp_scripts()->get_data( 'stseo-editor', 'before' )[1] );
 
-		wp_dequeue_script( 'seoearth-editor' );
+		wp_dequeue_script( 'stseo-editor' );
 		set_current_screen( 'attachment' );
 		$module->enqueue();
-		$this->assertFalse( wp_script_is( 'seoearth-editor', 'enqueued' ), 'Not for media.' );
+		$this->assertFalse( wp_script_is( 'stseo-editor', 'enqueued' ), 'Not for media.' );
 		set_current_screen( 'front' );
 	}
 }

@@ -2,32 +2,32 @@
 /**
  * Tests for the readability checks.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Functions;
-use SEOEarth\Analysis\Engine;
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
-use SEOEarth\Readability\English;
-use SEOEarth\Readability\Rules\ReadingEase;
-use SEOEarth\Readability\Sentences;
+use ShubhamTiwariSeoTools\Analysis\Engine;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
+use ShubhamTiwariSeoTools\Readability\English;
+use ShubhamTiwariSeoTools\Readability\Rules\ReadingEase;
+use ShubhamTiwariSeoTools\Readability\Sentences;
 
 /**
  * Covers sentence splitting, syllables, English detectors and every readability rule.
  *
- * @covers \SEOEarth\Readability\Sentences
- * @covers \SEOEarth\Readability\English
- * @covers \SEOEarth\Readability\Rules\SentenceLength
- * @covers \SEOEarth\Readability\Rules\ParagraphLength
- * @covers \SEOEarth\Readability\Rules\SubheadingDistribution
- * @covers \SEOEarth\Readability\Rules\PassiveVoice
- * @covers \SEOEarth\Readability\Rules\TransitionWords
- * @covers \SEOEarth\Readability\Rules\ReadingEase
- * @covers \SEOEarth\Analysis\Input::sentences
- * @covers \SEOEarth\Analysis\Document
+ * @covers \ShubhamTiwariSeoTools\Readability\Sentences
+ * @covers \ShubhamTiwariSeoTools\Readability\English
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\SentenceLength
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\ParagraphLength
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\SubheadingDistribution
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\PassiveVoice
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\TransitionWords
+ * @covers \ShubhamTiwariSeoTools\Readability\Rules\ReadingEase
+ * @covers \ShubhamTiwariSeoTools\Analysis\Input::sentences
+ * @covers \ShubhamTiwariSeoTools\Analysis\Document
  */
 final class ReadabilityTest extends TestCase {
 
@@ -113,7 +113,7 @@ final class ReadabilityTest extends TestCase {
 
 		Functions\when( 'apply_filters' )->alias(
 			static function ( $hook, $words ) {
-				return 'seoearth_transition_words' === $hook ? array( 'thenceforth', 42 ) : $words;
+				return 'stseo_transition_words' === $hook ? array( 'thenceforth', 42 ) : $words;
 			}
 		);
 		English::reset();

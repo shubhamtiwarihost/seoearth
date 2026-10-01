@@ -2,13 +2,13 @@
 /**
  * Amount of text.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -45,12 +45,12 @@ final class ContentLength extends BaseRule {
 		$words = $input->content->word_count;
 		$meta  = array( 'words' => $words );
 		/* translators: %d: number of words. */
-		$found = sprintf( _n( 'The text contains %d word.', 'The text contains %d words.', $words, 'seoearth' ), $words );
+		$found = sprintf( _n( 'The text contains %d word.', 'The text contains %d words.', $words, 'shubhamtiwari-seo-tools' ), $words );
 
 		if ( $words >= 300 ) {
 			return $this->result( Result::PASS, Result::MEDIUM, $found, '', $meta );
 		}
-		$advice = __( 'Consider covering the topic in more depth, if readers would benefit.', 'seoearth' );
+		$advice = __( 'Consider covering the topic in more depth, if readers would benefit.', 'shubhamtiwari-seo-tools' );
 		if ( 'page' === $input->post_type ) {
 			return $this->result( Result::INFO, Result::LOW, $found, $advice, $meta );
 		}

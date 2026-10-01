@@ -1,5 +1,5 @@
 /**
- * SEOEarth settings screen: media library picker for image URL fields.
+ * ShubhamTiwari SEO Tools settings screen: media library picker for image URL fields.
  * Only fills in the field; nothing is saved until the form is submitted.
  */
 ( function ( $ ) {
@@ -10,7 +10,7 @@
 	}
 	const { __ } = window.wp.i18n;
 
-	$( document ).on( 'click', '.seoearth-pick-image', function ( event ) {
+	$( document ).on( 'click', '.stseo-pick-image', function ( event ) {
 		event.preventDefault();
 		const input = document.getElementById( this.getAttribute( 'data-target' ) );
 		if ( ! input ) {
@@ -18,8 +18,8 @@
 		}
 
 		const frame = window.wp.media( {
-			title: __( 'Choose an image', 'seoearth' ),
-			button: { text: __( 'Use this image', 'seoearth' ) },
+			title: __( 'Choose an image', 'shubhamtiwari-seo-tools' ),
+			button: { text: __( 'Use this image', 'shubhamtiwari-seo-tools' ) },
 			library: { type: 'image' },
 			multiple: false,
 		} );

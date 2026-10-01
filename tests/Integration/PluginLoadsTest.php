@@ -2,14 +2,14 @@
 /**
  * Smoke tests against a real WordPress install.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Lifecycle;
-use SEOEarth\Migrations\Migrator;
-use SEOEarth\Plugin;
+use ShubhamTiwariSeoTools\Lifecycle;
+use ShubhamTiwariSeoTools\Migrations\Migrator;
+use ShubhamTiwariSeoTools\Plugin;
 use WP_UnitTestCase;
 
 /**
@@ -18,8 +18,8 @@ use WP_UnitTestCase;
 final class PluginLoadsTest extends WP_UnitTestCase {
 
 	public function test_plugin_constants_and_boot(): void {
-		$this->assertTrue( defined( 'SEOEARTH_VERSION' ) );
-		$this->assertSame( 1, did_action( 'seoearth_loaded' ) );
+		$this->assertTrue( defined( 'STSEO_VERSION' ) );
+		$this->assertSame( 1, did_action( 'stseo_loaded' ) );
 		$this->assertInstanceOf( Plugin::class, Plugin::instance() );
 	}
 
@@ -29,7 +29,7 @@ final class PluginLoadsTest extends WP_UnitTestCase {
 		Lifecycle::activate();
 		Lifecycle::activate();
 
-		$this->assertSame( SEOEARTH_VERSION, get_option( Migrator::VERSION_OPTION ) );
+		$this->assertSame( STSEO_VERSION, get_option( Migrator::VERSION_OPTION ) );
 		$this->assertFalse( get_option( Migrator::LOCK_OPTION ), 'Lock must be released.' );
 
 		// Read on every request, so it must be autoloaded ('yes'/'on' depending on WP version).

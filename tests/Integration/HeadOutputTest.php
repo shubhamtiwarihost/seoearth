@@ -2,24 +2,24 @@
 /**
  * Title and meta description output on real requests.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Frontend\HeadModule;
-use SEOEarth\Meta\Keys;
-use SEOEarth\Plugin;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Frontend\HeadModule;
+use ShubhamTiwariSeoTools\Meta\Keys;
+use ShubhamTiwariSeoTools\Plugin;
+use ShubhamTiwariSeoTools\Settings\Settings;
 use WP_UnitTestCase;
 
 /**
  * Drives WordPress to each kind of page and checks <title> and description.
  *
- * @covers \SEOEarth\Frontend\HeadModule
- * @covers \SEOEarth\Meta\Resolver
- * @covers \SEOEarth\Meta\PageContext
- * @covers \SEOEarth\Meta\VariableValues
+ * @covers \ShubhamTiwariSeoTools\Frontend\HeadModule
+ * @covers \ShubhamTiwariSeoTools\Meta\Resolver
+ * @covers \ShubhamTiwariSeoTools\Meta\PageContext
+ * @covers \ShubhamTiwariSeoTools\Meta\VariableValues
  */
 final class HeadOutputTest extends WP_UnitTestCase {
 
@@ -272,9 +272,9 @@ final class HeadOutputTest extends WP_UnitTestCase {
 	public function test_output_can_be_disabled_and_feeds_are_untouched(): void {
 		$id = self::factory()->post->create( array( 'post_title' => 'Toggle' ) );
 
-		add_filter( 'seoearth_head_output_enabled', '__return_false' );
+		add_filter( 'stseo_head_output_enabled', '__return_false' );
 		list( $title, $description ) = $this->visit( get_permalink( $id ) );
-		remove_filter( 'seoearth_head_output_enabled', '__return_false' );
+		remove_filter( 'stseo_head_output_enabled', '__return_false' );
 
 		$this->assertSame( 'Toggle &#8211; Acme', $title, 'Core title (core texturizes the dash).' );
 		$this->assertSame( '', $description );

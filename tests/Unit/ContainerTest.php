@@ -2,17 +2,17 @@
 /**
  * Tests for Container.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
-use SEOEarth\Container;
+use ShubhamTiwariSeoTools\Container;
 
 /**
  * Covers the DI container.
  *
- * @covers \SEOEarth\Container
+ * @covers \ShubhamTiwariSeoTools\Container
  */
 final class ContainerTest extends TestCase {
 

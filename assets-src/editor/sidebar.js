@@ -1,5 +1,5 @@
 /**
- * The SEOEarth sidebar.
+ * The ShubhamTiwari SEO Tools sidebar.
  */
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import {
@@ -39,10 +39,19 @@ const PluginSidebarMoreMenuItem =
 	editor.PluginSidebarMoreMenuItem || editPost.PluginSidebarMoreMenuItem;
 
 const DIRECTIVES = {
-	nofollow: __( 'Do not follow links (nofollow)', 'seoearth' ),
-	noarchive: __( 'Do not show a cached copy (noarchive)', 'seoearth' ),
-	nosnippet: __( 'Do not show a text snippet (nosnippet)', 'seoearth' ),
-	noimageindex: __( 'Do not index images (noimageindex)', 'seoearth' ),
+	nofollow: __( 'Do not follow links (nofollow)', 'shubhamtiwari-seo-tools' ),
+	noarchive: __(
+		'Do not show a cached copy (noarchive)',
+		'shubhamtiwari-seo-tools'
+	),
+	nosnippet: __(
+		'Do not show a text snippet (nosnippet)',
+		'shubhamtiwari-seo-tools'
+	),
+	noimageindex: __(
+		'Do not index images (noimageindex)',
+		'shubhamtiwari-seo-tools'
+	),
 };
 
 /**
@@ -57,20 +66,24 @@ function AnalysisBody( { report, loading, error } ) {
 	return (
 		<Fragment>
 			{ loading && (
-				<p className="seoearth-loading">
-					<Spinner /> { __( 'Checking…', 'seoearth' ) }
+				<p className="stseo-loading">
+					<Spinner /> { __( 'Checking…', 'shubhamtiwari-seo-tools' ) }
 				</p>
 			) }
 			{ error && (
 				<Notice status="error" isDismissible={ false }>
-					{ __( 'The check could not run:', 'seoearth' ) } { error }
+					{ __(
+						'The check could not run:',
+						'shubhamtiwari-seo-tools'
+					) }{ ' ' }
+					{ error }
 				</Notice>
 			) }
 			{ report && report.results.length === 0 && (
 				<p>
 					{ __(
 						'There is not enough text to check yet.',
-						'seoearth'
+						'shubhamtiwari-seo-tools'
 					) }
 				</p>
 			) }
@@ -88,7 +101,7 @@ function AnalysisBody( { report, loading, error } ) {
  */
 function PanelTitle( { label, report } ) {
 	return (
-		<span className="seoearth-panel-title">
+		<span className="stseo-panel-title">
 			{ label }
 			{ report && report.results.length > 0 && (
 				<StatusMarker status={ overallStatus( [ report ] ) } />
@@ -111,25 +124,33 @@ export default function Sidebar() {
 		: null;
 	const hidden =
 		indexChoice( robots ) === 'noindex' ||
-		( window.seoearthEditor && ! window.seoearthEditor.blogPublic );
+		( window.stseoEditor && ! window.stseoEditor.blogPublic );
 
 	return (
 		<Fragment>
-			<PluginSidebarMoreMenuItem target="seoearth-sidebar">
-				{ __( 'SEOEarth', 'seoearth' ) }
+			<PluginSidebarMoreMenuItem target="stseo-sidebar">
+				{ __( 'ShubhamTiwari SEO Tools', 'shubhamtiwari-seo-tools' ) }
 			</PluginSidebarMoreMenuItem>
 			<PluginSidebar
-				className="seoearth-sidebar"
-				name="seoearth-sidebar"
-				title={ __( 'SEOEarth', 'seoearth' ) }
+				className="stseo-sidebar"
+				name="stseo-sidebar"
+				title={ __(
+					'ShubhamTiwari SEO Tools',
+					'shubhamtiwari-seo-tools'
+				) }
 				icon="search"
 			>
-				<PanelBody title={ __( 'Search appearance', 'seoearth' ) }>
+				<PanelBody
+					title={ __(
+						'Search appearance',
+						'shubhamtiwari-seo-tools'
+					) }
+				>
 					{ hidden && (
 						<Notice status="warning" isDismissible={ false }>
 							{ __(
 								'This page is hidden from search engines.',
-								'seoearth'
+								'shubhamtiwari-seo-tools'
 							) }
 						</Notice>
 					) }
@@ -139,10 +160,13 @@ export default function Sidebar() {
 						description={ data ? data.preview.description : '' }
 					/>
 					<TextControl
-						label={ __( 'Focus keyphrase', 'seoearth' ) }
+						label={ __(
+							'Focus keyphrase',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={ __(
 							'The words people would search for to find this page.',
-							'seoearth'
+							'shubhamtiwari-seo-tools'
 						) }
 						value={ meta[ KEYS.keyphrase ] || '' }
 						onChange={ ( value ) =>
@@ -151,12 +175,12 @@ export default function Sidebar() {
 						__nextHasNoMarginBottom
 					/>
 					<TextControl
-						label={ __( 'SEO title', 'seoearth' ) }
+						label={ __( 'SEO title', 'shubhamtiwari-seo-tools' ) }
 						help={
 							<Fragment>
 								{ __(
 									'Leave empty to use the title template. Variables such as %%site_name%% are allowed.',
-									'seoearth'
+									'shubhamtiwari-seo-tools'
 								) }{ ' ' }
 								{ data && (
 									<LengthHint
@@ -172,12 +196,15 @@ export default function Sidebar() {
 						__nextHasNoMarginBottom
 					/>
 					<TextareaControl
-						label={ __( 'Meta description', 'seoearth' ) }
+						label={ __(
+							'Meta description',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={
 							<Fragment>
 								{ __(
 									'Leave empty to use the description template.',
-									'seoearth'
+									'shubhamtiwari-seo-tools'
 								) }{ ' ' }
 								{ data && (
 									<LengthHint
@@ -199,7 +226,10 @@ export default function Sidebar() {
 				<PanelBody
 					title={
 						<PanelTitle
-							label={ __( 'SEO analysis', 'seoearth' ) }
+							label={ __(
+								'SEO analysis',
+								'shubhamtiwari-seo-tools'
+							) }
 							report={ data && data.seo }
 						/>
 					}
@@ -214,7 +244,10 @@ export default function Sidebar() {
 				<PanelBody
 					title={
 						<PanelTitle
-							label={ __( 'Readability', 'seoearth' ) }
+							label={ __(
+								'Readability',
+								'shubhamtiwari-seo-tools'
+							) }
 							report={ data && data.readability }
 						/>
 					}
@@ -228,14 +261,17 @@ export default function Sidebar() {
 				</PanelBody>
 
 				<PanelBody
-					title={ __( 'Social sharing', 'seoearth' ) }
+					title={ __( 'Social sharing', 'shubhamtiwari-seo-tools' ) }
 					initialOpen={ false }
 				>
 					<TextControl
-						label={ __( 'Social sharing title', 'seoearth' ) }
+						label={ __(
+							'Social sharing title',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={ __(
 							'Leave empty to use the SEO title.',
-							'seoearth'
+							'shubhamtiwari-seo-tools'
 						) }
 						value={ meta[ KEYS.socialTitle ] || '' }
 						onChange={ ( value ) =>
@@ -244,10 +280,13 @@ export default function Sidebar() {
 						__nextHasNoMarginBottom
 					/>
 					<TextareaControl
-						label={ __( 'Social sharing description', 'seoearth' ) }
+						label={ __(
+							'Social sharing description',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={ __(
 							'Leave empty to use the meta description.',
-							'seoearth'
+							'shubhamtiwari-seo-tools'
 						) }
 						value={ meta[ KEYS.socialDescription ] || '' }
 						onChange={ ( value ) =>
@@ -257,10 +296,13 @@ export default function Sidebar() {
 					/>
 					<TextControl
 						type="url"
-						label={ __( 'Social sharing image URL', 'seoearth' ) }
+						label={ __(
+							'Social sharing image URL',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={ __(
 							'Leave empty to use the featured image, then the default sharing image.',
-							'seoearth'
+							'shubhamtiwari-seo-tools'
 						) }
 						value={ meta[ KEYS.socialImage ] || '' }
 						onChange={ ( value ) =>
@@ -278,7 +320,7 @@ export default function Sidebar() {
 								<Button variant="secondary" onClick={ open }>
 									{ __(
 										'Choose from media library',
-										'seoearth'
+										'shubhamtiwari-seo-tools'
 									) }
 								</Button>
 							) }
@@ -287,32 +329,35 @@ export default function Sidebar() {
 				</PanelBody>
 
 				<PanelBody
-					title={ __( 'Advanced', 'seoearth' ) }
+					title={ __( 'Advanced', 'shubhamtiwari-seo-tools' ) }
 					initialOpen={ false }
 				>
 					<SelectControl
-						label={ __( 'Search engines', 'seoearth' ) }
+						label={ __(
+							'Search engines',
+							'shubhamtiwari-seo-tools'
+						) }
 						value={ indexChoice( robots ) }
 						options={ [
 							{
 								value: '',
 								label: __(
-									'Default (from SEOEarth settings)',
-									'seoearth'
+									'Default (from ShubhamTiwari SEO Tools settings)',
+									'shubhamtiwari-seo-tools'
 								),
 							},
 							{
 								value: 'index',
 								label: __(
 									'Show in search results (index)',
-									'seoearth'
+									'shubhamtiwari-seo-tools'
 								),
 							},
 							{
 								value: 'noindex',
 								label: __(
 									'Hide from search results (noindex)',
-									'seoearth'
+									'shubhamtiwari-seo-tools'
 								),
 							},
 						] }
@@ -342,10 +387,13 @@ export default function Sidebar() {
 					) ) }
 					<TextControl
 						type="url"
-						label={ __( 'Canonical URL', 'seoearth' ) }
+						label={ __(
+							'Canonical URL',
+							'shubhamtiwari-seo-tools'
+						) }
 						help={ __(
 							'Only if this page duplicates another one. Leave empty for the page’s own address.',
-							'seoearth'
+							'shubhamtiwari-seo-tools'
 						) }
 						value={ meta[ KEYS.canonical ] || '' }
 						onChange={ ( value ) =>
@@ -366,7 +414,16 @@ export default function Sidebar() {
 }
 
 const STATUS_SUMMARY = {
-	error: __( 'SEOEarth found problems.', 'seoearth' ),
-	warning: __( 'SEOEarth suggests improvements.', 'seoearth' ),
-	pass: __( 'SEOEarth checks passed.', 'seoearth' ),
+	error: __(
+		'ShubhamTiwari SEO Tools found problems.',
+		'shubhamtiwari-seo-tools'
+	),
+	warning: __(
+		'ShubhamTiwari SEO Tools suggests improvements.',
+		'shubhamtiwari-seo-tools'
+	),
+	pass: __(
+		'ShubhamTiwari SEO Tools checks passed.',
+		'shubhamtiwari-seo-tools'
+	),
 };

@@ -2,18 +2,18 @@
 /**
  * Tests for Context.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Functions;
-use SEOEarth\Context;
+use ShubhamTiwariSeoTools\Context;
 
 /**
  * Covers request detection.
  *
- * @covers \SEOEarth\Context
+ * @covers \ShubhamTiwariSeoTools\Context
  */
 final class ContextTest extends TestCase {
 

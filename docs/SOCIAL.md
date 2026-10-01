@@ -1,6 +1,6 @@
 # Social sharing (Open Graph and X Cards)
 
-SEOEarth adds the tags that decide how a link looks when it is shared on Facebook, LinkedIn, WhatsApp, Slack, Discord, X and similar apps.
+ShubhamTiwari SEO Tools adds the tags that decide how a link looks when it is shared on Facebook, LinkedIn, WhatsApp, Slack, Discord, X and similar apps.
 
 ## Where each value comes from
 
@@ -13,13 +13,13 @@ SEOEarth adds the tags that decide how a link looks when it is shared on Faceboo
 | `og:type` | `article` for posts and custom post types; `website` for pages, homepage, archives |
 
 - Custom social titles and descriptions may use `%%variables%%` (see [TEMPLATES.md](TEMPLATES.md)).
-- For media-library images SEOEarth also prints width, height, type and the image's alt text. For other image URLs these are left out rather than guessed.
+- For media-library images ShubhamTiwari SEO Tools also prints width, height, type and the image's alt text. For other image URLs these are left out rather than guessed.
 - X card type: `summary_large_image` when the image is at least 300 × 157 px (or its size is unknown); otherwise `summary`.
 - Articles get `article:published_time` and `article:modified_time`.
 - Password-protected posts never share their featured image or text; the default image is used.
 - No social tags on search results and 404 pages.
 
-## Settings (SEOEarth → Social sharing)
+## Settings (SEO Tools → Social sharing)
 
 | Setting | Default |
 |---|---|
@@ -28,13 +28,13 @@ SEOEarth adds the tags that decide how a link looks when it is shared on Faceboo
 | Default sharing image URL | empty |
 | X username (`twitter:site`) | empty |
 
-Per-term overrides are on the category/tag edit screen. Per-post overrides are stored now (`_seoearth_social_*`, available over REST) and get editor controls in the block-editor phase.
+Per-term overrides are on the category/tag edit screen. Per-post overrides are stored now (`_stseo_social_*`, available over REST) and get editor controls in the block-editor phase.
 
 ## Avoiding duplicate tags
 
-If another SEO plugin that prints social tags is active (Yoast SEO, Rank Math, All in One SEO, SEOPress, The SEO Framework, Slim SEO), SEOEarth prints none and explains why on its own settings screen. While SEOEarth prints Open Graph tags it asks Jetpack (through Jetpack's `jetpack_enable_open_graph` filter) not to print its own.
+If another SEO plugin that prints social tags is active (Yoast SEO, Rank Math, All in One SEO, SEOPress, The SEO Framework, Slim SEO), ShubhamTiwari SEO Tools prints none and explains why on its own settings screen. While ShubhamTiwari SEO Tools prints Open Graph tags it asks Jetpack (through Jetpack's `jetpack_enable_open_graph` filter) not to print its own.
 
-Developer filters: `seoearth_social_output_enabled`, `seoearth_social_conflict`, `seoearth_social_tags`, `seoearth_social_image`, `seoearth_og_is_article`.
+Developer filters: `stseo_social_output_enabled`, `stseo_social_conflict`, `stseo_social_tags`, `stseo_social_image`, `stseo_og_is_article`.
 
 ## Cost (measured, Phase 7)
 

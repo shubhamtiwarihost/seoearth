@@ -2,24 +2,24 @@
 /**
  * Image SEO: missing alt text detection and image pickers.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Admin\SettingsPage;
-use SEOEarth\Context;
-use SEOEarth\Images\ImagesModule;
-use SEOEarth\Plugin;
-use SEOEarth\Settings\Sanitizer;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Admin\SettingsPage;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Images\ImagesModule;
+use ShubhamTiwariSeoTools\Plugin;
+use ShubhamTiwariSeoTools\Settings\Sanitizer;
+use ShubhamTiwariSeoTools\Settings\Settings;
 use WP_UnitTestCase;
 
 /**
- * @covers \SEOEarth\Images\ImagesModule
- * @covers \SEOEarth\Admin\SettingsPage::render_field
- * @covers \SEOEarth\Admin\SettingsPage::enqueue
- * @covers \SEOEarth\Settings\Sanitizer
+ * @covers \ShubhamTiwariSeoTools\Images\ImagesModule
+ * @covers \ShubhamTiwariSeoTools\Admin\SettingsPage::render_field
+ * @covers \ShubhamTiwariSeoTools\Admin\SettingsPage::enqueue
+ * @covers \ShubhamTiwariSeoTools\Settings\Sanitizer
  */
 final class ImagesTest extends WP_UnitTestCase {
 
@@ -106,7 +106,7 @@ final class ImagesTest extends WP_UnitTestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$html = get_echo( array( $this->images, 'render_report' ) );
 		$this->assertStringContainsString( '2 images in the media library have no alternative text.', $html );
-		$this->assertStringContainsString( 'upload.php?mode=list&#038;seoearth_alt=missing', $html );
+		$this->assertStringContainsString( 'upload.php?mode=list&#038;stseo_alt=missing', $html );
 
 		update_post_meta( $this->ids['empty'], '_wp_attachment_image_alt', 'x' );
 		update_post_meta( $this->ids['none'], '_wp_attachment_image_alt', 'y' );
@@ -134,13 +134,13 @@ final class ImagesTest extends WP_UnitTestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$html = get_echo( array( $page, 'render_field' ), array( array( 'field' => $field ) ) );
 		$this->assertStringContainsString( 'type="url"', $html );
-		$this->assertStringContainsString( 'class="button seoearth-pick-image" data-target="seoearth-default-social-image"', $html );
+		$this->assertStringContainsString( 'class="button stseo-pick-image" data-target="stseo-default-social-image"', $html );
 
 		// Users who cannot upload never see the picker (the field itself stays).
 		$user = wp_get_current_user();
 		$user->remove_cap( 'upload_files' );
 		$user->add_cap( 'upload_files', false );
-		$this->assertStringNotContainsString( 'seoearth-pick-image', get_echo( array( $page, 'render_field' ), array( array( 'field' => $field ) ) ) );
+		$this->assertStringNotContainsString( 'stseo-pick-image', get_echo( array( $page, 'render_field' ), array( array( 'field' => $field ) ) ) );
 
 		$sanitizer = Plugin::build_container()->get( Sanitizer::class );
 		$this->assertInstanceOf( Sanitizer::class, $sanitizer );

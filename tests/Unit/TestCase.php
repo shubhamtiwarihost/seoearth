@@ -2,10 +2,10 @@
 /**
  * Base class for unit tests.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey;
 use Yoast\PHPUnitPolyfills\TestCases\TestCase as PolyfillTestCase;

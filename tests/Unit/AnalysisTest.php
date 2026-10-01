@@ -2,27 +2,27 @@
 /**
  * Tests for the SEO analysis engine.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Functions;
-use SEOEarth\Analysis\Document;
-use SEOEarth\Analysis\Engine;
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Keyphrase;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Document;
+use ShubhamTiwariSeoTools\Analysis\Engine;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Keyphrase;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 /**
  * Covers content parsing, keyphrase matching and every built-in rule.
  *
- * @covers \SEOEarth\Analysis\Document
- * @covers \SEOEarth\Analysis\Keyphrase
- * @covers \SEOEarth\Analysis\Engine
- * @covers \SEOEarth\Analysis\Input
- * @covers \SEOEarth\Analysis\Result
- * @covers \SEOEarth\Analysis\Rules\BaseRule
+ * @covers \ShubhamTiwariSeoTools\Analysis\Document
+ * @covers \ShubhamTiwariSeoTools\Analysis\Keyphrase
+ * @covers \ShubhamTiwariSeoTools\Analysis\Engine
+ * @covers \ShubhamTiwariSeoTools\Analysis\Input
+ * @covers \ShubhamTiwariSeoTools\Analysis\Result
+ * @covers \ShubhamTiwariSeoTools\Analysis\Rules\BaseRule
  */
 final class AnalysisTest extends TestCase {
 

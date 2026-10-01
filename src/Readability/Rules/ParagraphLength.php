@@ -2,14 +2,14 @@
 /**
  * Long paragraphs.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Readability\Rules;
+namespace ShubhamTiwariSeoTools\Readability\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
-use SEOEarth\Analysis\Rules\BaseRule;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Rules\BaseRule;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -46,7 +46,7 @@ final class ParagraphLength extends BaseRule {
 		$long    = 0;
 		$longest = 0;
 		foreach ( $input->content->paragraphs as $paragraph ) {
-			$words   = \SEOEarth\Analysis\Document::count_words( $paragraph );
+			$words   = \ShubhamTiwariSeoTools\Analysis\Document::count_words( $paragraph );
 			$longest = max( $longest, $words );
 			if ( $words > self::MAX_WORDS ) {
 				++$long;
@@ -58,14 +58,14 @@ final class ParagraphLength extends BaseRule {
 		);
 		if ( 0 === $long ) {
 			/* translators: %d: word limit. */
-			return $this->result( Result::PASS, Result::LOW, sprintf( __( 'No paragraph is longer than %d words.', 'seoearth' ), self::MAX_WORDS ), '', $meta );
+			return $this->result( Result::PASS, Result::LOW, sprintf( __( 'No paragraph is longer than %d words.', 'shubhamtiwari-seo-tools' ), self::MAX_WORDS ), '', $meta );
 		}
 		return $this->result(
 			Result::WARNING,
 			Result::LOW,
 			/* translators: 1: number of paragraphs, 2: word limit. */
-			sprintf( _n( '%1$d paragraph is longer than %2$d words.', '%1$d paragraphs are longer than %2$d words.', $long, 'seoearth' ), $long, self::MAX_WORDS ),
-			__( 'Break long paragraphs where the thought changes.', 'seoearth' ),
+			sprintf( _n( '%1$d paragraph is longer than %2$d words.', '%1$d paragraphs are longer than %2$d words.', $long, 'shubhamtiwari-seo-tools' ), $long, self::MAX_WORDS ),
+			__( 'Break long paragraphs where the thought changes.', 'shubhamtiwari-seo-tools' ),
 			$meta
 		);
 	}

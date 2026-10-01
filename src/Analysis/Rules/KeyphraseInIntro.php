@@ -2,13 +2,13 @@
 /**
  * Keyphrase in the first paragraph.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -41,13 +41,13 @@ final class KeyphraseInIntro extends BaseRule {
 	 */
 	public function check( Input $input ): Result {
 		if ( $input->keyphrase->in( $input->content->intro ) ) {
-			return $this->result( Result::PASS, Result::MEDIUM, __( 'The first paragraph contains the focus keyphrase.', 'seoearth' ) );
+			return $this->result( Result::PASS, Result::MEDIUM, __( 'The first paragraph contains the focus keyphrase.', 'shubhamtiwari-seo-tools' ) );
 		}
 		return $this->result(
 			Result::WARNING,
 			Result::MEDIUM,
-			__( 'The first paragraph does not contain the focus keyphrase.', 'seoearth' ),
-			__( 'Use the keyphrase in the opening paragraph.', 'seoearth' )
+			__( 'The first paragraph does not contain the focus keyphrase.', 'shubhamtiwari-seo-tools' ),
+			__( 'Use the keyphrase in the opening paragraph.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 }

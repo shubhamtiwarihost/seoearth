@@ -2,13 +2,13 @@
 /**
  * Breadcrumb trail for a page.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Breadcrumbs;
+namespace ShubhamTiwariSeoTools\Breadcrumbs;
 
-use SEOEarth\Helpers\Text;
-use SEOEarth\Meta\PageContext;
+use ShubhamTiwariSeoTools\Helpers\Text;
+use ShubhamTiwariSeoTools\Meta\PageContext;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,7 +32,7 @@ class Trail {
 	 * @return array<int, array{name: string, url: string}>
 	 */
 	public function items( PageContext $context, string $url ): array {
-		$items  = array( $this->item( __( 'Home', 'seoearth' ), home_url( '/' ) ) );
+		$items  = array( $this->item( __( 'Home', 'shubhamtiwari-seo-tools' ), home_url( '/' ) ) );
 		$object = $context->object;
 
 		switch ( $context->type ) {
@@ -74,11 +74,11 @@ class Trail {
 
 			case PageContext::SEARCH:
 				/* translators: %s: search phrase. */
-				$items[] = $this->item( sprintf( __( 'Search results for “%s”', 'seoearth' ), $context->search ), $url );
+				$items[] = $this->item( sprintf( __( 'Search results for “%s”', 'shubhamtiwari-seo-tools' ), $context->search ), $url );
 				break;
 
 			case PageContext::NOT_FOUND:
-				$items[] = $this->item( __( 'Page not found', 'seoearth' ), $url );
+				$items[] = $this->item( __( 'Page not found', 'shubhamtiwari-seo-tools' ), $url );
 				break;
 		}
 
@@ -88,7 +88,7 @@ class Trail {
 		 * @param array<int, mixed> $items   Items {name, url} from home to the current page. Malformed items are dropped.
 		 * @param PageContext       $context Page context.
 		 */
-		$filtered = apply_filters( 'seoearth_breadcrumb_trail', $items, $context );
+		$filtered = apply_filters( 'stseo_breadcrumb_trail', $items, $context );
 
 		$clean = array();
 		foreach ( (array) $filtered as $item ) {

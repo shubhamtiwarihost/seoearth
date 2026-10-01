@@ -2,32 +2,32 @@
 /**
  * Redirect storage.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Redirects;
+namespace ShubhamTiwariSeoTools\Redirects;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Redirects are posts of type `seoearth_redirect`:
+ * Redirects are posts of type `stseo_redirect`:
  * - post_title  = normalised source path ("/old-page")
- * - meta `_seoearth_redirect_target` = target URL or "/path" ('' for 410)
- * - meta `_seoearth_redirect_type`   = 301, 302, 307 or 410
+ * - meta `_stseo_redirect_target` = target URL or "/path" ('' for 410)
+ * - meta `_stseo_redirect_type`   = 301, 302, 307 or 410
  * - post_status "publish" = active, "draft" = inactive
  *
  * Frontend matching never queries posts: active redirects are copied into the
- * `seoearth_redirect_index` option (source => target/type) whenever one
+ * `stseo_redirect_index` option (source => target/type) whenever one
  * changes. The option is autoloaded while it holds up to 500 redirects, so
  * matching costs no query at all; above that it is loaded on demand (one
  * query per request, cached by a persistent object cache).
  */
 class Store {
 
-	public const POST_TYPE    = 'seoearth_redirect';
-	public const META_TARGET  = '_seoearth_redirect_target';
-	public const META_TYPE    = '_seoearth_redirect_type';
-	public const INDEX_OPTION = 'seoearth_redirect_index';
+	public const POST_TYPE    = 'stseo_redirect';
+	public const META_TARGET  = '_stseo_redirect_target';
+	public const META_TYPE    = '_stseo_redirect_type';
+	public const INDEX_OPTION = 'stseo_redirect_index';
 	public const TYPES        = array( 301, 302, 307, 410 );
 	public const AUTOLOAD_MAX = 500;
 
@@ -62,26 +62,26 @@ class Store {
 			self::POST_TYPE,
 			array(
 				'labels'          => array(
-					'name'               => __( 'Redirects', 'seoearth' ),
-					'singular_name'      => __( 'Redirect', 'seoearth' ),
-					'add_new'            => __( 'Add redirect', 'seoearth' ),
-					'add_new_item'       => __( 'Add redirect', 'seoearth' ),
-					'edit_item'          => __( 'Edit redirect', 'seoearth' ),
-					'new_item'           => __( 'New redirect', 'seoearth' ),
-					'search_items'       => __( 'Search redirects', 'seoearth' ),
-					'not_found'          => __( 'No redirects yet.', 'seoearth' ),
-					'not_found_in_trash' => __( 'No redirects in the trash.', 'seoearth' ),
-					'all_items'          => __( 'Redirects', 'seoearth' ),
+					'name'               => __( 'Redirects', 'shubhamtiwari-seo-tools' ),
+					'singular_name'      => __( 'Redirect', 'shubhamtiwari-seo-tools' ),
+					'add_new'            => __( 'Add redirect', 'shubhamtiwari-seo-tools' ),
+					'add_new_item'       => __( 'Add redirect', 'shubhamtiwari-seo-tools' ),
+					'edit_item'          => __( 'Edit redirect', 'shubhamtiwari-seo-tools' ),
+					'new_item'           => __( 'New redirect', 'shubhamtiwari-seo-tools' ),
+					'search_items'       => __( 'Search redirects', 'shubhamtiwari-seo-tools' ),
+					'not_found'          => __( 'No redirects yet.', 'shubhamtiwari-seo-tools' ),
+					'not_found_in_trash' => __( 'No redirects in the trash.', 'shubhamtiwari-seo-tools' ),
+					'all_items'          => __( 'Redirects', 'shubhamtiwari-seo-tools' ),
 				),
 				'public'          => false,
 				'show_ui'         => true,
-				'show_in_menu'    => 'seoearth',
+				'show_in_menu'    => 'shubhamtiwari-seo-tools',
 				'show_in_rest'    => false,
 				'rewrite'         => false,
 				'query_var'       => false,
 				'supports'        => array( 'title' ),
 				'map_meta_cap'    => false,
-				'capability_type' => 'seoearth_redirect',
+				'capability_type' => 'stseo_redirect',
 				'capabilities'    => array(
 					'edit_post'              => $cap,
 					'read_post'              => $cap,

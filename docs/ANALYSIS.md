@@ -1,6 +1,6 @@
 # SEO analysis
 
-SEOEarth checks a post against common on-page SEO practices and explains each finding in plain words. The checks are editorial guidance: they do not measure or promise rankings, so there is no overall score, only a list of findings.
+ShubhamTiwari SEO Tools checks a post against common on-page SEO practices and explains each finding in plain words. The checks are editorial guidance: they do not measure or promise rankings, so there is no overall score, only a list of findings.
 
 Each finding has:
 
@@ -41,7 +41,7 @@ The text is analysed as stored in the editor. Content produced at display time (
 
 ## REST API
 
-`POST /wp-json/seoearth/v1/analysis`. Requires a logged-in user who can edit the post. Nothing is saved.
+`POST /wp-json/stseo/v1/analysis`. Requires a logged-in user who can edit the post. Nothing is saved.
 
 | Parameter | Required | Meaning |
 |---|---|---|
@@ -50,16 +50,16 @@ The text is analysed as stored in the editor. Content produced at display time (
 
 Response: `{ "seo": report, "readability": report, "preview": { "title": "…", "description": "…" } }` (preview = title and description exactly as they will be printed), where each report is `{ "status": "error|warning|pass", "counts": { "error": n, "warning": n, "info": n, "pass": n }, "results": [ … ] }`. Results are ordered worst first, then by severity. `status` is the worst non-info status. Readability checks: [READABILITY.md](READABILITY.md).
 
-The focus keyphrase is saved as post meta `_seoearth_focus_keyphrase` (REST `meta` field, same permissions as other SEO fields).
+The focus keyphrase is saved as post meta `_stseo_focus_keyphrase` (REST `meta` field, same permissions as other SEO fields).
 
 ## Extending
 
 ```php
-add_filter( 'seoearth_analysis_rules', function ( $rules ) {
-	$rules['my_rule'] = new My_Rule(); // implements SEOEarth\Analysis\Rule
+add_filter( 'stseo_analysis_rules', function ( $rules ) {
+	$rules['my_rule'] = new My_Rule(); // implements ShubhamTiwariSeoTools\Analysis\Rule
 	unset( $rules['outbound_links'] );
 	return $rules;
 } );
 ```
 
-Rules receive an `SEOEarth\Analysis\Input` and must not query the database.
+Rules receive an `ShubhamTiwariSeoTools\Analysis\Input` and must not query the database.

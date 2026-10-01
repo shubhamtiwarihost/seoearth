@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<ruleset name="SEOEarth">
-	<description>WordPress Coding Standards for SEOEarth.</description>
+<ruleset name="ShubhamTiwari SEO Tools">
+	<description>WordPress Coding Standards for ShubhamTiwari SEO Tools.</description>
 
-	<file>seoearth.php</file>
+	<file>shubhamtiwari-seo-tools.php</file>
 	<file>uninstall.php</file>
 	<file>src</file>
 	<file>tests</file>
@@ -22,7 +22,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="seoearth"/>
+				<element value="shubhamtiwari-seo-tools"/>
 			</property>
 		</properties>
 	</rule>
@@ -30,8 +30,8 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<property name="prefixes" type="array">
-				<element value="seoearth"/>
-				<element value="SEOEarth"/>
+				<element value="stseo"/>
+				<element value="ShubhamTiwariSeoTools"/>
 			</property>
 		</properties>
 	</rule>

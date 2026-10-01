@@ -2,7 +2,7 @@ parameters:
 	level: 6
 	phpVersion: 70400
 	paths:
-		- seoearth.php
+		- shubhamtiwari-seo-tools.php
 		- uninstall.php
 		- src
 	bootstrapFiles:

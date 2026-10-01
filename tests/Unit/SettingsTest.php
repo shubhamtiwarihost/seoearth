@@ -2,23 +2,23 @@
 /**
  * Tests for Schema and Settings.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
-use SEOEarth\Settings\Field;
-use SEOEarth\Settings\Schema;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Settings\Field;
+use ShubhamTiwariSeoTools\Settings\Schema;
+use ShubhamTiwariSeoTools\Settings\Settings;
 
 /**
  * Covers defaults, stored-value handling and schema extension.
  *
- * @covers \SEOEarth\Settings\Settings
- * @covers \SEOEarth\Settings\Schema
- * @covers \SEOEarth\Settings\Field
+ * @covers \ShubhamTiwariSeoTools\Settings\Settings
+ * @covers \ShubhamTiwariSeoTools\Settings\Schema
+ * @covers \ShubhamTiwariSeoTools\Settings\Field
  */
 final class SettingsTest extends TestCase {
 
@@ -88,7 +88,7 @@ final class SettingsTest extends TestCase {
 	}
 
 	public function test_extensions_can_add_fields_and_junk_is_ignored(): void {
-		Filters\expectApplied( 'seoearth_settings_fields' )->once()->andReturnUsing(
+		Filters\expectApplied( 'stseo_settings_fields' )->once()->andReturnUsing(
 			static function ( array $fields ) {
 				$fields['pro_feature'] = new Field( 'pro_feature', 'advanced', Field::TYPE_BOOL, true, 'Pro' );
 				$fields['junk']        = 'not a field';

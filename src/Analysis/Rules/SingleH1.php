@@ -2,13 +2,13 @@
 /**
  * H1 headings inside the content.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -43,8 +43,8 @@ final class SingleH1 extends BaseRule {
 		return $this->result(
 			Result::WARNING,
 			Result::LOW,
-			__( 'The text contains a level 1 heading, and most themes already show the title as one.', 'seoearth' ),
-			__( 'Change headings inside the text to level 2 or lower.', 'seoearth' ),
+			__( 'The text contains a level 1 heading, and most themes already show the title as one.', 'shubhamtiwari-seo-tools' ),
+			__( 'Change headings inside the text to level 2 or lower.', 'shubhamtiwari-seo-tools' ),
 			array( 'count' => $input->content->h1_count )
 		);
 	}

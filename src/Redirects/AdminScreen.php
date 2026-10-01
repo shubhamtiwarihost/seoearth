@@ -2,18 +2,18 @@
 /**
  * Redirect edit screen and list.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Redirects;
+namespace ShubhamTiwariSeoTools\Redirects;
 
-use SEOEarth\Context;
-use SEOEarth\Module;
+use ShubhamTiwariSeoTools\Context;
+use ShubhamTiwariSeoTools\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * SEOEarth → Redirects. Title = source path; a box holds the target and type.
+ * SEO Tools → Redirects. Title = source path; a box holds the target and type.
  * "Publish" makes a redirect active, "Save Draft" keeps it inactive.
  *
  * Validation happens before the post is written (wp_insert_post_data), so an
@@ -24,9 +24,9 @@ defined( 'ABSPATH' ) || exit;
  */
 final class AdminScreen implements Module {
 
-	public const NONCE_FIELD  = 'seoearth_redirect_nonce';
-	public const TARGET_FIELD = 'seoearth_redirect_target';
-	public const TYPE_FIELD   = 'seoearth_redirect_type';
+	public const NONCE_FIELD  = 'stseo_redirect_nonce';
+	public const TARGET_FIELD = 'stseo_redirect_target';
+	public const TYPE_FIELD   = 'stseo_redirect_type';
 
 	/**
 	 * Request context.
@@ -82,14 +82,14 @@ final class AdminScreen implements Module {
 	 * @return mixed
 	 */
 	public function title_placeholder( $placeholder, $post = null ) {
-		return $post instanceof \WP_Post && Store::POST_TYPE === $post->post_type ? __( 'Old address, e.g. /old-page', 'seoearth' ) : $placeholder;
+		return $post instanceof \WP_Post && Store::POST_TYPE === $post->post_type ? __( 'Old address, e.g. /old-page', 'shubhamtiwari-seo-tools' ) : $placeholder;
 	}
 
 	/**
 	 * Adds the target/type box.
 	 */
 	public function add_box(): void {
-		add_meta_box( 'seoearth-redirect-box', __( 'Redirect', 'seoearth' ), array( $this, 'render_box' ), Store::POST_TYPE, 'normal', 'high' );
+		add_meta_box( 'stseo-redirect-box', __( 'Redirect', 'shubhamtiwari-seo-tools' ), array( $this, 'render_box' ), Store::POST_TYPE, 'normal', 'high' );
 	}
 
 	/**
@@ -101,20 +101,20 @@ final class AdminScreen implements Module {
 		$target = (string) get_post_meta( $post->ID, Store::META_TARGET, true );
 		$type   = (int) get_post_meta( $post->ID, Store::META_TYPE, true );
 		$type   = in_array( $type, Store::TYPES, true ) ? $type : 301;
-		wp_nonce_field( 'seoearth_redirect_' . $post->ID, self::NONCE_FIELD );
+		wp_nonce_field( 'stseo_redirect_' . $post->ID, self::NONCE_FIELD );
 		?>
 		<p>
-			<label for="seoearth-redirect-target"><strong><?php esc_html_e( 'New address', 'seoearth' ); ?></strong></label>
-			<input type="text" class="widefat code" id="seoearth-redirect-target" name="<?php echo esc_attr( self::TARGET_FIELD ); ?>" value="<?php echo esc_attr( $target ); ?>" aria-describedby="seoearth-redirect-target-help" />
-			<span class="description" id="seoearth-redirect-target-help"><?php esc_html_e( 'A path on this site such as /new-page/, or a full address starting with https://. Not needed for “Gone (410)”.', 'seoearth' ); ?></span>
+			<label for="stseo-redirect-target"><strong><?php esc_html_e( 'New address', 'shubhamtiwari-seo-tools' ); ?></strong></label>
+			<input type="text" class="widefat code" id="stseo-redirect-target" name="<?php echo esc_attr( self::TARGET_FIELD ); ?>" value="<?php echo esc_attr( $target ); ?>" aria-describedby="stseo-redirect-target-help" />
+			<span class="description" id="stseo-redirect-target-help"><?php esc_html_e( 'A path on this site such as /new-page/, or a full address starting with https://. Not needed for “Gone (410)”.', 'shubhamtiwari-seo-tools' ); ?></span>
 		</p>
 		<fieldset>
-			<legend><strong><?php esc_html_e( 'Type', 'seoearth' ); ?></strong></legend>
+			<legend><strong><?php esc_html_e( 'Type', 'shubhamtiwari-seo-tools' ); ?></strong></legend>
 			<?php foreach ( self::type_labels() as $value => $label ) : ?>
 				<label><input type="radio" name="<?php echo esc_attr( self::TYPE_FIELD ); ?>" value="<?php echo esc_attr( (string) $value ); ?>" <?php checked( $type, $value ); ?> /> <?php echo esc_html( $label ); ?></label><br />
 			<?php endforeach; ?>
 		</fieldset>
-		<p class="description"><?php esc_html_e( 'Publish to turn the redirect on; save as a draft to keep it off. Query strings on the old address are ignored when matching and passed on to the new address.', 'seoearth' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Publish to turn the redirect on; save as a draft to keep it off. Query strings on the old address are ignored when matching and passed on to the new address.', 'shubhamtiwari-seo-tools' ); ?></p>
 		<?php
 	}
 
@@ -135,14 +135,14 @@ final class AdminScreen implements Module {
 
 		$source = Paths::source( wp_unslash( (string) $data['post_title'] ), $host, (string) wp_parse_url( home_url(), PHP_URL_PATH ) );
 		if ( null === $source ) {
-			$errors[] = __( 'The old address must be a path on this site, such as /old-page. The homepage, the dashboard, the login page and the REST API cannot be redirected.', 'seoearth' );
+			$errors[] = __( 'The old address must be a path on this site, such as /old-page. The homepage, the dashboard, the login page and the REST API cannot be redirected.', 'shubhamtiwari-seo-tools' );
 		} else {
 			$data['post_title'] = wp_slash( $source );
 		}
 
 		list( $target, $type ) = $this->submitted( $post_id );
 		if ( 410 !== $type && null === Paths::target( $target ) ) {
-			$errors[] = __( 'The new address must be a path such as /new-page/ or a full address starting with https://.', 'seoearth' );
+			$errors[] = __( 'The new address must be a path such as /new-page/ or a full address starting with https://.', 'shubhamtiwari-seo-tools' );
 		}
 
 		if ( null !== $source && array() === $errors ) {
@@ -153,9 +153,9 @@ final class AdminScreen implements Module {
 				}
 			);
 			if ( isset( $others[ $source ] ) ) {
-				$errors[] = __( 'Another active redirect already uses this old address.', 'seoearth' );
+				$errors[] = __( 'Another active redirect already uses this old address.', 'shubhamtiwari-seo-tools' );
 			} elseif ( 410 !== $type && Paths::loops( $source, $target, $others, $host ) ) {
-				$errors[] = __( 'This redirect would send visitors in a loop (back to the old address, possibly through other redirects).', 'seoearth' );
+				$errors[] = __( 'This redirect would send visitors in a loop (back to the old address, possibly through other redirects).', 'shubhamtiwari-seo-tools' );
 			}
 		}
 
@@ -163,7 +163,7 @@ final class AdminScreen implements Module {
 			if ( 'publish' === ( $data['post_status'] ?? '' ) ) {
 				$data['post_status'] = 'draft';
 			}
-			set_transient( 'seoearth_redirect_errors_' . get_current_user_id(), $errors, 60 );
+			set_transient( 'stseo_redirect_errors_' . get_current_user_id(), $errors, 60 );
 		}
 		return $data;
 	}
@@ -190,19 +190,22 @@ final class AdminScreen implements Module {
 
 	/**
 	 * Shows validation problems from the last save.
+	 *
+	 * Printed on the redirect screens only, to the administrator who made the
+	 * save, and once: the stored problems are deleted as soon as they are shown.
 	 */
 	public function render_errors(): void {
 		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
-		if ( ! $screen instanceof \WP_Screen || Store::POST_TYPE !== $screen->post_type ) {
+		if ( ! $screen instanceof \WP_Screen || Store::POST_TYPE !== $screen->post_type || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		$key    = 'seoearth_redirect_errors_' . get_current_user_id();
+		$key    = 'stseo_redirect_errors_' . get_current_user_id();
 		$errors = get_transient( $key );
 		if ( ! is_array( $errors ) || array() === $errors ) {
 			return;
 		}
 		delete_transient( $key );
-		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'The redirect was saved as a draft and is not active:', 'seoearth' ) . '</strong></p><ul>';
+		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'The redirect was saved as a draft and is not active:', 'shubhamtiwari-seo-tools' ) . '</strong></p><ul>';
 		foreach ( $errors as $error ) {
 			echo '<li>' . esc_html( (string) $error ) . '</li>';
 		}
@@ -218,11 +221,11 @@ final class AdminScreen implements Module {
 	public function columns( $columns ): array {
 		$columns = (array) $columns;
 		return array(
-			'cb'                => (string) ( $columns['cb'] ?? '' ),
-			'title'             => __( 'Old address', 'seoearth' ),
-			'seoearth_target'   => __( 'New address', 'seoearth' ),
-			'seoearth_type'     => __( 'Type', 'seoearth' ),
-			'seoearth_redirect' => __( 'Status', 'seoearth' ),
+			'cb'             => (string) ( $columns['cb'] ?? '' ),
+			'title'          => __( 'Old address', 'shubhamtiwari-seo-tools' ),
+			'stseo_target'   => __( 'New address', 'shubhamtiwari-seo-tools' ),
+			'stseo_type'     => __( 'Type', 'shubhamtiwari-seo-tools' ),
+			'stseo_redirect' => __( 'Status', 'shubhamtiwari-seo-tools' ),
 		);
 	}
 
@@ -236,14 +239,14 @@ final class AdminScreen implements Module {
 		$post_id = (int) $post_id;
 		$type    = (int) get_post_meta( $post_id, Store::META_TYPE, true );
 		switch ( $column ) {
-			case 'seoearth_target':
+			case 'stseo_target':
 				echo 410 === $type ? '—' : '<code>' . esc_html( (string) get_post_meta( $post_id, Store::META_TARGET, true ) ) . '</code>';
 				break;
-			case 'seoearth_type':
+			case 'stseo_type':
 				echo esc_html( self::type_labels()[ $type ] ?? '' );
 				break;
-			case 'seoearth_redirect':
-				echo 'publish' === get_post_status( $post_id ) ? esc_html__( 'Active', 'seoearth' ) : esc_html__( 'Inactive', 'seoearth' );
+			case 'stseo_redirect':
+				echo 'publish' === get_post_status( $post_id ) ? esc_html__( 'Active', 'shubhamtiwari-seo-tools' ) : esc_html__( 'Inactive', 'shubhamtiwari-seo-tools' );
 				break;
 		}
 	}
@@ -257,10 +260,10 @@ final class AdminScreen implements Module {
 	public function messages( $messages ) {
 		if ( is_array( $messages ) ) {
 			$messages[ Store::POST_TYPE ]     = array_fill( 0, 11, '' );
-			$messages[ Store::POST_TYPE ][1]  = __( 'Redirect updated.', 'seoearth' );
-			$messages[ Store::POST_TYPE ][6]  = __( 'Redirect saved and active.', 'seoearth' );
-			$messages[ Store::POST_TYPE ][7]  = __( 'Redirect saved.', 'seoearth' );
-			$messages[ Store::POST_TYPE ][10] = __( 'Redirect saved as a draft (inactive).', 'seoearth' );
+			$messages[ Store::POST_TYPE ][1]  = __( 'Redirect updated.', 'shubhamtiwari-seo-tools' );
+			$messages[ Store::POST_TYPE ][6]  = __( 'Redirect saved and active.', 'shubhamtiwari-seo-tools' );
+			$messages[ Store::POST_TYPE ][7]  = __( 'Redirect saved.', 'shubhamtiwari-seo-tools' );
+			$messages[ Store::POST_TYPE ][10] = __( 'Redirect saved as a draft (inactive).', 'shubhamtiwari-seo-tools' );
 		}
 		return $messages;
 	}
@@ -272,10 +275,10 @@ final class AdminScreen implements Module {
 	 */
 	public static function type_labels(): array {
 		return array(
-			301 => __( 'Moved permanently (301)', 'seoearth' ),
-			302 => __( 'Found — temporary (302)', 'seoearth' ),
-			307 => __( 'Temporary redirect (307)', 'seoearth' ),
-			410 => __( 'Gone (410) — the page was removed on purpose', 'seoearth' ),
+			301 => __( 'Moved permanently (301)', 'shubhamtiwari-seo-tools' ),
+			302 => __( 'Found — temporary (302)', 'shubhamtiwari-seo-tools' ),
+			307 => __( 'Temporary redirect (307)', 'shubhamtiwari-seo-tools' ),
+			410 => __( 'Gone (410) — the page was removed on purpose', 'shubhamtiwari-seo-tools' ),
 		);
 	}
 
@@ -310,6 +313,6 @@ final class AdminScreen implements Module {
 			return false;
 		}
 		$nonce = sanitize_text_field( wp_unslash( $_POST[ self::NONCE_FIELD ] ) );
-		return (bool) wp_verify_nonce( $nonce, 'seoearth_redirect_' . $post_id );
+		return (bool) wp_verify_nonce( $nonce, 'stseo_redirect_' . $post_id );
 	}
 }

@@ -2,14 +2,14 @@
 /**
  * Articles and their authors.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema\Pieces;
+namespace ShubhamTiwariSeoTools\Schema\Pieces;
 
-use SEOEarth\Helpers\Text;
-use SEOEarth\Schema\Piece;
-use SEOEarth\Schema\SchemaContext;
+use ShubhamTiwariSeoTools\Helpers\Text;
+use ShubhamTiwariSeoTools\Schema\Piece;
+use ShubhamTiwariSeoTools\Schema\SchemaContext;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -95,7 +95,7 @@ final class Article implements Piece {
 		 * @param mixed    $type BlogPosting for posts, Article for other post types. Anything but a plain type name means none.
 		 * @param \WP_Post $post Post.
 		 */
-		$filtered = apply_filters( 'seoearth_schema_article_type', $type, $post );
+		$filtered = apply_filters( 'stseo_schema_article_type', $type, $post );
 		return is_string( $filtered ) && preg_match( '/^[A-Za-z]+$/', $filtered ) ? $filtered : '';
 	}
 

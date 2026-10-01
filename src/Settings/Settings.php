@@ -2,10 +2,10 @@
 /**
  * Settings repository.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Settings;
+namespace ShubhamTiwariSeoTools\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Settings {
 
-	public const OPTION = 'seoearth_settings';
+	public const OPTION = 'stseo_settings';
 
 	/**
 	 * Settings schema.

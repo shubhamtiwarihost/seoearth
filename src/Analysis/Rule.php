@@ -2,15 +2,15 @@
 /**
  * One analysis check.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis;
+namespace ShubhamTiwariSeoTools\Analysis;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * A single SEO check. Rules are registered through `seoearth_analysis_rules`,
+ * A single SEO check. Rules are registered through `stseo_analysis_rules`,
  * read only from Input, and must not query the database.
  */
 interface Rule {

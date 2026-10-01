@@ -2,14 +2,14 @@
 /**
  * The page being viewed.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Schema\Pieces;
+namespace ShubhamTiwariSeoTools\Schema\Pieces;
 
-use SEOEarth\Meta\PageContext;
-use SEOEarth\Schema\Piece;
-use SEOEarth\Schema\SchemaContext;
+use ShubhamTiwariSeoTools\Meta\PageContext;
+use ShubhamTiwariSeoTools\Schema\Piece;
+use ShubhamTiwariSeoTools\Schema\SchemaContext;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -42,7 +42,7 @@ final class WebPage implements Piece {
 			 * @param string        $type    WebPage, CollectionPage, ProfilePage or SearchResultsPage.
 			 * @param SchemaContext $context Schema context.
 			 */
-			'@type'       => (string) apply_filters( 'seoearth_schema_webpage_type', $this->type( $context->page ), $context ),
+			'@type'       => (string) apply_filters( 'stseo_schema_webpage_type', $this->type( $context->page ), $context ),
 			'@id'         => $context->webpage_id(),
 			'url'         => $context->url,
 			'name'        => $context->title,

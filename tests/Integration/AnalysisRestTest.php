@@ -2,24 +2,24 @@
 /**
  * SEO analysis REST endpoint.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Meta\Keys;
-use SEOEarth\Meta\MetaModule;
-use SEOEarth\Plugin;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Meta\Keys;
+use ShubhamTiwariSeoTools\Meta\MetaModule;
+use ShubhamTiwariSeoTools\Plugin;
+use ShubhamTiwariSeoTools\Settings\Settings;
 use WP_REST_Request;
 use WP_UnitTestCase;
 
 /**
- * Checks permissions, input resolution and results of POST /seoearth/v1/analysis.
+ * Checks permissions, input resolution and results of POST /stseo/v1/analysis.
  *
- * @covers \SEOEarth\Analysis\AnalysisModule
- * @covers \SEOEarth\Analysis\InputFactory
- * @covers \SEOEarth\Meta\Resolver::resolve_custom
+ * @covers \ShubhamTiwariSeoTools\Analysis\AnalysisModule
+ * @covers \ShubhamTiwariSeoTools\Analysis\InputFactory
+ * @covers \ShubhamTiwariSeoTools\Meta\Resolver::resolve_custom
  */
 final class AnalysisRestTest extends WP_UnitTestCase {
 
@@ -42,7 +42,7 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 	 * @return \WP_REST_Response
 	 */
 	private function request( array $params ) {
-		$request = new WP_REST_Request( 'POST', '/seoearth/v1/analysis' );
+		$request = new WP_REST_Request( 'POST', '/stseo/v1/analysis' );
 		$request->set_body_params( $params );
 		return rest_get_server()->dispatch( $request );
 	}
@@ -186,9 +186,9 @@ final class AnalysisRestTest extends WP_UnitTestCase {
 		$german = static function () {
 			return 'de_DE';
 		};
-		add_filter( 'seoearth_content_locale', $german );
+		add_filter( 'stseo_content_locale', $german );
 		$data = $this->request( array( 'post_id' => $post ) )->get_data();
-		remove_filter( 'seoearth_content_locale', $german );
+		remove_filter( 'stseo_content_locale', $german );
 
 		$ids = array_column( $data['readability']['results'], 'id' );
 		$this->assertContains( 'sentence_length', $ids );

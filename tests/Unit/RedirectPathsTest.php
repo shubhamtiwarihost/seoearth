@@ -2,15 +2,15 @@
 /**
  * Tests for redirect path handling and loop detection.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Unit;
+namespace ShubhamTiwariSeoTools\Tests\Unit;
 
-use SEOEarth\Redirects\Paths;
+use ShubhamTiwariSeoTools\Redirects\Paths;
 
 /**
- * @covers \SEOEarth\Redirects\Paths
+ * @covers \ShubhamTiwariSeoTools\Redirects\Paths
  */
 final class RedirectPathsTest extends TestCase {
 

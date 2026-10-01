@@ -2,10 +2,10 @@
 /**
  * List of migration steps.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Migrations;
+namespace ShubhamTiwariSeoTools\Migrations;
 
 defined( 'ABSPATH' ) || exit;
 

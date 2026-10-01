@@ -2,13 +2,13 @@
 /**
  * Keyphrase in the URL slug.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -40,13 +40,13 @@ final class KeyphraseInSlug extends BaseRule {
 	 */
 	public function check( Input $input ): Result {
 		if ( $input->keyphrase->in_slug( $input->slug ) ) {
-			return $this->result( Result::PASS, Result::LOW, __( 'The URL slug contains the words of the focus keyphrase.', 'seoearth' ) );
+			return $this->result( Result::PASS, Result::LOW, __( 'The URL slug contains the words of the focus keyphrase.', 'shubhamtiwari-seo-tools' ) );
 		}
 		return $this->result(
 			Result::WARNING,
 			Result::LOW,
-			__( 'The URL slug does not contain all words of the focus keyphrase.', 'seoearth' ),
-			__( 'Before publishing, edit the slug to include the keyphrase. Changing the slug of a published post changes its address.', 'seoearth' )
+			__( 'The URL slug does not contain all words of the focus keyphrase.', 'shubhamtiwari-seo-tools' ),
+			__( 'Before publishing, edit the slug to include the keyphrase. Changing the slug of a published post changes its address.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 }

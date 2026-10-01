@@ -1,43 +1,42 @@
-# Name and trademark notes: "SEOEarth"
+# Name and trademark notes: "ShubhamTiwari SEO Tools"
 
-**Not legal advice.** This file records non-legal research done while preparing the WordPress.org submission. It does **not** establish that "SEOEarth" is free to use as a trademark. A qualified trademark professional should review it before any commercial use of the name.
+**Not legal advice.** This file records non-legal research done while preparing the WordPress.org submission. It does not establish that any name is free to use as a trademark.
 
-Decision (2026-09-30, project owner): keep the name **SEOEarth** and slug **seoearth** for now. Nothing is renamed without the owner's explicit approval.
+## Current identity (decided 2026-10-01, project owner)
 
-The three questions below are separate. A "clear" answer to one says nothing about the others.
-
-## 1. WordPress.org plugin availability
-
-| Check | Result (2026-09-30) |
+| Item | Value |
 |---|---|
-| Slug `seoearth` in the plugin API | `Plugin not found`, so the slug is not taken |
-| Directory search "seoearth" | 0 results |
-| Directory search "seo earth" | only unrelated plugins matching one of the words |
-| Guideline 17 (slugs must not begin with another product's name) | "SEO" is a generic term, not a product name; no product named "Earth" in this field was found. The slug does not begin with a known product's term. |
+| Plugin name | ShubhamTiwari SEO Tools |
+| Slug / text domain | `shubhamtiwari-seo-tools` |
+| Main file | `shubhamtiwari-seo-tools.php` |
+| PHP namespace | `ShubhamTiwariSeoTools\` |
+| Prefix (options, meta, hooks, functions, REST, block, handles, CSS) | `stseo` (`STSEO_` for constants) |
+| Admin menu label | SEO Tools |
+| Repository | https://github.com/shubhamtiwarihost/shubhamtiwari-seo-tools |
 
-Being free in the directory only means WordPress.org has no plugin with that slug. It is not a trademark clearance.
+The name starts with the owner's own name, written as one coined word, followed by a plain description of what the plugin does. It contains no third-party product or project name.
 
-## 2. Business-name usage
+## Why the name changed
 
-| Finding | Detail | Relevance |
-|---|---|---|
-| **"SEO Earth" — active SEO service business** | Offers SEO, social media optimisation and website design under the domain `seoearth.in` (Facebook page "SEO Earth", ~21 likes at the time of the search) | **Same name, same field.** Could lead to confusion and, depending on jurisdiction, unregistered (common-law) rights. **Open concern.** |
-| SEOEARTH LTD (UK, company no. 13026754) | Registered in Leicester, England; **dissolved 24 March 2026** (Companies House) | Lower risk (dissolved), but shows prior commercial use of the name |
+The plugin was first submitted (1.0.0, 2026-09-30) as "SEOEarth" with slug `seoearth`. The WordPress.org pre-review (review ID `AUTOPREREVIEW TRM seoearth/shubhamtiwarihost/1Oct26/T1`) pended it because the name starts with the generic term "SEO" and has no distinctive leading term, and suggested "ShubhamTiwari SEO Tools" / `shubhamtiwari-seo-tools`.
 
-## 3. Trademark status (official databases)
+Earlier research (2026-09-30) had also found an active SEO service business trading as "SEO Earth" (`seoearth.in`) and a dissolved UK company SEOEARTH LTD (no. 13026754, dissolved 24 March 2026). That was recorded as an open concern; the rename removes it.
 
-| Database | Status | Result |
-|---|---|---|
-| USPTO (tmsearch.uspto.gov) | **Searched** 2026-09-30 | `seoearth` → 0 results (live or dead); `seoearth*` → 0; wordmarks containing both "SEO" and "EARTH" → 0. Marks consisting of "SEO" alone exist (several dead, some live in unrelated classes). |
-| UK IPO | **NOT TESTED** | Search page returns HTTP 403 behind a CAPTCHA |
-| EUIPO (eSearch plus / TMview) | **NOT TESTED** | TMview did not load in an automated browser; not attempted manually |
-| WIPO Global Brand Database | **NOT TESTED** | CAPTCHA-protected interactive search |
-| India (IP India public search) | **NOT TESTED** | CAPTCHA-protected interactive search |
+Because 1.0.0 was never approved or distributed, every identifier was renamed and no compatibility layer for the old names exists.
 
-A search that found nothing in one database is not evidence of freedom to use the name elsewhere, and unregistered rights (such as the business above) never appear in trademark databases.
+## Checks for the new name (2026-10-01)
 
-## Recommended before commercial use or a Pro version
+| Check | Result |
+|---|---|
+| Slug `shubhamtiwari-seo-tools` in the WordPress.org plugin API | `Plugin not found`, so the slug is not taken |
+| Directory search "shubhamtiwari" | 0 results |
+| Directory search "stseo" (internal prefix) | 0 results |
+| Guideline 17 (must not begin with another product's name) | Begins with the owner's name |
 
-1. A manual search of UK IPO, EUIPO, WIPO and India (the business above is at an `.in` domain) — ideally by a trademark professional.
-2. A decision on the "SEO Earth" service business: accept the risk, contact them, or choose a different name.
-3. If the name changes, rename before WordPress.org approval: the slug cannot be changed afterwards, and prefixes (`seoearth_*` options, `_seoearth_*` meta, hooks, text domain) should match it.
+Trademark databases were **not** searched for the new name. "SEO Tools" is a generic description used by many products; the distinguishing part is the owner's name.
+
+## Rules going forward
+
+- The slug cannot change after WordPress.org approval.
+- Icons, banners and screenshots must be original artwork and must not use another product's name or logo.
+- Do not return to the previous name in any listing, asset or URL.

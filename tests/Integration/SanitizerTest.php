@@ -2,19 +2,19 @@
 /**
  * Settings sanitization with real WordPress functions.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Tests\Integration;
+namespace ShubhamTiwariSeoTools\Tests\Integration;
 
-use SEOEarth\Settings\Sanitizer;
-use SEOEarth\Settings\Schema;
+use ShubhamTiwariSeoTools\Settings\Sanitizer;
+use ShubhamTiwariSeoTools\Settings\Schema;
 use WP_UnitTestCase;
 
 /**
  * Malicious and malformed input must never reach the database unsanitized.
  *
- * @covers \SEOEarth\Settings\Sanitizer
+ * @covers \ShubhamTiwariSeoTools\Settings\Sanitizer
  */
 final class SanitizerTest extends WP_UnitTestCase {
 

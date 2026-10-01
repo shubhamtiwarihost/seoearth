@@ -2,20 +2,20 @@
 /**
  * Shared helpers for rules.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Analysis\Rules;
+namespace ShubhamTiwariSeoTools\Analysis\Rules;
 
-use SEOEarth\Analysis\Input;
-use SEOEarth\Analysis\Result;
+use ShubhamTiwariSeoTools\Analysis\Input;
+use ShubhamTiwariSeoTools\Analysis\Result;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Base class: stores the ID and builds results.
  */
-abstract class BaseRule implements \SEOEarth\Analysis\Rule {
+abstract class BaseRule implements \ShubhamTiwariSeoTools\Analysis\Rule {
 
 	/**
 	 * Applies whenever a keyphrase is set, unless a rule says otherwise.

@@ -2,13 +2,13 @@
 /**
  * Resolves the SEO title and description for a page.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Meta;
+namespace ShubhamTiwariSeoTools\Meta;
 
-use SEOEarth\Settings\Schema;
-use SEOEarth\Settings\Settings;
+use ShubhamTiwariSeoTools\Settings\Schema;
+use ShubhamTiwariSeoTools\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
 

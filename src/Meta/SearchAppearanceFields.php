@@ -2,12 +2,12 @@
 /**
  * Search appearance settings: templates and indexing per page type.
  *
- * @package SEOEarth
+ * @package ShubhamTiwariSeoTools
  */
 
-namespace SEOEarth\Meta;
+namespace ShubhamTiwariSeoTools\Meta;
 
-use SEOEarth\Settings\Field;
+use ShubhamTiwariSeoTools\Settings\Field;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -33,8 +33,8 @@ final class SearchAppearanceFields {
 	public function fields(): array {
 		$page   = ' %%separator%% %%page%% %%separator%% %%site_name%%';
 		$fields = array(
-			$this->title( 'home', __( 'Homepage', 'seoearth' ), '%%site_name%% %%separator%% %%page%% %%separator%% %%sitedesc%%' ),
-			$this->desc( 'home', __( 'Homepage', 'seoearth' ), '%%sitedesc%%' ),
+			$this->title( 'home', __( 'Homepage', 'shubhamtiwari-seo-tools' ), '%%site_name%% %%separator%% %%page%% %%separator%% %%sitedesc%%' ),
+			$this->desc( 'home', __( 'Homepage', 'shubhamtiwari-seo-tools' ), '%%sitedesc%%' ),
 		);
 
 		foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $type ) {
@@ -46,7 +46,7 @@ final class SearchAppearanceFields {
 
 			if ( $type->has_archive ) {
 				/* translators: %s: post type plural name, e.g. "Products". */
-				$archive  = sprintf( __( '%s archive', 'seoearth' ), $label );
+				$archive  = sprintf( __( '%s archive', 'shubhamtiwari-seo-tools' ), $label );
 				$fields[] = $this->title( 'ptarchive_' . $slug, $archive, '%%pt_plural%%' . $page );
 				$fields[] = $this->desc( 'ptarchive_' . $slug, $archive, '%%description%%' );
 			}
@@ -60,27 +60,27 @@ final class SearchAppearanceFields {
 			$fields[] = $this->noindex( 'tax_' . $slug, $label );
 		}
 
-		$author   = __( 'Author archives', 'seoearth' );
+		$author   = __( 'Author archives', 'shubhamtiwari-seo-tools' );
 		$fields[] = $this->title( 'author', $author, '%%author%%' . $page );
 		$fields[] = $this->desc( 'author', $author, '%%description%%' );
 		$fields[] = $this->noindex( 'author', $author );
 
-		$date     = __( 'Date archives', 'seoearth' );
+		$date     = __( 'Date archives', 'shubhamtiwari-seo-tools' );
 		$fields[] = $this->title( 'date', $date, '%%date%%' . $page );
 		$fields[] = $this->desc( 'date', $date, '' );
 		$fields[] = $this->noindex( 'date', $date );
 
 		$fields[] = $this->title(
 			'search',
-			__( 'Search results', 'seoearth' ),
+			__( 'Search results', 'shubhamtiwari-seo-tools' ),
 			/* translators: Keep the %%searchphrase%%, %%page%%, %%separator%% and %%site_name%% variables unchanged. */
-			__( 'Search results for “%%searchphrase%%” %%separator%% %%page%% %%separator%% %%site_name%%', 'seoearth' )
+			__( 'Search results for “%%searchphrase%%” %%separator%% %%page%% %%separator%% %%site_name%%', 'shubhamtiwari-seo-tools' )
 		);
 		$fields[] = $this->title(
 			'404',
-			__( 'Page not found (404)', 'seoearth' ),
+			__( 'Page not found (404)', 'shubhamtiwari-seo-tools' ),
 			/* translators: Keep the %%separator%% and %%site_name%% variables unchanged. */
-			__( 'Page not found %%separator%% %%site_name%%', 'seoearth' )
+			__( 'Page not found %%separator%% %%site_name%%', 'shubhamtiwari-seo-tools' )
 		);
 
 		return $fields;
@@ -95,7 +95,7 @@ final class SearchAppearanceFields {
 	 */
 	private function title( string $suffix, string $label, string $default_value ): Field {
 		/* translators: %s: page type, e.g. "Posts" or "Homepage". */
-		return new Field( 'title_' . $suffix, self::SECTION, Field::TYPE_TEMPLATE, $default_value, sprintf( __( '%s: title', 'seoearth' ), $label ) );
+		return new Field( 'title_' . $suffix, self::SECTION, Field::TYPE_TEMPLATE, $default_value, sprintf( __( '%s: title', 'shubhamtiwari-seo-tools' ), $label ) );
 	}
 
 	/**
@@ -107,7 +107,7 @@ final class SearchAppearanceFields {
 	 */
 	private function desc( string $suffix, string $label, string $default_value ): Field {
 		/* translators: %s: page type, e.g. "Posts" or "Homepage". */
-		return new Field( 'desc_' . $suffix, self::SECTION, Field::TYPE_TEMPLATE, $default_value, sprintf( __( '%s: meta description', 'seoearth' ), $label ) );
+		return new Field( 'desc_' . $suffix, self::SECTION, Field::TYPE_TEMPLATE, $default_value, sprintf( __( '%s: meta description', 'shubhamtiwari-seo-tools' ), $label ) );
 	}
 
 	/**
@@ -123,8 +123,8 @@ final class SearchAppearanceFields {
 			Field::TYPE_BOOL,
 			false,
 			/* translators: %s: page type, e.g. "Posts" or "Author archives". */
-			sprintf( __( '%s: hide from search engines (noindex)', 'seoearth' ), $label ),
-			__( 'Individual items can still be set to “Index” in their own SEO settings.', 'seoearth' )
+			sprintf( __( '%s: hide from search engines (noindex)', 'shubhamtiwari-seo-tools' ), $label ),
+			__( 'Individual items can still be set to “Index” in their own SEO settings.', 'shubhamtiwari-seo-tools' )
 		);
 	}
 
@@ -133,23 +133,23 @@ final class SearchAppearanceFields {
 	 */
 	public function render_help(): void {
 		$variables = array(
-			'%%title%%'        => __( 'Title of the post, term, author or archive', 'seoearth' ),
-			'%%site_name%%'    => __( 'Site title', 'seoearth' ),
-			'%%sitedesc%%'     => __( 'Site tagline', 'seoearth' ),
-			'%%separator%%'    => __( 'Title separator chosen above', 'seoearth' ),
-			'%%excerpt%%'      => __( 'Post excerpt, or the start of the content', 'seoearth' ),
-			'%%description%%'  => __( 'Term description, author biography or post type description', 'seoearth' ),
-			'%%category%%'     => __( 'First category of the post', 'seoearth' ),
-			'%%author%%'       => __( 'Author name', 'seoearth' ),
-			'%%date%%'         => __( 'Publish date, or the date of a date archive', 'seoearth' ),
-			'%%page%%'         => __( '“Page 2 of 5” on paginated pages; empty on page 1', 'seoearth' ),
-			'%%searchphrase%%' => __( 'Search terms', 'seoearth' ),
-			'%%pt_singular%%'  => __( 'Post type name, singular', 'seoearth' ),
-			'%%pt_plural%%'    => __( 'Post type name, plural', 'seoearth' ),
-			'%%currentyear%%'  => __( 'Current year', 'seoearth' ),
+			'%%title%%'        => __( 'Title of the post, term, author or archive', 'shubhamtiwari-seo-tools' ),
+			'%%site_name%%'    => __( 'Site title', 'shubhamtiwari-seo-tools' ),
+			'%%sitedesc%%'     => __( 'Site tagline', 'shubhamtiwari-seo-tools' ),
+			'%%separator%%'    => __( 'Title separator chosen above', 'shubhamtiwari-seo-tools' ),
+			'%%excerpt%%'      => __( 'Post excerpt, or the start of the content', 'shubhamtiwari-seo-tools' ),
+			'%%description%%'  => __( 'Term description, author biography or post type description', 'shubhamtiwari-seo-tools' ),
+			'%%category%%'     => __( 'First category of the post', 'shubhamtiwari-seo-tools' ),
+			'%%author%%'       => __( 'Author name', 'shubhamtiwari-seo-tools' ),
+			'%%date%%'         => __( 'Publish date, or the date of a date archive', 'shubhamtiwari-seo-tools' ),
+			'%%page%%'         => __( '“Page 2 of 5” on paginated pages; empty on page 1', 'shubhamtiwari-seo-tools' ),
+			'%%searchphrase%%' => __( 'Search terms', 'shubhamtiwari-seo-tools' ),
+			'%%pt_singular%%'  => __( 'Post type name, singular', 'shubhamtiwari-seo-tools' ),
+			'%%pt_plural%%'    => __( 'Post type name, plural', 'shubhamtiwari-seo-tools' ),
+			'%%currentyear%%'  => __( 'Current year', 'shubhamtiwari-seo-tools' ),
 		);
 
-		echo '<p>' . esc_html__( 'Templates are used when a post, page or term has no custom title or description of its own. Available variables:', 'seoearth' ) . '</p><dl class="seoearth-variables">';
+		echo '<p>' . esc_html__( 'Templates are used when a post, page or term has no custom title or description of its own. Available variables:', 'shubhamtiwari-seo-tools' ) . '</p><dl class="stseo-variables">';
 		foreach ( $variables as $variable => $meaning ) {
 			printf( '<dt><code>%1$s</code></dt><dd>%2$s</dd>', esc_html( $variable ), esc_html( $meaning ) );
 		}

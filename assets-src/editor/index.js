@@ -1,9 +1,9 @@
 /**
- * SEOEarth block editor entry point: registers the sidebar.
+ * ShubhamTiwari SEO Tools block editor entry point: registers the sidebar.
  */
 import { registerPlugin } from '@wordpress/plugins';
 
 import Sidebar from './sidebar';
 import './editor.scss';
 
-registerPlugin( 'seoearth', { render: Sidebar } );
+registerPlugin( 'shubhamtiwari-seo-tools', { render: Sidebar } );
